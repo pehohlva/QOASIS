@@ -20,6 +20,7 @@
 
 #include "AbstractRtfOutput.h"
 
+
 class QImage;
 class QTextCursor;
 class QTextDocument;
@@ -27,12 +28,13 @@ class QTextImageFormat;
 
 #include <QStack>
 #include <QTextCharFormat>
-#include "rtfreader_export.h"
+#include "doc_oasi_export.h"
+
 namespace RtfReader
 {
     class Reader;
 
-    class RTFREADER_EXPORT TextDocumentRtfOutput: public AbstractRtfOutput
+    class DOC_OASI_EXPORT TextDocumentRtfOutput: public AbstractRtfOutput
     {
       public:
 	explicit TextDocumentRtfOutput( QTextDocument *document );

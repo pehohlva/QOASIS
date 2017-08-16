@@ -17,7 +17,9 @@
 
 #ifndef RTFREADER_STYLESHEETTABLEENTRY_H
 #define RTFREADER_STYLESHEETTABLEENTRY_H
-#include "rtfreader_export.h"
+#include "doc_oasi_export.h"
+
+
 namespace RtfReader
 {
     enum TextAlignment {
@@ -27,7 +29,7 @@ namespace RtfReader
 	Justified,
 	Distributed };
 	
-    class RTFREADER_EXPORT StyleSheetTableEntry
+    class DOC_OASI_EXPORT StyleSheetTableEntry
     {
       public:
 	StyleSheetTableEntry() : m_textAlignment( LeftAligned ),

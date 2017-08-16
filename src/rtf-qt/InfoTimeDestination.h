@@ -22,12 +22,14 @@
 #include <QColor>
 
 #include "Destination.h"
-#include "rtfreader_export.h"
+#include "doc_oasi_export.h"
+
+
 namespace RtfReader
 {
     class Reader;
 
-    class RTFREADER_EXPORT InfoTimeDestination: public Destination
+    class DOC_OASI_EXPORT InfoTimeDestination: public Destination
     {
       public:
 	InfoTimeDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );

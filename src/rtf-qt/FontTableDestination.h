@@ -23,12 +23,14 @@
 
 #include "Destination.h"
 #include "FontTableEntry.h"
-#include "rtfreader_export.h"
+#include "doc_oasi_export.h"
+
+
 namespace RtfReader
 {
     class Reader;
 
-    class RTFREADER_EXPORT FontTableDestination: public Destination
+    class DOC_OASI_EXPORT FontTableDestination: public Destination
     {
       public:
 	FontTableDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );

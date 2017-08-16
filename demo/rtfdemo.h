@@ -3,8 +3,31 @@
 #define RTFDEMO_H
 
 #include "rtfreader.h"
-
-#include "Qt/qmainwindow.h"
+#include <QMainWindow>
+#include <QObject>
+#include <QWidget>
+#include <QApplication>
+#include <QScrollBar>
+#include <QXmlQuery>
+#include <QAbstractScrollArea>
+#include <QSystemTrayIcon>
+#include <QAbstractScrollArea>
+#include <QSystemTrayIcon>
+#include <QAction>
+#include <QFileDialog>
+#include <QMenu>
+#include <QScrollBar>
+#include <QDomDocument>
+#include <QAbstractScrollArea>
+#include <QPainter>
+#include <QBuffer>
+#include <QTextDocument>
+#include <QBuffer>
+#include <QDebug>
+#include <QTextFrameFormat>
+#include <QTextFrame>
+#include <QBuffer>
+#include <QMainWindow>
 
 class RtfDemo : public QMainWindow {
   Q_OBJECT

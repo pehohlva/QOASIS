@@ -24,14 +24,16 @@
  */
 
 #include <QString>
-#include "rtfreader_export.h"
+#include "doc_oasi_export.h"
+
+
 namespace RtfReader
 {
 
   /**
      Representation of an RTF Control Word
   */
-  class RTFREADER_EXPORT ControlWord
+  class DOC_OASI_EXPORT ControlWord
   {
   public:
     /**

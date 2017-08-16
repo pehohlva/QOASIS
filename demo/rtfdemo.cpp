@@ -2,11 +2,10 @@
 #include "rtfdemo.h"
 #include "rtfreader.h"
 
-#include "Qt/qdebug.h"
-#include "Qt/qfiledialog.h"
-#include "Qt/qmenubar.h"
-#include "Qt/qtextdocumentwriter.h"
-#include "Qt/qtextedit.h"
+#include <QFileDialog>
+#include <QMenuBar>
+#include <QTextDocumentWriter>
+#include <QTextEdit>
 
 #include "TextDocumentRtfOutput.h"
 
@@ -140,4 +139,3 @@ void RtfDemo::saveOdfFile() {
   saveFile.close();
 }
 
-#include "rtfdemo.moc"

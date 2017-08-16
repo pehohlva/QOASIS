@@ -44,12 +44,12 @@ DEPENDPATH +=./ /usr/local/include src/rtf-qt src
 
 
 # Input
-HEADERS += rtfdemo.h
-SOURCES += rtfdemo.cpp main.cpp
+HEADERS += $$PWD/demo/rtfdemo.h
+SOURCES += $$PWD/demo/rtfdemo.cpp $$PWD/demo/main.cpp
 
 
 include(./rtfsrc.pri)
-
+UNAME = $$system(uname -s)
 contains( UNAME, [lD]arwin ):message( This looks like Mac or not ($$UNAME) ... super )
 message(..ok qt version. on  ($$UNAME))
 
