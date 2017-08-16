@@ -39,8 +39,8 @@ RCC_DIR = build
 OBJECTS_DIR = build
 
 
-INCLUDEPATH += /usr/local/include src/rtf-qt
-DEPENDPATH += /usr/local/include src/rtf-qt
+INCLUDEPATH +=./ /usr/local/include src/rtf-qt src
+DEPENDPATH +=./ /usr/local/include src/rtf-qt src
 
 
 # Input
