@@ -21,25 +21,24 @@
 #include "Token.h"
 
 #include <QFile>
-#include <QIODevice>
+#include "rtfreader_export.h"
 namespace RtfReader
 {
-	/**
-	  RTF tokenizer
-	  */
-	class Tokenizer
-	{
-		public:
-			explicit Tokenizer(QIODevice *inputDevice);
-			bool atEnd();
-			Token fetchToken();
-		private:
-			void pullControl(Token *token);
-			void pullControlWord(Token *token);
-			void pullControlSymbol(Token *token);
-			void pullPlainText(Token *token);
-			QIODevice *m_inputDevice;
-	};
+    /**
+      RTF tokenizer
+      */
+    class RTFREADER_EXPORT Tokenizer {
+      public:
+	explicit Tokenizer( QFile *inputDevice ) : m_inputDevice( inputDevice )
+	{}
+	Token fetchToken();
+      private:
+	QFile *m_inputDevice;
+	void pullControl( Token *token );
+	void pullControlWord( Token *token );
+	void pullControlSymbol( Token *token );
+	void pullPlainText( Token *token );
+    };
 }
 
 #endif

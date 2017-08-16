@@ -22,9 +22,11 @@
 #include <QString>
 #include <QVariant>
 #include <QColor>
+#include <QTextImageFormat>
 
 #include "FontTableEntry.h"
-class ParagraphStyle;
+#include "StyleSheetTableEntry.h"
+#include "rtfreader_export.h"
 /**
    Namespace for the public interface for the RtfReader classes
 */
@@ -33,7 +35,7 @@ namespace RtfReader
     /**
 	Abstract output strategy for RTF Parser
     */
-	class  AbstractRtfOutput
+    class RTFREADER_EXPORT AbstractRtfOutput
     {
       public:
 	AbstractRtfOutput();
@@ -254,9 +256,7 @@ namespace RtfReader
 	void addUserProp( const QString &propertyName, const QVariant &propertyValue );
 
 	// TODO: consider adding default implementation for this
-	virtual void setEncoding(const int enc) = 0;
-	virtual void appendText( const QByteArray &text ) = 0;
-	virtual void appendUnicodeText( const QString &text ) = 0;
+	virtual void appendText( const QString &text ) = 0;
 	virtual void insertPar() = 0;
 	virtual void insertTab() = 0;
 	virtual void insertLeftQuote() = 0;
@@ -268,7 +268,6 @@ namespace RtfReader
 	virtual void insertEnSpace() = 0;
 	virtual void insertEmSpace() = 0;
 	virtual void insertBullet() = 0;
-	virtual void insertNewLine() = 0;
 	virtual void resetParagraphFormat() = 0;
 	virtual void setParagraphAlignmentLeft() = 0;
 	virtual void setParagraphAlignmentCentred() = 0;
@@ -280,47 +279,28 @@ namespace RtfReader
 	virtual void setFontItalic( const int value ) = 0;
 	virtual void setFontBold( const int value ) = 0;
 	virtual void setFontUnderline( const int value ) = 0;
-	virtual void setFontWordUnderline( const int value ) = 0;
-	virtual void setFontOutline( const int value ) = 0;
-	virtual void setFontShadow(const int value) = 0;
-	virtual void setFontSmallCaps(const int value) = 0;
-	virtual void setFontCaps(const int value) = 0;
-	virtual void setFontStrikeOut(const int value) = 0;
-	virtual void setFontScaleH(const int value) = 0;
-	virtual void setFontOffset(const int value) = 0;
-	virtual void setFontStretch(const int value) = 0;
-	virtual void setFontStretchTw(const int value) = 0;
 	virtual void setFontPointSize( const int value ) = 0;
-	virtual void setFontLineSpacing(const int value) = 0;
 	virtual void setFontSuperscript() = 0;
 	virtual void setFontSubscript() = 0;
 	virtual void setForegroundColour( const int value ) = 0;
 	virtual void setHighlightColour( const int value ) = 0;
 	virtual void setParagraphPatternBackgroundColour( const int value ) = 0;
-	virtual void setCharacterPatternBackgroundColour( const int value ) = 0;
 	virtual void setFont( const int fontIndex ) = 0;
 	virtual void setDefaultFont( const int fontIndex ) = 0;
 	virtual void setTextDirectionLeftToRight() = 0;
 	virtual void setTextDirectionRightToLeft() = 0;
 	virtual void resetCharacterProperties() = 0;
-	virtual void createImage( const QByteArray &image, int width, int height, int type) = 0;
+	virtual void createImage( const QImage &image, const QTextImageFormat &format) = 0;
 	virtual void setPageHeight( const int pageHeight ) = 0;
 	virtual void setPageWidth( const int pageWidth ) = 0;
 	virtual void setSpaceBefore( const int value ) = 0;
 	virtual void setSpaceAfter( const int value ) = 0;
-	virtual void keepWithNext() = 0;
-	virtual void setDropCapsLines(const int value) = 0;
-	virtual void setDropCaps() = 0;
-	virtual void addTabStop( const int value, const int type ) = 0;
 	virtual void appendToColourTable( const QColor &colour ) = 0;
 	virtual void insertFontTableEntry( FontTableEntry fontTableEntry, quint32 fontTableIndex ) = 0;
-	virtual void insertStyleSheetTableEntry( quint32 stylesheetTableIndex, const ParagraphStyle& stylesheetTableEntry ) = 0;
-	virtual void resolveStyleSheetParents(QHash<quint32, int> &parentSet) = 0;
-	virtual void useStyleSheetTableEntry(const int styleIndex) = 0;
+	virtual void insertStyleSheetTableEntry( quint32 stylesheetTableIndex, StyleSheetTableEntry stylesheetTableEntry ) = 0;
 
 	virtual void startGroup();
 	virtual void endGroup();
-	virtual QTextCodec *getCurrentCodec() { return 0; }
 
       private:
 	// The author of the document (from document meta-data, if any)

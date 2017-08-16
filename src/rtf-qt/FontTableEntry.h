@@ -17,41 +17,42 @@
 
 #ifndef RTFREADER_FONTTABLEENTRY_H
 #define RTFREADER_FONTTABLEENTRY_H
+#include "rtfreader_export.h"
 namespace RtfReader
 {
-	class FontTableEntry
-	{
-		public:
-			FontTableEntry()
-			{
-				m_fontName = "";
-				m_encoding = 0;
-			}
+    enum FontFamily { Nil, Roman, Swiss, Modern, Script, Decor, Tech, Bidi };
 
-			QString fontName() const
-			{
-				return m_fontName;
-			}
+    enum FontPitch { Default = 0, Fixed = 1, Variable = 2 };
 
-			void setFontName(const QString &fontName)
-			{
-				m_fontName = fontName;
-			}
+    class RTFREADER_EXPORT FontTableEntry
+    {
+      public:	
+	FontTableEntry() : m_fontFamily( Nil ), m_fontPitch( Default )
+	{}
 
-			int encoding() const
-			{
-				return m_encoding;
-			}
+	enum FontFamily fontFamily() const
+	{ return m_fontFamily; }
 
-			void setEncoding(const int enc)
-			{
-				m_encoding = enc;
-			}
+	void setFontFamily( enum FontFamily fontFamily )
+	{ m_fontFamily = fontFamily; }
 
-		protected:
-			QString m_fontName;
-			int m_encoding;
-	};
+	enum FontPitch fontPitch() const
+	{ return m_fontPitch; }
+
+	void setFontPitch( enum FontPitch fontPitch )
+	{ m_fontPitch = fontPitch; }
+
+	QString fontName() const
+	{ return m_fontName; }
+
+	void setFontName( const QString &fontName )
+	{ m_fontName = fontName; }
+
+      protected:
+	enum FontFamily m_fontFamily;
+	enum FontPitch m_fontPitch;
+	QString m_fontName;
+    };
 }
 
 #endif

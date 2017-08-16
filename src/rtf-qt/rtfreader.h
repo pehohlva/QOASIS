@@ -25,9 +25,11 @@
 #include <QTextFormat>
 #include <QStack>
 #include <QTextDocument>
+
 #include "Destination.h"
 #include "Tokenizer.h"
 #include "RtfGroupState.h"
+#include "rtfreader_export.h"
 /**
    Namespace for the public interface for the RtfReader classes
 */
@@ -45,7 +47,7 @@ namespace RtfReader
 
      TODO: add spec reference
   */
-  class Reader : public QObject
+  class RTFREADER_EXPORT  Reader : public QObject
   {
     Q_OBJECT
   public:
@@ -84,7 +86,6 @@ namespace RtfReader
        \param output pointer to an output implementation       
     */
     bool parseTo( AbstractRtfOutput *output );
-	bool parseFromDeviceTo( QIODevice * dev, AbstractRtfOutput *output );
 
     ~Reader();
 

@@ -22,11 +22,12 @@
 #include <QColor>
 
 #include "Destination.h"
+#include "rtfreader_export.h"
 namespace RtfReader
 {
     class Reader;
 
-	class PcdataDestination: public Destination
+    class RTFREADER_EXPORT PcdataDestination: public Destination
     {
       public:
 	PcdataDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
@@ -34,7 +35,7 @@ namespace RtfReader
 	virtual ~PcdataDestination();
 
 	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-	virtual void handlePlainText(const QByteArray &plainText );
+	virtual void handlePlainText( const QString &plainText );
 	virtual void aboutToEndDestination() = 0;
 
       protected:

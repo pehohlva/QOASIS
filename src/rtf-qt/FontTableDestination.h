@@ -23,11 +23,12 @@
 
 #include "Destination.h"
 #include "FontTableEntry.h"
+#include "rtfreader_export.h"
 namespace RtfReader
 {
     class Reader;
 
-	class FontTableDestination: public Destination
+    class RTFREADER_EXPORT FontTableDestination: public Destination
     {
       public:
 	FontTableDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
@@ -35,7 +36,7 @@ namespace RtfReader
 	virtual ~FontTableDestination();
 
 	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-	virtual void handlePlainText(const QByteArray &plainText );
+	virtual void handlePlainText( const QString &plainText );
 	virtual void aboutToEndDestination();
 
       protected:

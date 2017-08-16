@@ -22,35 +22,29 @@
 #include <QColor>
 
 #include "Destination.h"
+#include "rtfreader_export.h"
 namespace RtfReader
 {
-	class Reader;
+    class Reader;
 
-	class PictDestination: public Destination
-	{
-		public:
-			PictDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
-			virtual ~PictDestination();
+    class RTFREADER_EXPORT PictDestination: public Destination
+    {
+      public:
+	PictDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
 
-			virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-			virtual void handlePlainText(const QByteArray &plainText );
-			virtual void aboutToEndDestination();
+	virtual ~PictDestination();
 
-		private:
-		// The hexadecimal version of the data for the image that is currently being built
-			QByteArray m_pictHexData;
-			int m_img_type;
-			int m_width;
-			int m_height;
-			int m_scale_x;
-			int m_scale_y;
-			int m_crop_top;
-			int m_crop_left;
-			int m_crop_right;
-			int m_crop_bottom;
-			int m_dest_height;
-			int m_dest_width;
-	};
+	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
+	virtual void handlePlainText( const QString &plainText );
+	virtual void aboutToEndDestination();
+
+      private:
+	// The hexadecimal version of the data for the image that is currently being built
+	QByteArray m_pictHexData;
+	
+	// The format information for the current image
+	QTextImageFormat m_imageFormat;
+      };
 }
 
 #endif

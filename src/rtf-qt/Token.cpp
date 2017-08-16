@@ -23,7 +23,7 @@ namespace RtfReader
 {
     void Token::dump() const
     {
-/*        switch ( type ) {
+        switch ( type ) {
 	  case OpenGroup:
 	    qDebug() << "token type: OpenGroup";
 	    break;
@@ -47,6 +47,6 @@ namespace RtfReader
 	    if ( hasParameter ) {
 		qDebug() << "parameter: " << parameter;
 	    }
-	}*/
+	}
     }
 }

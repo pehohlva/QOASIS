@@ -39,17 +39,17 @@ namespace RtfReader
 	} else if (controlWord == "blue" ) {
 	    m_currentColor.setBlue( value );
 	} else {
-//	    qDebug() << "unexpected control word in colortbl:" << controlWord;
+	    qDebug() << "unexpected control word in colortbl:" << controlWord;
 	}
     }
 
-	void ColorTableDestination::handlePlainText( const QByteArray &plainText )
+    void ColorTableDestination::handlePlainText( const QString &plainText )
     {
 	if ( plainText == ";" ) {
 	    m_output->appendToColourTable( m_currentColor );
 	    resetCurrentColor();
 	} else {
-//	    qDebug() << "unexpected text in ColorTableDestination:" << plainText;
+	    qDebug() << "unexpected text in ColorTableDestination:" << plainText;
 	}
     }
 

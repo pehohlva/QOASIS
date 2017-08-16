@@ -22,31 +22,27 @@
 #include <QColor>
 
 #include "Destination.h"
-#include "styles/charstyle.h"
-#include "styles/paragraphstyle.h"
+#include "StyleSheetTableEntry.h"
+#include "rtfreader_export.h"
 namespace RtfReader
 {
-	class Reader;
+    class Reader;
 
-	class StyleSheetDestination: public Destination
-	{
-		public:
-			StyleSheetDestination(Reader *reader, AbstractRtfOutput *output, const QString &name);
-			virtual ~StyleSheetDestination();
-			virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
-			virtual void handlePlainText(const QByteArray &plainText );
-			virtual void aboutToEndDestination();
+    class RTFREADER_EXPORT StyleSheetDestination: public Destination
+    {
+      public:
+	StyleSheetDestination( Reader *reader, AbstractRtfOutput *output, const QString &name );
 
-		protected:
-			double pixelsFromTwips(const int twips);
-			quint32 		m_currentStyleHandleNumber;
-			int			m_currentStyleParent;
-			ParagraphStyle m_textStyle;
-			QByteArray m_styleName;
-			QHash<quint32, int> m_stylesTable;
-			int m_charactersToSkip;
-			int m_uc_Value;
-	};
+	virtual ~StyleSheetDestination();
+
+	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
+	virtual void handlePlainText( const QString &plainText );
+	virtual void aboutToEndDestination();
+
+      protected:
+	quint32 		m_currentStyleHandleNumber;
+	StyleSheetTableEntry	m_style;
+      };
 }
 
 #endif

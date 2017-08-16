@@ -1781,7 +1781,7 @@ const static struct control_word_known known_control_words[] =
     { "ulthdashdd",		Toggle },
     { "ulthldash",		Toggle },
     { "ululdbwave",		Toggle },
-	{ "ulw",			Toggle },
+    { "ulw",			Flag },
     { "ulwave",			Toggle },
     { "up",			Value },
     { "upr",			Destination },
@@ -1893,8 +1893,6 @@ namespace RtfReader
 	    ( m_name == "hlinkbase" ) ||
 	    ( m_name == "userprops" ) ||
 	    ( m_name == "mmathPr" ) ||
-		 ( m_name == "listtext" ) ||
-		 ( m_name == "footnote" ) ||
 	    ( m_name == "author" ) ) {
 	    return true;
 	}

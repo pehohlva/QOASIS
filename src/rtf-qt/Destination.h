@@ -23,6 +23,7 @@
 #include <QTextCharFormat>
 
 #include "AbstractRtfOutput.h"
+#include "rtfreader_export.h"
 namespace RtfReader
 {
     class Reader;
@@ -30,7 +31,7 @@ namespace RtfReader
     /**
        A representation of a destination
     */
-	class Destination {
+    class RTFREADER_EXPORT Destination {
     public:
         // TODO: remove reader
 	Destination( Reader *reader, AbstractRtfOutput *output, const QString &name );
@@ -43,7 +44,7 @@ namespace RtfReader
 
 	virtual void handleControlWord( const QString &controlWord, bool hasValue, const int value );
 
-	virtual void handlePlainText( const QByteArray &plainText );
+	virtual void handlePlainText( const QString &plainText );
 
 	virtual void aboutToEndDestination();
 	

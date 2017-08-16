@@ -48,12 +48,12 @@ namespace RtfReader
 	} else if ( controlWord == "*" ) {
 	    // handled elsewhere
 	} else {
-//	    qDebug() << "unexpected control word in InfoDestination:" << controlWord;
+	    qDebug() << "unexpected control word in InfoDestination:" << controlWord;
 	}
     }
 
-	void InfoDestination::handlePlainText( const QByteArray &plainText )
+    void InfoDestination::handlePlainText( const QString &plainText )
     {
-//	qDebug() << "unexpected text in InfoDestination:" << plainText;
+	qDebug() << "unexpected text in InfoDestination:" << plainText;
     }
 }

@@ -43,9 +43,9 @@ namespace RtfReader
     {
     };
 
-	void Destination::handlePlainText(const QByteArray &plainText )
+    void Destination::handlePlainText( const QString &plainText )
     {
-//	qDebug() << "plain text:" << plainText << "in" << m_name;
+	qDebug() << "plain text:" << plainText << "in" << m_name;
     };
 
     void Destination::aboutToEndDestination()

@@ -46,16 +46,16 @@ namespace RtfReader
 	    } else if ( value == 11 ) {
 		m_propertyType = QVariant::Bool;
 	    } else {
-	//	qDebug() << "unhandled value type in UserPropsDestination:" << value;
+		qDebug() << "unhandled value type in UserPropsDestination:" << value;
 	    }
 	} else if ( controlWord == "staticval" ) {
 	    m_nextPlainTextIsPropertyName = false;
 	} else {
-	//    qDebug() << "unexpected control word in UserPropsDestination:" << controlWord;
+	    qDebug() << "unexpected control word in UserPropsDestination:" << controlWord;
 	}
     }
 
-	void UserPropsDestination::handlePlainText( const QByteArray &plainText )
+    void UserPropsDestination::handlePlainText( const QString &plainText )
     {
 	if ( m_nextPlainTextIsPropertyName ) {
 	    m_propertyName = plainText;
@@ -65,7 +65,7 @@ namespace RtfReader
 		value = QVariant( plainText );
 	    } else {
 		// TODO: Really need some examples of this stuff - int, float, date and boolean
-	//	qDebug() << "unhandled value type in UserPropsDestination:" << m_propertyType;
+		qDebug() << "unhandled value type in UserPropsDestination:" << m_propertyType;
 	    }
 	    m_output->addUserProp( m_propertyName, value );
 	}

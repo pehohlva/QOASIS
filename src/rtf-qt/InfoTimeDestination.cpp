@@ -43,13 +43,13 @@ namespace RtfReader
 	} else if ( controlWord == "min" ) {
 	    m_minute = value;
 	} else {
-//	    qDebug() << "unexpected control word in" << m_name << ": " << controlWord;
+	    qDebug() << "unexpected control word in" << m_name << ": " << controlWord;
 	}
     }
 
-	void InfoTimeDestination::handlePlainText( const QByteArray &plainText )
+    void InfoTimeDestination::handlePlainText( const QString &plainText )
     {
-//	qDebug() << "unexpected text in InfoTimeDestination:" << plainText;
+	qDebug() << "unexpected text in InfoTimeDestination:" << plainText;
     }
 
     QDateTime InfoTimeDestination::dateTime() const

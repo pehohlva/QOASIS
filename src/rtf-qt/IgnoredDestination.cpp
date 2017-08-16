@@ -34,7 +34,7 @@ namespace RtfReader
     {
     }
 
-	void IgnoredDestination::handlePlainText( const QByteArray &plainText )
+    void IgnoredDestination::handlePlainText( const QString &plainText )
     {
     }
 
