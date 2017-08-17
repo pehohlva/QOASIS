@@ -22,6 +22,7 @@
 
 #include <string>
 #include <vector>
+#include <stdlib.h>     /* strtol */
 
 #include <ZLEncodingConverter.h>
 #include "../EncodedTextReader.h"

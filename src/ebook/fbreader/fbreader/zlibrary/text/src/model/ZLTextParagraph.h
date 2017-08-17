@@ -24,7 +24,7 @@
 #include <map>
 #include <vector>
 #include <string>
-
+#include <stdlib.h>     /* atoi */
 #include <shared_ptr.h>
 
 #include <ZLColor.h>

@@ -19,6 +19,8 @@
  */
 
 #include <cstring>
+#include <pthread.h>
+
 
 #include <ZLStringUtil.h>
 #include <ZLUnicodeUtil.h>
@@ -40,7 +42,7 @@ typedef std::map<std::string,weak_ptr<ZLInputStream> > ZLFilePlainStreamCache;
 #endif
 
 #if FBREADER_THREAD_LOCAL_ZLFILE_PLAIN_STREAM_CACHE
-static pthread_key_t plainStreamCacheKey = (pthread_key_t)0;
+static pthread_key_t plainStreamCacheKey = 0;
 static void ZLFilePlainStreamCacheDestructor(void *value) {
 	delete ((ZLFilePlainStreamCache*)value);
 	pthread_setspecific(plainStreamCacheKey, NULL);

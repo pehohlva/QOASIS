@@ -18,7 +18,7 @@
  */
 
 #include <cctype>
-
+#include <stdlib.h>     /* strtol */
 #include <ZLFile.h>
 #include <ZLFileImage.h>
 #include <ZLStringUtil.h>

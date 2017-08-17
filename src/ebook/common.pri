@@ -6,3 +6,7 @@ CONFIG(debug, debug|release) {
   QMAKE_CXXFLAGS_DEBUG *= -O0
   QMAKE_CFLAGS_DEBUG *= -O0
 }
+
+
+INCLUDEPATH += /usr/local/include
+DEPENDPATH += /usr/local/include
