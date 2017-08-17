@@ -48,7 +48,8 @@ HEADERS += $$PWD/demo/rtfdemo.h
 SOURCES += $$PWD/demo/rtfdemo.cpp $$PWD/demo/main.cpp
 
 
-include(./rtfsrc.pri)
+#  include(./src/rtfsrc.pri) # lovley
+include(./src/docx.pri)
 UNAME = $$system(uname -s)
 contains( UNAME, [lD]arwin ):message( This looks like Mac or not ($$UNAME) ... super )
 message(..ok qt version. on  ($$UNAME))
