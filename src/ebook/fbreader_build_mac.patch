@@ -1,0 +1,86 @@
+commit e0c25fa697394ec51125f9f1548f8154f5758b98
+Author: Piter K <pehohlva@gmail.com>
+Date:   Thu Aug 17 10:35:32 2017 +0200
+
+     fix some type not found  error on fbreader
+
+diff --git a/src/ebook/common.pri b/src/ebook/common.pri
+index e6605bc..d768457 100644
+--- a/src/ebook/common.pri
++++ b/src/ebook/common.pri
+@@ -6,3 +6,7 @@ CONFIG(debug, debug|release) {
+   QMAKE_CXXFLAGS_DEBUG *= -O0
+   QMAKE_CFLAGS_DEBUG *= -O0
+ }
++
++
++INCLUDEPATH += /usr/local/include
++DEPENDPATH += /usr/local/include
+diff --git a/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlBookReader.cpp b/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlBookReader.cpp
+index cd6a66f..c3c5616 100644
+--- a/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlBookReader.cpp
++++ b/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlBookReader.cpp
+@@ -18,7 +18,7 @@
+  */
+ 
+ #include <cctype>
+-
++#include <stdlib.h>     /* strtol */
+ #include <ZLFile.h>
+ #include <ZLFileImage.h>
+ #include <ZLStringUtil.h>
+diff --git a/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlReader.h b/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlReader.h
+index acf9287..3551754 100644
+--- a/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlReader.h
++++ b/src/ebook/fbreader/fbreader/fbreader/src/formats/html/HtmlReader.h
+@@ -22,6 +22,7 @@
+ 
+ #include <string>
+ #include <vector>
++#include <stdlib.h>     /* strtol */
+ 
+ #include <ZLEncodingConverter.h>
+ #include "../EncodedTextReader.h"
+diff --git a/src/ebook/fbreader/fbreader/zlibrary/core/src/filesystem/ZLFile.cpp b/src/ebook/fbreader/fbreader/zlibrary/core/src/filesystem/ZLFile.cpp
+index 2aad247..590070b 100644
+--- a/src/ebook/fbreader/fbreader/zlibrary/core/src/filesystem/ZLFile.cpp
++++ b/src/ebook/fbreader/fbreader/zlibrary/core/src/filesystem/ZLFile.cpp
+@@ -19,6 +19,8 @@
+  */
+ 
+ #include <cstring>
++#include <pthread.h>
++
+ 
+ #include <ZLStringUtil.h>
+ #include <ZLUnicodeUtil.h>
+@@ -40,7 +42,7 @@ typedef std::map<std::string,weak_ptr<ZLInputStream> > ZLFilePlainStreamCache;
+ #endif
+ 
+ #if FBREADER_THREAD_LOCAL_ZLFILE_PLAIN_STREAM_CACHE
+-static pthread_key_t plainStreamCacheKey = (pthread_key_t)0;
++static pthread_key_t plainStreamCacheKey = 0;
+ static void ZLFilePlainStreamCacheDestructor(void *value) {
+ 	delete ((ZLFilePlainStreamCache*)value);
+ 	pthread_setspecific(plainStreamCacheKey, NULL);
+diff --git a/src/ebook/fbreader/fbreader/zlibrary/text/src/model/ZLTextParagraph.h b/src/ebook/fbreader/fbreader/zlibrary/text/src/model/ZLTextParagraph.h
+index 2053dd6..f59fe64 100644
+--- a/src/ebook/fbreader/fbreader/zlibrary/text/src/model/ZLTextParagraph.h
++++ b/src/ebook/fbreader/fbreader/zlibrary/text/src/model/ZLTextParagraph.h
+@@ -24,7 +24,7 @@
+ #include <map>
+ #include <vector>
+ #include <string>
+-
++#include <stdlib.h>     /* atoi */
+ #include <shared_ptr.h>
+ 
+ #include <ZLColor.h>
+diff --git a/src/ebook/note b/src/ebook/note
+new file mode 100644
+index 0000000..554129b
+--- /dev/null
++++ b/src/ebook/note
+@@ -0,0 +1,2 @@
++ i install libmagic to build only for file magic.h
++
