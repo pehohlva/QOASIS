@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<fop version="1.0">
+
+  <renderers>
+    <renderer mime="application/pdf">
+      <fonts>
+		<directory>fopconfig</directory>
+        <fo:inline font-family="Arial" font-weight="bold" font-style="normal | italic">
+            Arial-normal-normal font
+        </fo:inline>
+        <font-triplet name="Arial" style="normal" weight="bold"/>
+        <fo:inline font-family="Times New Roman" font-weight="bold" font-style="normal">
+            Times New Roman-normal-normal font
+        </fo:inline>
+        <font-triplet name="Times New Roman" style="normal | italic" weight="bold"/>
+
+        <font kerning="yes" embed-url="fopconfig/arial.ttf">
+          <font-triplet name="Arial" style="normal" weight="normal"/>
+          <font-triplet name="ArialMT" style="normal" weight="normal"/>
+        </font>
+        <font kerning="yes" embed-url="fopconfig/arialbd.ttf">
+          <font-triplet name="Arial" style="normal" weight="bold"/>
+          <font-triplet name="ArialMT" style="normal" weight="bold"/>
+        </font>
+        <font kerning="yes" embed-url="fopconfig/ariali.ttf">
+          <font-triplet name="Arial" style="italic" weight="normal"/>
+          <font-triplet name="ArialMT" style="italic" weight="normal"/>
+        </font>
+        <font kerning="yes" embed-url="fopconfig/arialbi.ttf">
+          <font-triplet name="Arial" style="italic" weight="bold"/>
+          <font-triplet name="ArialMT" style="italic" weight="bold"/>
+        </font>				
+
+        <font kerning="yes" embed-url="fopconfig/times.ttf">
+          <font-triplet name="Times New Roman" style="normal" weight="normal"/>
+          <font-triplet name="Times New RomanMT" style="normal" weight="normal"/>
+        </font>
+        <font kerning="yes" embed-url="fopconfig/timesbd.ttf">
+          <font-triplet name="Times New Roman" style="normal" weight="bold"/>
+          <font-triplet name="Times New RomanMT" style="normal" weight="bold"/>
+        </font>
+        <font kerning="yes" embed-url="fopconfig/timesi.ttf">
+          <font-triplet name="Times New Roman" style="italic" weight="normal"/>
+          <font-triplet name="Times New RomanMT" style="italic" weight="normal"/>
+        </font>
+        <font kerning="yes" embed-url="fopconfig/timesbi.ttf">
+          <font-triplet name="Times New Roman" style="italic" weight="bold"/>
+          <font-triplet name="Times New RomanMT" style="italic" weight="bold"/>
+        </font>      
+	  </fonts>
+    </renderer>
+  </renderers>
+
+</fop>
+
