@@ -1,0 +1,137 @@
+# master bash profile  file on https://gist.github.com/natelandau/10654137
+
+#  qmake setting to find :
+# ﻿/Users/dev/Applications/Qt5.9.0/5.9/clang_64/bin/qmake
+
+# only iphone && android /Users/dev/Applications/Qt5.6.2/5.6/ios/bin
+# iphone communicator via usb cable
+export THEOS_DEVICE_IP=localhost
+export THEOS_DEVICE_PORT=2222
+
+export YARP_DATA_DIRS=/usr/local/share/yarp
+
+#  latest qt 5.1 + webkit in latest having !
+# export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
+# export PATH="/usr/local/opt/qt5/bin:$PATH"
+
+#  latest qt 5.9.2
+# export PATH="/Users/dev/Applications/qt5.9.1/bin:$PATH"
+# export PATH="/Users/dev/Applications/qt5.9.1/bin:$PATH"
+#
+# Setting PATH for Python 3.6
+# The original version is saved in .bash_profile.pysave
+#  active qt QTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQT
+export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
+#  active qt QTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQTQT
+#  swap or edit this file!
+# MYSQL
+export PATH="/usr/local/mysql/bin:$PATH"
+alias swap='cd && ls && atom .bash_profile'
+PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
+export PATH
+
+
+export PATH="/usr/local/opt/libarchive/bin:$PATH"
+export PKG_CONFIG_PATH=/usr/local/Cellar/libarchive/3.3.1/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=/usr/local/Cellar/libgit2/0.26.0/lib/pkgconfig:$PKG_CONFIG_PATH
+alias go='cd /Users/dev/sandbox && ls'
+alias w1='cd /Users/dev/Sites/'
+alias load='source ~/.bash_profile'         # reload the file here
+alias pip3='python3.6'
+alias python='python3.6'
+alias dfind='analizedir'
+
+#export MYSQL_PATH=/usr/local/Cellar/mysql/5.7.18_1
+#export PATH=$PATH:$MYSQL_PATH/bin
+
+# FREETYPE_INCLUDE_DIR
+
+alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
+alias less='less -FSRXc'                    # Preferred 'less' implementation
+cd() { builtin cd "$@"; ls; }              # Always list directory contents upon 'cd'
+alias cd..='cd ../'                         # Go back 1 directory level (for fast typers)
+alias ..='cd ../'                           # Go back 1 directory level
+alias ...='cd ../../'                       # Go back 2 directory levels
+alias .3='cd ../../../'                     # Go back 3 directory levels
+alias .4='cd ../../../../'                  # Go back 4 directory levels
+alias .5='cd ../../../../../'               # Go back 5 directory levels
+alias .6='cd ../../../../../../'            # Go back 6 directory levels
+alias edit='subl'                           # edit:         Opens any file in sublime editor
+alias f='open -a Finder ./'                 # f:            Opens current directory in MacOS Finder
+alias ~="cd ~"                              # ~:            Go Home
+alias ll='ls -FGlAhp'                       # Preferred 'ls' implementation
+alias c='clear'                             # c:            Clear terminal display
+alias which='type -all'                     # which:        Find executables
+alias path='echo -e ${PATH//:/\\n}'
+
+#   ---------------------------
+#   4.  SEARCHING
+#   ---------------------------
+
+alias qfind="find . -name "                 # qfind:    Quickly search for file
+ff () { /usr/bin/find . -name "$@" ; }      # ff:       Find file under the current directory
+ffs () { /usr/bin/find . -name "$@"'*' ; }  # ffs:      Find file whose name starts with a given string
+ffe () { /usr/bin/find . -name '*'"$@" ; }  # ffe:      Find file whose name ends with a given string
+
+
+#   extract:  Extract most know archives with one command
+#   ---------------------------------------------------------
+    extract () {
+        if [ -f $1 ] ; then
+          case $1 in
+            *.tar.bz2)   tar xjf $1     ;;
+            *.tar.gz)    tar xzf $1     ;;
+            *.bz2)       bunzip2 $1     ;;
+            *.rar)       unrar e $1     ;;
+            *.gz)        gunzip $1      ;;
+            *.tar)       tar xf $1      ;;
+            *.tbz2)      tar xjf $1     ;;
+            *.tgz)       tar xzf $1     ;;
+            *.zip)       unzip $1       ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1        ;;
+            *)     echo "'$1' cannot be extracted via extract()" ;;
+             esac
+         else
+             echo "'$1' is not a valid file"
+         fi
+    }
+
+
+
+#   ---------------------------
+#   6.  NETWORKING
+#   ---------------------------
+
+alias myip='curl ip.appspot.com'                    # myip:         Public facing IP Address
+alias netCons='lsof -i'                             # netCons:      Show all open TCP/IP sockets
+alias flushDNS='dscacheutil -flushcache'            # flushDNS:     Flush out the DNS Cache
+alias lsock='sudo /usr/sbin/lsof -i -P'             # lsock:        Display open sockets
+alias lsockU='sudo /usr/sbin/lsof -nP | grep UDP'   # lsockU:       Display only open UDP sockets
+alias lsockT='sudo /usr/sbin/lsof -nP | grep TCP'   # lsockT:       Display only open TCP sockets
+alias ipInfo0='ipconfig getpacket en0'              # ipInfo0:      Get info on connections for en0
+alias ipInfo1='ipconfig getpacket en1'              # ipInfo1:      Get info on connections for en1
+alias openPorts='sudo lsof -i | grep LISTEN'        # openPorts:    All listening connections
+alias showBlocked='sudo ipfw list'                  # showBlocked:  All ipfw rules inc/ blocked IPs
+
+#   ii:  display useful host related informaton
+#   -------------------------------------------------------------------
+    ii() {
+        echo -e "\nYou are logged on ${RED}$HOST"
+        echo -e "\nAdditionnal information:$NC " ; uname -a
+        echo -e "\n${RED}Users logged on:$NC " ; w -h
+        echo -e "\n${RED}Current date :$NC " ; date
+        echo -e "\n${RED}Machine stats :$NC " ; uptime
+        echo -e "\n${RED}Current network location :$NC " ; scselect
+        echo -e "\n${RED}Public facing IP Address :$NC " ;myip
+        #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
+        echo
+    }
+
+
+
+
+#   spotlight: Search for a file using MacOS Spotlight's metadata
+#   -----------------------------------------------------------
+    spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
+export PATH="/usr/local/bin:$PATH"

@@ -1,0 +1,121 @@
+
+int pagenow = 22;
+QTextDocument *d = new QTextDocument();
+QTextCursor cursor(d);
+d->setDefaultCursorMoveStyle(Qt::LogicalMoveStyle);
+int pagesumm = d->pageCount();
+cursor.movePosition(QTextCursor::End);
+cursor.insertHtml(QString("<h1>Wait Please ...  <h1>"));
+cursor.movePosition(QTextCursor::End);
+int x = -1;
+do {
+  x++;
+  const QString linex = QString("<p>facciamo festa  in riga ") +
+                        QString::number(x) + QString(" ... <p>"); //// &#160;
+  cursor.insertHtml(linex);
+  //// qDebug() << __FUNCTION__ << "- " << linex;
+} while (x < pagenow); /// i wand 2 page for size!
+cursor.movePosition(QTextCursor::Start);
+d->setPageSize(QSizeF(MM_TO_POINT(210), MM_TO_POINT(297)));
+
+pagesumm = d->pageCount();
+if (pagesumm > 1) {
+  doc->setHtml(d->toHtml(QByteArray("utf-8")));
+}
+
+
+
+
+/// QImage x(img);
+////x.scaled(area.width(), area.height(), Qt::IgnoreAspectRatio);
+/// x.setDevicePixelRatio(0.89);
+QByteArray im;
+QImageWriter table;
+QBuffer *ram = new QBuffer();
+ram->open(QIODevice::ReadWrite);
+x.save(ram, "JPG", 9);
+const QByteArray bak = ram->readAll().toBase64(); //// First chunk.. 1;
+ram->close();  /// ba = file2.readAll().toBase64();
+ram->deleteLater();
+
+
+QBuffer *ram1 = new QBuffer();
+ram1->open(QIODevice::ReadWrite);
+x.save(ram1, "JPG", 9);
+table.setDevice(ram1);
+/// table.setCompression(9);
+/// table.setOptimize( true );
+/// table.setProgressive( true );
+QString desc = table.description();
+
+/*
+if (table.supportsOption(QImageIOHandler::Description)) {
+    writer.setText("Author", "PDFium");
+}
+if (!table.write(x)) {
+    return QByteArray();
+} QByteArray chunk=oo;
+*/
+
+int casego = 0;
+StreamBuf *buf = new StreamBuf();
+QMimeDatabase mimeDatabase;
+QMimeType mimeType = mimeDatabase.mimeTypeForFile(file);
+QStringList typs = mimeType.aliases();
+typs << mimeType.filterString().toLower(); // if upper case
+typs.append(mimeType.filterString());
+typs.append(mimeType.suffixes());
+typs.append(mimeType.aliases());
+typs.append(mimeType.parentMimeTypes());
+QString flat = typs.join(",");
+bool ok = false;
+buf->LoadFile(file);
+if (flat.indexOf(".html", 0) > 0) {
+  casego = 1;
+  if (buf->isValid()) {
+    doc->setHtml(buf->data());
+  } else {
+    doc->setHtml(buf->tohtmlsimulate());
+  }
+} else if (mimeType.inherits("text/plain")) { //// rtf is here handler todo
+  casego = 2;
+  doc->setHtml(buf->tohtmlsimulate());
+} else if ((flat.indexOf(".pdf", 0) > 0) ||
+           (flat.indexOf("acrobat", 0) > 0)) {
+  casego = 3;
+#ifdef LOADPDFIUMYES
+  m_pdf = new QPdfium(); /// destroy old!
+  m_pdf->loadFile(file);
+  buf->clear();
+  RUNPDF = true;
+#endif
+  doc->setHtml(" <h1> Sorry pdf is not valid...<h1/>   ");
+}
+buf->~StreamBuf();
+if (!RUNPDF) {
+
+
+#ifdef LOADPDFIUMYES
+  if (RUNPDF) {
+    RUNPDF = false;
+    m_pdf->loadFile(
+        "../notexist.pdf"); /// make not valid..to clas not repaint..
+  }
+#endif
+
+
+
+
+/// qDebug() << __FUNCTION__ << " Area new date ->" << area.center().x() <<
+
+/* TouchBegin = 194,
+      TouchUpdate = 195,
+      TouchEnd = 196, spontaneous()
+
+QTextStream xcout(stdout, QIODevice::WriteOnly);
+ QString dir;
+ xcout << "spontaneous(): " <<  e->spontaneous() <<  " tipe()->" << (int)e->type() << " evalue()->" <<  e->value() << "\n";
+ xcout << " move mm:" << POINT_TO_MM(distanceswip) << "\n";
+ e->accept();
+
+ */
