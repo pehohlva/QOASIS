@@ -1,0 +1,5 @@
+find . -name '.DS_Store' -type f -delete
+
+https://wiki.qt.io/Creating_a_new_module_or_tool_for_Qt#other_fields
+
+
