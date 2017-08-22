@@ -1,5 +1,5 @@
 %modules = (
-    "QtOasi" => "$basedir/src",
+    "QtOasi" => "$basedir/src/oasi",
 );
 %dependencies = (
         "qtbase" => "",
