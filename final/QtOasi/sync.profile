@@ -1,3 +1,3 @@
 %modules = (
-    "QtOasi" => "$basedir/src/oasi",
+    "QtOasi" => "$basedir/src",
 );
