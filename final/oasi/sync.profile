@@ -1,5 +1,5 @@
 %modules = ( # path to module name map
-    "OASI" => "$basedir/src/oasi",
+    "QtOasi" => "$basedir/src/oasi",
 );
 %moduleheaders = ( # restrict the module headers to those found in relative path
 );
