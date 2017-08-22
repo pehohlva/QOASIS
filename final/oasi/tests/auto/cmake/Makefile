@@ -28,7 +28,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = cmake1.0.0
-DISTDIR = /Volumes/dati/AAA_OASI/tests/auto/cmake/.obj/cmake1.0.0
+DISTDIR = /Volumes/dati/sandbox/QOASIS/final/oasi/tests/auto/cmake/.obj/cmake1.0.0
 SUBTARGETS    = 
 
 
@@ -118,6 +118,8 @@ Makefile: cmake.pro ../../../.qmake.conf ../../../.qmake.cache /Users/dev/Applic
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_networkauth_private.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_nfc.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_nfc_private.pri \
+		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_oasi.pri \
+		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_oasi_private.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_opengl.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_opengl_private.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_openglextensions.pri \
@@ -165,6 +167,8 @@ Makefile: cmake.pro ../../../.qmake.conf ../../../.qmake.cache /Users/dev/Applic
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_serialport_private.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_sql.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_sql_private.pri \
+		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_src.pri \
+		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_src_private.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_svg.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_svg_private.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_testlib.pri \
@@ -194,9 +198,12 @@ Makefile: cmake.pro ../../../.qmake.conf ../../../.qmake.cache /Users/dev/Applic
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_xml_private.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_xmlpatterns.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_xmlpatterns_private.pri \
-		../../../mkspecs/modules-inst/qt_lib_src.pri \
-		../../../mkspecs/modules-inst/qt_lib_src_private.pri \
-		../../../mkspecs/modules/qt_lib_src.pri \
+		../../../mkspecs/modules-inst/qt_lib_oasi.pri \
+		../../../mkspecs/modules-inst/qt_lib_oasi_private.pri \
+		../../../mkspecs/modules/qt_lib_oasi.pri \
+		../../../mkspecs/modules-inst/qt_lib_qtoasi.pri \
+		../../../mkspecs/modules-inst/qt_lib_qtoasi_private.pri \
+		../../../mkspecs/modules/qt_lib_qtoasi.pri \
 		/Users/dev/Applications/qt5.9.1/mkspecs/features/qt_functions.prf \
 		/Users/dev/Applications/qt5.9.1/mkspecs/features/qt_config.prf \
 		/Users/dev/Applications/qt5.9.1/mkspecs/macx-clang/qmake.conf \
@@ -316,6 +323,8 @@ Makefile: cmake.pro ../../../.qmake.conf ../../../.qmake.cache /Users/dev/Applic
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_networkauth_private.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_nfc.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_nfc_private.pri:
+/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_oasi.pri:
+/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_oasi_private.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_opengl.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_opengl_private.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_openglextensions.pri:
@@ -363,6 +372,8 @@ Makefile: cmake.pro ../../../.qmake.conf ../../../.qmake.cache /Users/dev/Applic
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_serialport_private.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_sql.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_sql_private.pri:
+/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_src.pri:
+/Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_src_private.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_svg.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_svg_private.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_testlib.pri:
@@ -392,9 +403,12 @@ Makefile: cmake.pro ../../../.qmake.conf ../../../.qmake.cache /Users/dev/Applic
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_xml_private.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_xmlpatterns.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/modules/qt_lib_xmlpatterns_private.pri:
-../../../mkspecs/modules-inst/qt_lib_src.pri:
-../../../mkspecs/modules-inst/qt_lib_src_private.pri:
-../../../mkspecs/modules/qt_lib_src.pri:
+../../../mkspecs/modules-inst/qt_lib_oasi.pri:
+../../../mkspecs/modules-inst/qt_lib_oasi_private.pri:
+../../../mkspecs/modules/qt_lib_oasi.pri:
+../../../mkspecs/modules-inst/qt_lib_qtoasi.pri:
+../../../mkspecs/modules-inst/qt_lib_qtoasi_private.pri:
+../../../mkspecs/modules/qt_lib_qtoasi.pri:
 /Users/dev/Applications/qt5.9.1/mkspecs/features/qt_functions.prf:
 /Users/dev/Applications/qt5.9.1/mkspecs/features/qt_config.prf:
 /Users/dev/Applications/qt5.9.1/mkspecs/macx-clang/qmake.conf:
@@ -447,7 +461,7 @@ install_subtargets: FORCE
 uninstall_subtargets: FORCE
 
 check:
-	$(MKDIR) /Volumes/dati/AAA_OASI/tests/auto/cmake/build && cd /Volumes/dati/AAA_OASI/tests/auto/cmake/build && cmake /Volumes/dati/AAA_OASI/tests/auto/cmake -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -DCMAKE_CXX_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -DCMAKE_VERBOSE_MAKEFILE=1 -DNO_EGL=True -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="/Volumes/dati/AAA_OASI;/Users/dev/Applications/qt5.9.1" -DQt5_MODULE_TEST_DEPENDS="" -DCMAKE__MODULE_MAJOR_VERSION= -DCMAKE__MODULE_MINOR_VERSION= -DCMAKE__MODULE_PATCH_VERSION= -DCMAKE_MODULES_UNDER_TEST="" && $(TESTRUNNER) ctest --output-on-failure
+	$(MKDIR) /Volumes/dati/sandbox/QOASIS/final/oasi/tests/auto/cmake/build && cd /Volumes/dati/sandbox/QOASIS/final/oasi/tests/auto/cmake/build && cmake /Volumes/dati/sandbox/QOASIS/final/oasi/tests/auto/cmake -DCMAKE_C_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -DCMAKE_CXX_COMPILER=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -DCMAKE_VERBOSE_MAKEFILE=1 -DNO_EGL=True -DCMAKE_BUILD_TYPE=Debug -DCMAKE_PREFIX_PATH="/Volumes/dati/sandbox/QOASIS/final/oasi;/Users/dev/Applications/qt5.9.1" -DQt5_MODULE_TEST_DEPENDS="Core" -DCMAKE_src_MODULE_MAJOR_VERSION=5 -DCMAKE_src_MODULE_MINOR_VERSION=9 -DCMAKE_src_MODULE_PATCH_VERSION=1 -DCMAKE_MODULES_UNDER_TEST="src" && $(TESTRUNNER) ctest --output-on-failure
 
 html_docs:
 	$(MAKE) -f $(MAKEFILE) prepare_docs && $(MAKE) -f $(MAKEFILE) generate_docs
@@ -485,5 +499,5 @@ dist: distdir FORCE
 
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
-	$(COPY_FILE) --parents ../../../mkspecs/modules-inst/qt_lib_src.pri ../../../mkspecs/modules-inst/qt_lib_src_private.pri ../../../mkspecs/modules/qt_lib_src.pri ../../../.qmake.conf ../../../.qmake.stash cmake.pro $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../mkspecs/modules-inst/qt_lib_oasi.pri ../../../mkspecs/modules-inst/qt_lib_oasi_private.pri ../../../mkspecs/modules/qt_lib_oasi.pri ../../../mkspecs/modules-inst/qt_lib_qtoasi.pri ../../../mkspecs/modules-inst/qt_lib_qtoasi_private.pri ../../../mkspecs/modules/qt_lib_qtoasi.pri ../../../.qmake.conf ../../../.qmake.stash cmake.pro $(DISTDIR)/
 

@@ -2,20 +2,21 @@
 #define QTRLOCALE_H
 
 #include <QObject>
-
-#include <qcld2global.h>
-
+#include <QLocale>
 #include <QtCore/qobject.h>
 #include <QtCore/qvariant.h>
 #include <QtCore/qhash.h>
-#include <QLocale>
+#include <QtOasi>
+
+#include "oasiglobal.h"
 
 
-QCLD2_EXPORT QString html_encode(const QString &string);
-QCLD2_EXPORT bool file_put_contents(const QString fullFileName, QString &xml , int modus = 0 ); /// 0 normal 1 append
-QCLD2_EXPORT QString toXexsumm( QString put );
+
+OASI_EXPORT QString html_encode(const QString &string);
+OASI_EXPORT bool file_put_contents(const QString fullFileName, QString &xml , int modus = 0 ); /// 0 normal 1 append
+OASI_EXPORT QString toXexsumm( QString put );
 /// return the qchar script max from text...
-QCLD2_EXPORT int  hit_Script_found( QString text );
+OASI_EXPORT int  hit_Script_found( QString text );
 /// avaiable script in qchar
 static int sumscritpsLang =131;
 
@@ -24,8 +25,7 @@ QT_BEGIN_NAMESPACE
 
 
 class DataLocaleProvider;
-
-class QCLD2_EXPORT QTrlocale : public QObject
+class OASI_EXPORT QTrlocale : public QObject
 {
 
   Q_OBJECT
@@ -40,7 +40,7 @@ public:
   void ReadFile( const QString file );
   QString getnameScriptQChar(const ushort unicode) const;
   QSet<QString> qlocaleList();
-  void wr_47854g76b64(); /// generator.. table
+  void wr_47854g76b64();
 private:
   QHash<QByteArray, QChar::Script> scriptMap;
   void initScriptMap();
@@ -51,9 +51,7 @@ private:
 
 QT_END_NAMESPACE
 
-#endif // QTRLOCALE_H
-/* signals: Q_INVOKABLE
-public slots:  */
+#endif
 
 
 
