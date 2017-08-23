@@ -12,5 +12,8 @@ MOC_DIR = o
 RCC_DIR = o
 OBJECTS_DIR = o
 
+
+include(../../src/oasi/qtoasi.pri)
+
 target.path = $$[QT_INSTALL_EXAMPLES]/oasi/rtf
 INSTALLS += target

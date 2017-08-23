@@ -6,7 +6,7 @@
 #include <qstring.h>
 #include <qchar.h>
 #include <iostream>
-
+#include "qtrlocale.h"
 
 using namespace std;
 
@@ -23,6 +23,10 @@ int main(int argc, char **argv) {
     out <<  sayplease << "\n";
     out <<  QString::fromLocal8Bit(__DATE__) << "\n";
     out.flush();
+	
+	QTrlocale *job = new QTrlocale();
+	out <<  job->isLatinLang( QString("La muca canta sulle stelle?") ) << "\n";
+	
 
        std::cout << "-------------------------------------------------------\n";
        
