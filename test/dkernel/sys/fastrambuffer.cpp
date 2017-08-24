@@ -22,7 +22,7 @@ Fastrambuffer::Fastrambuffer() {
 bool Fastrambuffer::load_file(const QString file) {
   QMimeDatabase db;
   mime = db.mimeTypeForFile(file).name();
-  qDebug()  << mime << " mime incomming -----   ";
+  qDebug()  << mime << " mime incomming ram -----   " << __LINE__;
   QFileInfo fix(file);
   absolutepathfromfile = fix.absolutePath();
   filename = fix.fileName();
@@ -33,10 +33,20 @@ bool Fastrambuffer::load_file(const QString file) {
       x->seek(0);
       return true;
   }
-
+  qDebug()  << mime << " size:" <<  BytesRead(FcurrentSize) <<  "-limit" << BytesRead(megalimit) << ",     mime incomming ram -----   " << __LINE__;
   if (FcurrentSize > megalimit) {
       return false;
   }
+  qDebug()  << mime << " mime incomming ram -----   " << __LINE__;
+  if (mime.contains(".oasis.") ) {
+      QByteArray signature(absolutepathfromfile.toUtf8());
+      signature.prepend(QByteArray("opendocument,calligra,okular,openoffice"));
+      this->device()->write(signature);
+      x->seek(0);
+      return true;
+  }
+  qDebug()  << mime << " mime incomming ram -----   " << __LINE__;
+
   QFile f(file);
   if (f.exists()) {
     if (f.open(QFile::ReadOnly)) {

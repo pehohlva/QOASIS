@@ -10,13 +10,15 @@ HtmlDriver::HtmlDriver()
     fullhtmlnow = QString("textutil -convert .. unable to read! or not mac osx.");
     txtutils = run_which(QStringLiteral("textutil"));
     clean_cache();
-
-
     //// qDebug() << "### cacheop dir = " <<  cacheop;
 }
 
 HtmlDriver::~HtmlDriver() {
    //// DownDir_RM(CACHEBUFFERDISKTMP);
+}
+
+bool HtmlDriver::is_text_tool() {
+    return (txtutils.size() > 4)? true : false;
 }
 
 void HtmlDriver::clean_cache() {
@@ -272,6 +274,9 @@ bool is_file(const QString fullFileName)
 
 
 bool file_put_contents(const QString fullFileName, QString xml , int modus) {
+    if (modus == 10) {
+        return true; /// no debug!!
+    }
     if (fullFileName.contains("/", Qt::CaseInsensitive)) {
     QString ultimacartellaaperta = fullFileName.left(fullFileName.lastIndexOf("/"))+"/";
     QDir dira(ultimacartellaaperta);
@@ -280,8 +285,8 @@ bool file_put_contents(const QString fullFileName, QString xml , int modus) {
     }
     }
 
-       if (is_file(fullFileName) && modus==1) {
-           unlink(fullFileName);
+       if (modus==1) {
+           unlink(fullFileName); /// if is one make place..
        }
         QFile f( fullFileName );
             if (modus == 1) {

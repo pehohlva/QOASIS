@@ -27,7 +27,7 @@
 
 
 
-static qint64 megalimit = 4 * 1048576; /// as doument
+static qint64 megalimit = 10 * 1048576; /// as doument
 
 #define POINT_TO_CM(cm) ((cm) / 28.3465058)
 #define POINT_TO_MM(mm) ((mm) / 2.83465058)

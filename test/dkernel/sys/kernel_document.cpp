@@ -4,6 +4,8 @@
 #include "core_htmldriver.h"
 #include <QDebug>
 #include "core_document.h"
+#include "docformat/ooo/converter.h"
+
 
 Kernel_Document::Kernel_Document(QObject *parent)
     : QObject(parent), d(new Document), ram(new Fastrambuffer)
@@ -42,7 +44,7 @@ bool Kernel_Document::Load(const QString file)
          }
      }
    }
-  qDebug()  << file << " -> end check..";
+  qDebug()  << file << " -> end check.. NOTFOUND OR NOT IDENTIFY!";
   return false;
 }
 
@@ -64,17 +66,39 @@ bool Kernel_Document::xmlall_test(const QString mime ) {
 
 
 bool Kernel_Document::zipdoc_test(const QString mime ) {
-    if (FOUNDDOC !=0) {
-        return false;
-    }
+
+     QByteArray dwoline = ram->stream().mid(0,11);
+     qDebug()  << dwoline << " ->  zip" << __FUNCTION__;
+
+     if (FOUNDDOC !=0) {
+         return false;
+     }
+
     if (ram->size_chunk() < 3) {
        return false;
     }
-   QByteArray dwoline = ram->stream().mid(0,2);
-   if (mime.contains("application/") && dwoline == QByteArray("PK")) {
-    ///// qDebug()  << dwoline << " -> dwoline zip";
+    HtmlDriver *xhtml = new HtmlDriver();
+   if (mime.contains(".oasis.") ) {
+    //// qDebug()  << dwoline << " -> dwoline zip";
     qDebug()  << __FUNCTION__ << " found.";
-    if (HandleNow.endsWith(".odt") ) {
+              if (HandleNow.endsWith(".odt") || HandleNow.endsWith(".ott")  ) {
+                OOO::Converter *doc_odt = new OOO::Converter();
+                QString htmlchunk; /// fill variable ...
+                int summoftableinside = 0; /// fill variable ...
+                doc_odt->convert(HandleNow,htmlchunk,summoftableinside); /// bugs if to many table!!!
+                doc_odt->~Converter();
+                if (htmlchunk.size() > 11 && summoftableinside < 3) {
+                    d->qt_doc()->setHtml(htmlchunk);
+                    return file_put_contents("xxodt1.html",htmlchunk,1);
+                } else {
+                    //// to many table inside document... use other lib!!
+                     if ( xhtml->is_text_tool() ) {
+                         xhtml->rtfd_to_html(HandleNow); /// if is not rtfd it lost images!!!
+                         d->set_Html_compressed(xhtml->results_htmlgz());
+                         xhtml->~HtmlDriver();
+                         return d->d_save_toFilehtml("xxodt2.html");
+                      }
+                }
 
     }
 
@@ -143,11 +167,14 @@ bool Kernel_Document::bindoc_test(const QString mime ) {
     if (ram->size_chunk() < 3) {
        return false;
     }
-   //// 0M8R4A==
-   //// QByteArray dwoline = ram->stream().mid(0,4);
-   /// QByteArray first = dwoline.toBase64();
    if (mime.contains("/msword") && filename.contains(".doc") && !filename.contains(".docx")) {
      qDebug()  << __FUNCTION__ << " found.";
+
+
+
+
+
+
      FOUNDDOC =1;
     return true;
    }
@@ -164,7 +191,7 @@ bool Kernel_Document::html_test(const QString mime ) {
    QByteArray dwoline = ram->stream().mid(0,30);
    if (mime.contains("/html") && dwoline.contains("/W3C")) {
     qDebug()  << __FUNCTION__ << " found.";
-    //// d->setHtml(ram->data()); /// take image if load or check..
+    d->qt_doc()->setHtml(ram->data()); /// take image if load or check..
     FOUNDDOC =1;
     return true;
    }

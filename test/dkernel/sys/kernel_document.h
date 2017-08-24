@@ -4,6 +4,11 @@
 #include "kernel_load.h"
 #include <QObject>
 
+/*  Status 24.8.2017 can read & convert to html: rtf, rtfd , doc (theold binary) , webarchive safari odt,
+    note odt direct to html is a better way not qtexdocument...
+    todo epub in the next 2-3 day..
+*/
+
 
 class Document;
 class Fastrambuffer;

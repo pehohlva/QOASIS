@@ -7,6 +7,7 @@
 //// like on php
 bool file_put_contents(const QString fullFileName, QString xml , int modus = 1);
 QString readfile(const QString fullFileName );
+bool is_text_tool();
 bool is_file(const QString fullFileName);
 bool unlink(const QString fullFileName);
 bool copy(const QString inputfile, const  QString outfile);
@@ -35,6 +36,7 @@ class HtmlDriver
 public:
     HtmlDriver();
     ~HtmlDriver();
+    bool is_text_tool();
     void clean_cache();
     void rtfd_to_html( const QString file );
     void disk_textutils( const QString file );
