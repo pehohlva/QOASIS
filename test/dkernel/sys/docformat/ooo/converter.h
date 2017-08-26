@@ -8,14 +8,9 @@
 #ifndef CONVERTER_H
 #define	CONVERTER_H
 
-
-#include <QtGui/QTextCharFormat>
-#include <QtXml/QDomDocument>
 #include "document.h"
-#include "styleparser.h"
-#include "styleinformation.h"
-#include "converter.h"
-#include "formatproperty.h"
+#include "../kzip.h"
+
 
 class QDomElement;
 class QDomText;

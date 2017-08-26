@@ -4,13 +4,10 @@
  * Struzzo bello in fare le cose
  * Created on 24. Oktober 2013, 11:36
  */
-#include <QtCore/QByteArray>
-#include <QtCore/QMap>
+
+#include "../kzip.h"
 #include <QtCore/QString>
 #include "document.h"
-#include "../kzip.h"
-#include <QtCore/QDebug>
-#include <QImage>
 
 
 using namespace OOO;
@@ -26,7 +23,7 @@ bool Document::open() {
     KZipStream *Kzip = new KZipStream(mFileName);
     if (Kzip->canread()) {
         const QStringList entries = Kzip->filelist();
-       //////  ODTDEBUG() << "entry list:" << entries;
+       ODTDEBUG() << "entry list:" << entries;
 
         if (!entries.contains("META-INF")) {
             setError(i18n("Invalid document structure (META-INF directory is missing)"));

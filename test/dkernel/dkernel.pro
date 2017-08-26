@@ -17,11 +17,13 @@ RCC_DIR = build
 OBJECTS_DIR = build
 
 
-
 SOURCES += main.cpp \
     sys/docformat/kzip.cpp \
+    sys/docformat/QmyDom.cpp \
     sys/docformat/ooo/converter.cpp \
     sys/docformat/ooo/document.cpp \
+    sys/docformat/epub/econverter.cpp \
+    sys/docformat/epub/edocument.cpp \
    sys/docformat/ooo/formatproperty.cpp \
    sys/docformat/ooo/styleinformation.cpp \
    sys/docformat/ooo/styleparser.cpp  \
@@ -42,8 +44,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 HEADERS += sys/docformat/kzip.h \
+     sys/docformat/QmyDom.h \
      sys/docformat/ooo/converter.h \
      sys/docformat/ooo/document.h \
+    sys/docformat/epub/econverter.h \
+    sys/docformat/epub/edocument.h \
     sys/docformat/ooo/formatproperty.h \
     sys/docformat/ooo/styleinformation.h \
     sys/docformat/ooo/styleparser.h  \

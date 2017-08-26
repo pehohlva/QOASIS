@@ -22,7 +22,7 @@
 #include <QtXml/QXmlSimpleReader>
 #include <QtCore/QObject>
 #include <QPixmap>
-
+#include "../kzip.h"
 
 using namespace OOO;
 

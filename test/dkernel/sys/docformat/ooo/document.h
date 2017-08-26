@@ -23,7 +23,14 @@
 #include <QtCore/QString>
 #include <QImage>
 #include <QtCore/QObject>
-
+#include <QtGui/QTextCharFormat>
+#include <QtXml/QDomDocument>
+#include "document.h"
+#include "styleparser.h"
+#include "styleinformation.h"
+#include "converter.h"
+#include "formatproperty.h"
+#include "../kzip.h"
 #define i18n QObject::tr
 
 #if 0 //// 1 or 0

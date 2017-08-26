@@ -1,6 +1,7 @@
 #include <QCoreApplication>
 
 #include "sys/kernel_document.h"
+#include "sys/docformat/epub/econverter.h"
 
 
 static void usagethisapp(const char *name) {
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     QStringList in = a.arguments();
-    Kernel_Document *w = new Kernel_Document();
+    Epub::Converter *w = new Epub::Converter();
     qDebug()  << in << " arri";
 
      if (in.size() == 1) {
@@ -22,13 +23,12 @@ int main(int argc, char *argv[])
      }
 
     if (in.size() !=2 || in.size() !=3) {
-         bool isfile = w->Load(in.at(1));
-          qDebug()  << isfile << " -> isfile";
+                 QString html;
+                int tablesum;
+        QTextDocument *dd = w->convert(in.at(1),html,tablesum);
+          qDebug()  << dd->isEmpty() << " -> isfile";
     } else {
       usagethisapp(argv[0]);
     }
-
-
-    w->deleteLater();
     return 1; /// a.exec();
 }

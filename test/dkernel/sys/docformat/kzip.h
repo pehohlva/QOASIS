@@ -21,8 +21,28 @@
 #include <qstringlist.h>
 #include <QtXml/QDomDocument>
 #include <QtGui/QTextDocument>
-
-
+#include <QtCore/QByteArray>
+#include <QtCore/QMap>
+#include <QtCore/QDebug>
+#include <QImage>
+#include <QtCore/qfile.h>
+#include <QtCore/qstring.h>
+#include <QtCore/QMap>
+#include <QtCore/QDebug>
+#include <QtCore/QBuffer>
+#include <QtCore/qiodevice.h>
+#include <QtCore/qbytearray.h>
+#include <QtXml/QDomDocument>
+#include <QTextDocument>
+#include <qstringlist.h>
+#include <QtCore/QByteArray>
+#include <QtCore/QMap>
+#include <QtCore/QString>
+#include <QImage>
+#include <QtCore/QObject>
+#include <QXmlSimpleReader>
+#include <QXmlInputSource>
+#include <QSet>
 // zLib authors suggest using larger buffers (128K or 256K) for (de)compression (especially for inflate())
 // we use a 256K buffer here - if you want to use this code on a pre-iceage mainframe please change it ;)
 #define UNZIP_READ_BUFFER (256*1024)
