@@ -1,7 +1,7 @@
 #include <QCoreApplication>
 
-#include "sys/kernel_document.h"
-#include "sys/docformat/epub/econverter.h"
+///// #include "sys/kernel_document.h"
+//// #include "sys/docformat/epub/econverter.h"
 
 
 static void usagethisapp(const char *name) {
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     QStringList in = a.arguments();
-    Epub::Converter *w = new Epub::Converter();
+
     qDebug()  << in << " arri";
 
      if (in.size() == 1) {
@@ -23,12 +23,20 @@ int main(int argc, char *argv[])
      }
 
     if (in.size() !=2 || in.size() !=3) {
-                 QString html;
-                int tablesum;
-        QTextDocument *dd = w->convert(in.at(1),html,tablesum);
-          qDebug()  << dd->isEmpty() << " -> isfile";
+
     } else {
       usagethisapp(argv[0]);
     }
     return 1; /// a.exec();
 }
+
+
+/*
+ * Epub::Converter *w = new Epub::Converter();
+ * const QList<EpubToc> listing = w->convert(in.at(1));
+        if (listing.size() > 0) {
+          EpubToc fox = listing.at(0);
+           qDebug()  <<  fox.jumpurl << " -> isfile";
+        }
+        qDebug()  <<  listing.size() << " -> isfile";
+  */

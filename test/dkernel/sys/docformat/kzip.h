@@ -42,6 +42,7 @@
 #include <QtCore/QObject>
 #include <QXmlSimpleReader>
 #include <QXmlInputSource>
+#include <QMimeDatabase>
 #include <QSet>
 // zLib authors suggest using larger buffers (128K or 256K) for (de)compression (especially for inflate())
 // we use a 256K buffer here - if you want to use this code on a pre-iceage mainframe please change it ;)
@@ -52,6 +53,17 @@
 #else
 #define KZIPDEBUG if (0) qDebug
 #endif
+
+static inline QString MimeinFile(const QString file ) {
+    QMimeDatabase db;
+    return db.mimeTypeForFile(file).name();
+}
+
+
+
+
+
+
 
 struct LocalFileHeader {
     uchar signature[4]; //  0x04034b50
