@@ -2,6 +2,15 @@
 #define KERNEL_DOCUMENT_H
 
 #include "kernel_load.h"
+#include "core_htmldriver.h"
+#include "docformat/epub/econverter.h"
+#include "docformat/ooo/converter.h"
+#include "fastrambuffer.h"
+#include "docformat/kzip.h"
+#include "docformat/QmyDom.h"
+
+
+
 #include <QObject>
 
 /*  Status 24.8.2017 can read & convert to html: rtf, rtfd , doc (theold binary) , webarchive safari odt,

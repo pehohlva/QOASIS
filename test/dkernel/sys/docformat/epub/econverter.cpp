@@ -25,8 +25,8 @@ Converter::Converter() { /* init class */ }
 
 Converter::~Converter() { }
 
-const QList<EpubToc> Converter::convert(const QString &fileName ) {
-  Document oooDocument(fileName);
+const QList<EpubToc> Converter::convert(const QString &fileName , const QString dir ) {
+  Document oooDocument(fileName,dir);
   if (!oooDocument.open()) {
       QList<EpubToc> dummy;
     return dummy;

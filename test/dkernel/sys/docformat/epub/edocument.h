@@ -6,7 +6,7 @@
 #define refill QObject::tr
 #define recit2 QString::toStdString
 
-#if 0 //// 1 or 0
+#if 1 //// 1 or 0
 #define EPUBDEBUG qDebug
 #define STAGE 1
 #else
@@ -61,7 +61,7 @@ namespace Epub {
 
 class Document {
 public:
-  Document(const QString &fileName);
+  Document(const QString &fileName , const QString &dir );
   ~Document();
   bool open();
   QList<EpubToc> MenuList() const { return RevisionPageItem; }
@@ -114,7 +114,6 @@ public:
   bool showsynrorun;
   bool compress_on_ram;
   QString DIRBROWSERBOOK;
-  QString  testdir;
 };
 
 } // namespace Epub

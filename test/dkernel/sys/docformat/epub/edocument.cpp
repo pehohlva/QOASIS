@@ -19,20 +19,26 @@
 #include "../../core_htmldriver.h"
 using namespace Epub;
 
-Document::Document(const QString &fileName)
+Document::Document(const QString &fileName, const QString &dir )
     : mFileName(fileName)  {
   USEBASEREF = false;
   CoverPager = QString();
   StartIndexPager = QString();
   minNrorder = 10000;
   maxNrorder = 0;
+  QFileInfo cc(fileName);
   summerror = 0;
-  showsynrorun = false;
+  QString fileini = cc.baseName();
+  const QString dirfile = fileini.replace(".","_");
+  showsynrorun = true;
   compress_on_ram = false;
-  testdir = QString("maktestepub/");
+  DIRBROWSERBOOK = dir + dirfile + QString("/");
+  EPUBDEBUG() << "fileName" << fileName;
+  EPUBDEBUG() << "DIRBROWSERBOOK" << DIRBROWSERBOOK;
 }
 
 bool Document::open() {
+
   KZipStream *Kzip = new KZipStream(mFileName);
   QByteArray tableofcontenent;
   QByteArray Filelistener;
@@ -130,7 +136,6 @@ void Document::PageBuilder() {
    const int sizeepub = mxMenuItem.size();
    const int qustsize  = uniqueuris.size();
    const int qpages_size  = mxPageItem.size();
-   /// DIRBROWSERBOOK
    EPUBDEBUG() << "PageBuilder tot:" << qpages_size << " diff:" << pageum << ":" << sizeepub << " - remainfile:" << qustsize;
 
     for (int x = 0; x < rspine.count(); x++) {
@@ -142,7 +147,7 @@ void Document::PageBuilder() {
           QFileInfo fio(tmp1);
           fox.jumpurl = fio.absoluteFilePath();
           RevisionPageItem.append(fox);
-          EPUBDEBUG() << RevisionPageItem.size() << ") goto: " << testdir + fio.absoluteFilePath();
+          EPUBDEBUG() << RevisionPageItem.size() << ") goto: " << fio.absoluteFilePath();
     }
 
    QStringList lostli = uniqueuris.toList();
@@ -179,7 +184,7 @@ void Document::Lost_Found_Syncro() {
 
     ///// QMap<QString, QByteArray> mImages;
     ///// QMap<QString, QByteArray> mxcache;  mFileName
-    DIRBROWSERBOOK = testdir + mFileName.replace(".","_") + QString("/");
+
 
     QMapIterator<QString,QByteArray> a(mImages);
     while (a.hasNext()) {

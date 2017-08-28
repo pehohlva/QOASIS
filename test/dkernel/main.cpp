@@ -1,35 +1,34 @@
+#include "core_application.h"
 #include <QCoreApplication>
 
-///// #include "sys/kernel_document.h"
-//// #include "sys/docformat/epub/econverter.h"
 
 
+/*
 static void usagethisapp(const char *name) {
     printf("Usage: %s (Options)  \n", name);
     printf("Tell the file to index Options ->  file.xx \n");
 }
+*/
 
+int main(int argc, char *argv[]) {
+  Core_Application api(argc, argv);
+  /////QStringList in = a.arguments();
+  /*
+  qDebug()  << in << " arri";
 
-int main(int argc, char *argv[])
-{
-    QCoreApplication a(argc, argv);
-    QStringList in = a.arguments();
+   if (in.size() == 1) {
+   usagethisapp(argv[0]);
+   return 0;
+   }
 
-    qDebug()  << in << " arri";
+  if (in.size() !=2 || in.size() !=3) {
 
-     if (in.size() == 1) {
-     usagethisapp(argv[0]);
-     return 0;
-     }
-
-    if (in.size() !=2 || in.size() !=3) {
-
-    } else {
-      usagethisapp(argv[0]);
-    }
-    return 1; /// a.exec();
+  } else {
+    usagethisapp(argv[0]);
+  }
+  return 1; /// */
+  api.exec();
 }
-
 
 /*
  * Epub::Converter *w = new Epub::Converter();
