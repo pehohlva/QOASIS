@@ -6,7 +6,7 @@
 #define refill QObject::tr
 #define recit2 QString::toStdString
 
-#if 1 //// 1 or 0
+#if 0 //// 1 or 0
 #define EPUBDEBUG qDebug
 #define STAGE 1
 #else
@@ -76,6 +76,7 @@ public:
   QByteArray pic_encode_compressed(QImage im , bool press);
   void Lost_Found_Syncro();
   void PageBuilder();
+  void GetPageKey_md843( const int idmd , EpubToc & item );
   void GetMenuOrder_id(const int x , EpubToc &item );
   void GetPageOrder_id( const QString ref , EpubToc & item );
   bool MetaReader();

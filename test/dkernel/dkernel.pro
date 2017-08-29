@@ -3,6 +3,9 @@ QT += concurrent pdfium
 QT += xmlpatterns
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+QT += webview
+QT += webenginewidgets
+
 
 CONFIG += c++11
 TARGET = EpubRead

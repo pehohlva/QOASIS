@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include <QCloseEvent>
+#include <QComboBox>
 #include <QCoreApplication>
 #include <QCursor>
 #include <QDebug>
@@ -43,11 +44,9 @@
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QTextEdit>
-#include <QtWidgets/QWidget>
-
+#include <QDateTime>
+#include <QDate>
 #include "sys/kernel_document.h"
-
 
 #if 1 //// 1 or 0
 #define CCDEBUG qDebug
@@ -72,7 +71,7 @@
 #define _ZIPCACHEBOOK_ QString("%1/ebooks/fromlocal/").arg(QDir::homePath())
 #define _FIRSTWINDOWTITLESHOW_ QString("Test epub File in QTextBrowser")
 #define _TESTBOOKS_ QString("%1/tmp/").arg(_ZIPCACHEBOOK_)
-
+///// #define _ZIPCACHEBOOK_ QString("%1/ebooks/fromlocal/").arg(QDir::homePath())
 
 #define core_application (static_cast<RDoc *>(QCoreApplication::instance()))
 
@@ -87,7 +86,7 @@ public:
 signals:
   /// emit to mac user app drag e drop to app icon action!
   void PlayMessage(QString); //// SetStatusText
-  void FileOpenOrSet(QString);
+  void FileOpenOrSet(QUrl);
 public slots:
   void ParkingFile(QString file);
   void CheksEventApp();
@@ -96,6 +95,7 @@ public slots:
 private:
   bool event(QEvent *event);
   void closeEvent(QCloseEvent *event);
+  void Make_Test_File();
   QString wait_onefile;
   QStringList wait_filetoOpen;
   QRect screens;

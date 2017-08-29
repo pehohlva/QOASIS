@@ -7,7 +7,6 @@
 
 #include "epubview.h"
 
-
 class QMainWindow;
 
 class Core_MainWindow : public QMainWindow {
@@ -21,15 +20,19 @@ signals:
   void Request_To_Close();
   void Set_Tmp_File(QString);
 public slots:
-  void RequestPutFile(const QString file);
+  void ComboEpubWake(bool e);
+  void RequestPutFile(QUrl uri);
   void SetStatusText(const QString text);
   void SetBookorFile();
+  void NavitoepubPage(int x);
 
 protected:
-  void Make_Test_File(); /// to test all ...
+  void Check_Visible_Engine( bool e);
+  void CheckeOpenFile(const QString file);
   QMenu *fileMenu;
   QLabel *statusbar; /// to write in
   EpubView *emainw;
+  QComboBox *epub_pages; /// list toc
 };
 
 #endif // CORE_MAINWINDOW_H

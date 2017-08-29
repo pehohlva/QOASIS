@@ -27,6 +27,13 @@ class Kernel_Document : public QObject {
 public:
   explicit Kernel_Document(QObject *parent = nullptr);
   bool Load(const QString file);
+  QByteArray to_Html();
+signals:
+  void wait_loop(qreal);
+public slots:
+private:
+
+
   bool rtf_test(const QString mime );
   bool rtfd_test(const QString mime ); /// super format on mac
   bool html_test(const QString mime );
@@ -34,16 +41,13 @@ public:
   bool zipdoc_test(const QString mime ); /// to many format
   bool xmlall_test(const QString mime );
 
-signals:
-  void wait_loop(qreal);
-public slots:
-private:
   Document *d;
   Fastrambuffer *ram;
   QString namemd5;
   QString fullpathfile;
   QString filename;
   QString HandleNow;
+  QString FILEFULLNOTTOUCH;
   int FOUNDDOC;
 };
 

@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>qt4cc.epub</file>
+        <file>QtQuickApplicationGuide4Desktop.epub</file>
     </qresource>
 </RCC>

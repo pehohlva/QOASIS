@@ -14,7 +14,7 @@ HtmlDriver::HtmlDriver()
 }
 
 HtmlDriver::~HtmlDriver() {
-   //// DownDir_RM(CACHEBUFFERDISKTMP);
+   DownDir_RM(CACHEBUFFERDISKTMP);
 }
 
 bool HtmlDriver::is_text_tool() {
@@ -32,9 +32,7 @@ void HtmlDriver::clean_cache() {
 
 void HtmlDriver::rtfd_to_html( const QString file ) {
        clean_cache();
-    if (cacheop == 1) {
        disk_textutils(file);
-    }
 }
 
 /* here only osx mac wo have install textutils by default */
@@ -48,21 +46,20 @@ void HtmlDriver::disk_textutils( const QString file ) {
          HTMLCOMPRESSED = qCompress(simhtml,9);
        return;
      }
-    //// textutil -convert html bello.odt  -output xxx.html
     QString htmltext;
     QProcess *process = new QProcess(NULL);
     process->setReadChannelMode(QProcess::MergedChannels);
     QStringList cmd_rock;
                 cmd_rock << "-convert" << "html" << file << "-output" << CACHEFILETMP;
     qDebug() << "### handler use-> | textutil " <<  cmd_rock.join(" ") <<" |";
-
     process->start(txtutils,cmd_rock,QIODevice::ReadOnly );
       if (!process->waitForFinished()) {
            htmltext = QString("null");
       } else {
            htmltext = readfile(CACHEFILETMP);
-           //// unlink(CACHEFILETMP);
+           qDebug() << "### convert image handler use size-> " <<  htmltext.size() <<" |";
            image_find(htmltext);
+           qDebug() << "### end image handler use size-> " <<  htmltext.size() <<" |";
       }
 }
 
@@ -87,7 +84,7 @@ void HtmlDriver::image_find( QString html ) {
                   QString filen = CACHEBUFFERDISKTMP + inserter.toLocalFile();
                   QImage pio = QImage(filen);
                   if (!pio.isNull()) {
-                      qDebug()  << filen << "-> image found :-) ->isNull? "  <<  pio.isNull();
+                      qDebug()  << filen << "-> image found :-) ->isNull hurra ";
                       mappic.insert(imagesrcx,pio);
                   }
                 } else {
@@ -95,12 +92,8 @@ void HtmlDriver::image_find( QString html ) {
                    mappic.insert(imagesrcx,aufi); /// nullpic!!
                  }
 
-               }       /*
-                   if (repos > 0) {
-                    const QString key = imagesrcx.mid(repos + 1, loengh - (repos - 1));
-                     qDebug()  << key << "-> image found "; //// malformed html
-                   }
-                   */
+               }
+
         iPosition += expression.matchedLength();
     }
     QMapIterator<QString,QImage> i(mappic);
@@ -112,14 +105,9 @@ void HtmlDriver::image_find( QString html ) {
     }
     fullhtmlnow = html;
     QByteArray chunkk(html.toUtf8());
+    qDebug()  << chunkk.size() << " end size!!!!!!! hurra ";
     HTMLCOMPRESSED = qCompress(chunkk,9);
-      /* test image base64 not play in console
-    QFile f("testhtml.html");
-    if (f.open(QFile::WriteOnly)) {
-      f.write(chunkk));
-      f.close();
-    }
-    */
+     qDebug()  << HTMLCOMPRESSED.size() << " HTMLCOMPRESSED size!!!!!!! hurra ";
 }
 
 QByteArray HtmlDriver::pic_encode( QImage im )  {
@@ -277,12 +265,12 @@ bool file_put_contents(const QString fullFileName, QString xml , int modus) {
     if (modus == 10) {
         return true; /// no debug!!
     }
-    if (fullFileName.contains("/", Qt::CaseInsensitive)) {
-    QString ultimacartellaaperta = fullFileName.left(fullFileName.lastIndexOf("/"))+"/";
-    QDir dira(ultimacartellaaperta);
-    if ( dira.mkpath(ultimacartellaaperta) ) { } else {
+
+    QFileInfo fix(fullFileName);
+
+    QDir dira(fix.absolutePath());
+    if ( dira.mkpath(fix.absolutePath()) ) { } else {
     return false;
-    }
     }
 
        if (modus==1) {

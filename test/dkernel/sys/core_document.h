@@ -20,11 +20,13 @@ public:
     }
     void set_Html_compressed( const QByteArray html );
     QByteArray to_html_compressd();
+    QByteArray to_html_utf8();
 signals:
 
 public slots:
 private:
     QTextDocument *d;
+    QByteArray HTMLCHUNK;
 };
 
 #endif // CORE_DOCUMENT_H

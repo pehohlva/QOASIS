@@ -131,24 +131,59 @@ void Document::PageBuilder() {
    Lost_Found_Syncro(); /// debug uniqueuris check if all
    //// file is list from zip lost e found list not linked!
    //// QList<EpubToc> mxMenuItem;
+   QSet<QString> UNIQUEURLSET;
    QString zurl,tmp1,tmp2,idref;
    const int pageum =  (maxNrorder - minNrorder) + 2;
    const int sizeepub = mxMenuItem.size();
    const int qustsize  = uniqueuris.size();
    const int qpages_size  = mxPageItem.size();
    EPUBDEBUG() << "PageBuilder tot:" << qpages_size << " diff:" << pageum << ":" << sizeepub << " - remainfile:" << qustsize;
-
+   //// union order & menu && lost found must stay 0000000
+   EpubToc coverfox;
     for (int x = 0; x < rspine.count(); x++) {
          idref = rspine.at(x);
          EpubToc fox;
+         EpubToc foxMenu;
           GetPageOrder_id(idref,fox);
           fox.orderid = x;
+          GetPageKey_md843(fox.md843,foxMenu);
           tmp1 = DIRBROWSERBOOK + fox.qurl();
           QFileInfo fio(tmp1);
-          fox.jumpurl = fio.absoluteFilePath();
-          RevisionPageItem.append(fox);
-          EPUBDEBUG() << RevisionPageItem.size() << ") goto: " << fio.absoluteFilePath();
-    }
+          const QString box_uri = fio.absoluteFilePath();
+          ///// titel check
+          if (fio.exists() && !UNIQUEURLSET.contains(box_uri)) {
+              fox.jumpurl = box_uri;
+              UNIQUEURLSET.insert(box_uri);
+              fox.title = foxMenu.title;
+              if (fox.title.isEmpty()) {
+                fox.title = QString("Page - Unknow Title / or not set.");
+              }
+              RevisionPageItem.append(fox);
+              EPUBDEBUG() << RevisionPageItem.size() << "/" << idref << ") GOTO REGISTER: " << fox.debug() << "_" << fio.absoluteFilePath();
+          }
+      }
+   int listers = -1;
+   QList<EpubToc>::const_iterator x;
+   for (x = mxPageItem.constBegin(); x != mxPageItem.constEnd(); ++x) {
+        EpubToc fox=*x;
+        listers++;
+        tmp1 = DIRBROWSERBOOK + fox.qurl();
+        QFileInfo fio(tmp1);
+        const QString box_uri = fio.absoluteFilePath();
+        if (fio.exists() && !UNIQUEURLSET.contains(box_uri)) {
+            fox.orderid = RevisionPageItem.count();
+            fox.jumpurl = box_uri;
+            UNIQUEURLSET.insert(box_uri);
+            if (fox.title.isEmpty()) {
+              fox.title = QString("Page - Unknow Title / or not set.");
+            }
+           fox.title = QString("Hidden/Listed page: %1").arg(fox.title);
+           RevisionPageItem.append(fox);
+        }
+        EPUBDEBUG() << RevisionPageItem.size() << "/" << listers << ") GOTO REGISTER2: " << fox.debug() << "_" << fio.absoluteFilePath();
+   }
+
+
 
    QStringList lostli = uniqueuris.toList();
    EPUBDEBUG() << "!!!!!!!!Lost & found size->:" << lostli.size();
@@ -210,9 +245,41 @@ void Document::Lost_Found_Syncro() {
 void Document::GetPageOrder_id( const QString ref , EpubToc & item ) {
       //// QList<EpubToc> mxMenuItem; /// dax.type toc cover
       QList<EpubToc>::const_iterator i;
+      QList<EpubToc>::const_iterator x;
+      bool found = false;
       for (i = mxPageItem.constBegin(); i != mxPageItem.constEnd(); ++i) {
            EpubToc fox=*i;
            if (fox.idref == ref) {
+              if ( uniqueuris.contains( fox.qurl() ) ) {
+                    uniqueuris.remove( fox.qurl() );
+              }
+              found = true;
+              item = fox;
+           }
+      }
+      if (!found) {
+          for (x = mxMenuItem.constBegin(); x != mxMenuItem.constEnd(); ++x) {
+               EpubToc fox=*i;
+               if (fox.idref == ref) {
+                  if ( uniqueuris.contains( fox.qurl() ) ) {
+                        uniqueuris.remove( fox.qurl() );
+                  }
+                  found = true;
+                  item = fox;
+               }
+          }
+      }
+      if (!found) {
+      this->setEpubError(QString("Unable to get id from page %1").arg(ref));
+      }
+}
+/// get from Menu toc list
+void Document::GetPageKey_md843( const int idmd , EpubToc & item ) {
+      //// QList<EpubToc> mxMenuItem; /// dax.type toc cover
+      QList<EpubToc>::const_iterator i;
+      for (i = mxMenuItem.constBegin(); i != mxMenuItem.constEnd(); ++i) {
+           EpubToc fox=*i;
+           if (fox.md843 == idmd) {
               if ( uniqueuris.contains( fox.qurl() ) ) {
                     uniqueuris.remove( fox.qurl() );
               }
@@ -485,7 +552,7 @@ bool Document::FileListRecord(const QDomElement e) {
     if (mxcache.contains(xhref)) {
       //// super.. mxPageItem; here is list all file to play.. in order???
         EpubToc dax;
-        dax.title = QLatin1String("manifest-item");
+        dax.title = QLatin1String("Unknow Title");
         dax.type = QLatin1String("xhtml");
         dax.jumpurl = xid;
         dax.idref = xid;
@@ -499,7 +566,7 @@ bool Document::FileListRecord(const QDomElement e) {
       if (mxcache.contains(basexhref)) {
          USEBASEREF = true;
          EpubToc dax;
-         dax.title = QLatin1String("manifest-item");
+         dax.title = QLatin1String("Unknow Title");
          dax.type = QLatin1String("xhtml");
          dax.jumpurl = xid;
          dax.idref = xid;

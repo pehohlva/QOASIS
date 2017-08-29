@@ -60,13 +60,24 @@ QTextCursor Document::cursor_doc() {
 QByteArray Document::to_html_compressd() {
     QByteArray xstream = QString(d->toHtml("UTF_8")).toUtf8();
     return qCompress(xstream,9);
-
 }
+
+QByteArray Document::to_html_utf8() {
+    QByteArray xstream = QString(d->toHtml("UTF_8")).toUtf8();
+    if (xstream.size() < 5) {
+        return HTMLCHUNK;
+    } else {
+       return xstream;  //// only after 2Mb d-> is fanny!!!
+    }
+}
+
 void Document::set_Html_compressed( const QByteArray html ) {
+    HTMLCHUNK = html;
+    qDebug()  << html.size() << " in Document::set_Html_compressed size!!!";
     QByteArray x = qUncompress(html);
+    qDebug()  << x.size() << " in compressed size Document::set_Html_compressed !!!";
     d->setHtml(QString(x.constData()));
     QTextFrameFormat htmlformat = d->rootFrame()->frameFormat();
-    //// have format border?
     if ( htmlformat.topMargin() < 4) {
         this->updateDocument();
     }

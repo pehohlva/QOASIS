@@ -42,6 +42,7 @@ public:
     void disk_textutils( const QString file );
     /*  qCompress qUncompress  */
     QByteArray results_htmlgz() {
+        qDebug()  << HTMLCOMPRESSED.size() << " HtmlDriver return size!!! ";
         return HTMLCOMPRESSED;
     }
 
