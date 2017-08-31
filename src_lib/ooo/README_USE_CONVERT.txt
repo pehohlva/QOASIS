@@ -1,4 +1,3 @@
-
 # OASIS Open Document Format for Office Applications
 
 Use of this dir:
