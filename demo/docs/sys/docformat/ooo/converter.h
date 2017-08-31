@@ -24,15 +24,14 @@ namespace OOO {
 
 class Document;
 
-class Converter : public Okular::TextDocumentConverter
+class Converter
 {
   Q_OBJECT
 
   public:
     Converter();
     ~Converter();
-
-    Okular::Document::OpenResult convertWithPassword( const QString &fileName, const QString &password ) override;
+    convertWithPassword( const QString &fileName, const QString &password ) override;
 
   private:
     bool convertBody( const QDomElement &element );

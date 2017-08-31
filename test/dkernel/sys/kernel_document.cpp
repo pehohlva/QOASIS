@@ -83,22 +83,21 @@ bool Kernel_Document::zipdoc_test(const QString mime ) {
     }
     HtmlDriver *xhtml = new HtmlDriver();
    if (mime.contains(".oasis.") ) {
-    //// qDebug()  << dwoline << " -> dwoline zip";
-    qDebug()  << __FUNCTION__ << " found.";
+
               if (HandleNow.endsWith(".odt") || HandleNow.endsWith(".ott")  ) {
-                OOO::Converter *doc_odt = new OOO::Converter();
-                QString htmlchunk; /// fill variable ...
-                int summoftableinside = 0; /// fill variable ...
-                doc_odt->convert(HandleNow,htmlchunk,summoftableinside); /// bugs if to many table!!!
-                doc_odt->~Converter();
-                if (htmlchunk.size() > 11 && summoftableinside < 3) {
-                    d->qt_doc()->setHtml(htmlchunk);
+                QString html;
+                OOO::Converter *odt = new OOO::Converter();
+                QTextDocument *ad = odt->convert(HandleNow,html);
+
+                d->qt_doc()->setHtml(html);
                     if ( d->to_html_utf8().size() > 3 ) {
                         FOUNDDOC = 1;
+                        odt->~Converter();
                         return true;
                     }
-                    ///// return file_put_contents("xxodt1.html",htmlchunk,1);
-                } else {
+
+                /*
+                else {
                     //// to many table inside document... use other lib!!
                      if ( xhtml->is_text_tool() ) {
                          xhtml->rtfd_to_html(HandleNow); /// if is not rtfd it lost images!!!
@@ -111,6 +110,7 @@ bool Kernel_Document::zipdoc_test(const QString mime ) {
                          }
                       }
                 }
+                */
 
     }
 

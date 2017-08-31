@@ -7,3 +7,11 @@ QPushButton { font-family: "Icons South St" }
 QPushButton { font-family: "Icons South St" }
 
 
+QPushButton#pushButton:hover {
+    background-color: rgb(224, 255, 0);
+}
+
+QPushButton#pushButton:pressed {
+    background-color: rgb(224, 0, 0);
+}
+

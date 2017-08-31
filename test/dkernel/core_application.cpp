@@ -7,7 +7,8 @@
 
 Core_Application::Core_Application(int &argc, char **argv)
     : QApplication(argc, argv), modus_run(2) {
-  log_intern = 100;
+  log_intern = 100; //// transparenttransparent
+  setStyleSheet("QMainWindow{background-color: white;border:4px solid black;}");
   QFontDatabase fontDatabase;
   if (fontDatabase.addApplicationFont(":/resource/Icons South St.ttf") == -1) {
     qWarning() << "Faild to install Font:/resource/Icons South St.ttf";

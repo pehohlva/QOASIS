@@ -32,6 +32,7 @@ SOURCES += main.cpp \
     epubview.cpp \
     dialogvoice.cpp
 
+
 # The following define makes your compiler emit warnings if you use
 # any feature of dokument schliessen Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -62,7 +63,8 @@ message( "file_format.pri not found" )
 
 DISTFILES += \
     resource/stylesheet.qss \
-    note_lang.txt
+    sys/docformat/ooo/memory.txt \
+    sys/docformat/ooo/README_USE_CONVERT.txt
 
 FORMS += \
     ui/dialogvoicesetting.ui

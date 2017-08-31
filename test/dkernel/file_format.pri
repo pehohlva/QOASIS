@@ -12,7 +12,8 @@ SOURCES += sys/docformat/kzip.cpp \
     sys/kernel_document.cpp \
     sys/fastrambuffer.cpp \
     sys/core_htmldriver.cpp \
-      sys/core_document.cpp
+      sys/core_document.cpp \
+     sys/docformat/ooo/manifest.cpp
 	  
 	  
 	  
@@ -30,4 +31,5 @@ SOURCES += sys/docformat/kzip.cpp \
 	      sys/kernel_load.h \
 	      sys/fastrambuffer.h \
 	      sys/core_htmldriver.h \
-	      sys/core_document.h
+              sys/core_document.h \
+               sys/docformat/ooo/manifest.h

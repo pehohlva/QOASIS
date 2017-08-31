@@ -9,8 +9,8 @@
 
 #include "document.h"
 
-#include <KLocalizedString>
-#include <kzip.h>
+
+#include "../kzip.h"
 
 using namespace OOO;
 
@@ -19,7 +19,7 @@ Document::Document( const QString &fileName )
 {
 }
 
-bool Document::open( const QString &password )
+bool Document::open( )
 {
   mContent.clear();
   mStyles.clear();
@@ -30,77 +30,81 @@ bool Document::open( const QString &password )
     return false;
   }
 
-  const KArchiveDirectory *directory = zip.directory();
-  if ( !directory ) {
-    setError( i18n( "Invalid document structure (main directory is missing)" ) );
-    return false;
-  }
 
-  const QStringList entries = directory->entries();
-  if ( !entries.contains( QStringLiteral("META-INF") ) ) {
-    setError( i18n( "Invalid document structure (META-INF directory is missing)" ) );
-    return false;
-  }
-  const KArchiveDirectory *metaInfDirectory = static_cast<const KArchiveDirectory*>( directory->entry( QStringLiteral("META-INF") ) );
-  if ( !(metaInfDirectory->entries().contains( QStringLiteral("manifest.xml") ) ) ) {
-    setError( i18n( "Invalid document structure (META-INF/manifest.xml is missing)" ) );
-    return false;
-  }
 
-  const KArchiveFile *file = static_cast<const KArchiveFile*>( metaInfDirectory->entry( QStringLiteral("manifest.xml") ) );
-  mManifest = new Manifest( mFileName, file->data(), password );
+  if (!entries.contains("manifest.xml")) {
+       setError(i18n("Invalid document structure (manifest.xml directory is missing)"));
+       return false;
+   }
 
-  // we should really get the file names from the manifest, but for now, we only care
-  // if the manifest says the files are encrypted.
+         if (!entries.contains("META-INF")) {
+              setError(i18n("Invalid document structure (META-INF directory is missing)"));
+              return false;
+          }
 
-  if ( !entries.contains( QStringLiteral("content.xml") ) ) {
-    setError( i18n( "Invalid document structure (content.xml is missing)" ) );
-    return false;
-  }
+          if (!entries.contains("content.xml")) {
+              setError(i18n("Invalid document structure (content.xml is missing)"));
+              return false;
+          }
 
-  file = static_cast<const KArchiveFile*>( directory->entry( QStringLiteral("content.xml") ) );
-  if ( mManifest->testIfEncrypted( QStringLiteral("content.xml") )  ) {
-    mAnyEncrypted = true;
-    mContent = mManifest->decryptFile( QStringLiteral("content.xml"), file->data() );
-  } else {
-    mContent = file->data();
-  }
+          if (!entries.contains("styles.xml")) {
+              /// nokia qt odt export dont write
+              setError(i18n("Invalid document structure (styles.xml is missing)"));
+              ////  return false;
+          }
 
-  if ( entries.contains( QStringLiteral("styles.xml") ) ) {
-    file = static_cast<const KArchiveFile*>( directory->entry( QStringLiteral("styles.xml") ) );
-    if ( mManifest->testIfEncrypted( QStringLiteral("styles.xml") )  ) {
-      mAnyEncrypted = true;
-      mStyles = mManifest->decryptFile( QStringLiteral("styles.xml"), file->data() );
-    } else {
-      mStyles = file->data();
-    }
-  }
+          if (!entries.contains("meta.xml")) {
+              /// nokia qt odt export dont write
+              setError(i18n("Invalid document structure (meta.xml is missing)"));
+              //// return false;
+          }
 
-  if ( entries.contains( QStringLiteral("meta.xml") ) ) {
-    file = static_cast<const KArchiveFile*>( directory->entry( QStringLiteral("meta.xml") ) );
-    if ( mManifest->testIfEncrypted( QStringLiteral("meta.xml") )  ) {
-      mAnyEncrypted = true;
-      mMeta = mManifest->decryptFile( QStringLiteral("meta.xml"), file->data() );
-    } else {
-      mMeta = file->data();
-    }
-  }
 
-  if ( entries.contains( QStringLiteral("Pictures") ) ) {
-    const KArchiveDirectory *imagesDirectory = static_cast<const KArchiveDirectory*>( directory->entry( QStringLiteral("Pictures") ) );
+          QMap<QString, QByteArray> allfiles = Kzip->listData();
+                  QMapIterator<QString, QByteArray> i(allfiles);
+                  while (i.hasNext()) {
+                      i.next();
+                      QByteArray xdata(i.value());
+                      QImage pic; /// i.value() /// i.key();
+                      const QString namex = QString(i.key());
+                      pic.loadFromData(xdata);
+                      if (!pic.isNull()) {
+                          mImages.insert(namex, xdata);
+                          //// ODTDEBUG() << "New name pics len:" << namex << " s:" << xdata.size();
+                      } else {
+                          //// ODTDEBUG() << "New name xml len:" << namex << " s:" << xdata.size();
+                          if (namex == QStringLiteral("styles.xml")) {
+                              mStyles = xdata;
+                          }
+                          if (namex == QStringLiteral("content.xml")) {
+                              mContent = xdata;
+                          }
+                          if (namex == QStringLiteral("META-INF/manifest.xml")) {
+                              mMeta = xdata;
+                          }
+                          if (namex == QStringLiteral("mimetype")) {
+                              mMimetype = xdata;
+                          }
+                          if (namex == QStringLiteral("settings.xml")) {
+                              mSetting = xdata;
+                          }
+                          if (namex == QStringLiteral("manifest.xml")) {
+                              QString password;
+                              mManifest = new Manifest( mFileName,xdata, password );
+                          }
 
-    const QStringList imagesEntries = imagesDirectory->entries();
-    for ( int i = 0; i < imagesEntries.count(); ++i ) {
-      file = static_cast<const KArchiveFile*>( imagesDirectory->entry( imagesEntries[ i ] ) );
-      QString fullPath = QStringLiteral( "Pictures/%1" ).arg( imagesEntries[ i ] );
-      if ( mManifest->testIfEncrypted( fullPath ) ) {
-        mAnyEncrypted = true;
-        mImages.insert( fullPath, mManifest->decryptFile( fullPath, file->data() ) );
-      } else {
-        mImages.insert( fullPath, file->data() );
-      }
-    }
-  }
+
+
+                      }
+
+                  }
+
+
+          if (QByteArray("application/vnd.oasis.opendocument.text") != mMimetype) {
+                      setError(i18n("Invalid MimeType found: %1!").arg(QString::fromUtf8(mMimetype)));
+                      return false;
+                  }
+
 
   zip.close();
 

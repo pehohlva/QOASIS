@@ -7,8 +7,6 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "converter.h"
-
 #include <QtCore/QQueue>
 #include <QtCore/QUrl>
 #include <QtGui/QTextCursor>
@@ -19,14 +17,8 @@
 #include <QtXml/QDomElement>
 #include <QtXml/QDomText>
 #include <QtXml/QXmlSimpleReader>
-
-#include <core/action.h>
-#include <core/annotations.h>
-#include <core/document.h>
-#include <core/utils.h>
-
-#include <KLocalizedString>
-
+#include "manifest.h"
+#include "converter.h"
 #include "document.h"
 #include "styleinformation.h"
 #include "styleparser.h"
@@ -72,6 +64,8 @@ Converter::~Converter()
 {
 }
 
+
+
 Okular::Document::OpenResult Converter::convertWithPassword( const QString &fileName, const QString &password )
 {
   Document oooDocument( fileName );
@@ -98,7 +92,7 @@ Okular::Document::OpenResult Converter::convertWithPassword( const QString &file
     if ( !oooDocument.anyFileEncrypted() )
       emit error( i18n( "Invalid XML document: %1", errorMsg ), -1 );
     delete mCursor;
-    return oooDocument.anyFileEncrypted() ? Okular::Document::OpenNeedsPassword : Okular::Document::OpenError;
+    return false;
   }
 
   mStyleInformation = new StyleInformation();
@@ -132,9 +126,8 @@ Okular::Document::OpenResult Converter::convertWithPassword( const QString &file
   const QString masterLayout = mStyleInformation->masterPageName();
   const PageFormatProperty property = mStyleInformation->pageProperty( masterLayout );
 
-  const QSizeF dpi = Okular::Utils::realDpi(nullptr);
-  int pageWidth = qRound(property.width() / 72.0 * dpi.width());
-  int pageHeight = qRound(property.height() / 72.0 * dpi.height());
+  int pageWidth = qRound(CM_TO_POINT(18));
+  int pageHeight = qRound(CM_TO_POINT(24));
 
   if ( pageWidth == 0 )
       pageWidth = 600;
@@ -159,9 +152,8 @@ Okular::Document::OpenResult Converter::convertWithPassword( const QString &file
     if ( element.tagName() == QLatin1String( "body" ) ) {
       if ( !convertBody( element ) ) {
         if ( !oooDocument.anyFileEncrypted() )
-          emit error( i18n( "Unable to convert document content" ), -1 );
         delete mCursor;
-        return oooDocument.anyFileEncrypted() ? Okular::Document::OpenNeedsPassword : Okular::Document::OpenError;
+        return false;
       }
     }
 
@@ -252,9 +244,6 @@ bool Converter::convertHeader( QTextCursor *cursor, const QDomElement &element )
 
     child = child.nextSibling();
   }
-
-  emit addTitle( element.attribute( QStringLiteral("outline-level"), QStringLiteral("0") ).toInt(), element.text(), cursor->block() );
-
   return true;
 }
 
@@ -554,8 +543,6 @@ bool Converter::convertLink( QTextCursor *cursor, const QDomElement &element, co
 
   int endPosition = cursor->position();
 
-  Okular::Action *action = new Okular::BrowseAction( QUrl(element.attribute( QStringLiteral("href") )) );
-  emit addAction( action, startPosition, endPosition );
 
   return true;
 }
@@ -577,10 +564,10 @@ bool Converter::convertAnnotation( QTextCursor *cursor, const QDomElement &eleme
     } else if ( child.tagName() == QLatin1String( "p" ) ) {
         contents.append( child.text() );
     }
-
     child = child.nextSiblingElement();
   }
 
+  /*
   Okular::TextAnnotation *annotation = new Okular::TextAnnotation;
   annotation->setAuthor( creator );
   annotation->setContents( contents.join( QStringLiteral("\n") ) );
@@ -589,6 +576,19 @@ bool Converter::convertAnnotation( QTextCursor *cursor, const QDomElement &eleme
   annotation->style().setOpacity( 0.5 );
 
   emit addAnnotation( annotation, position, position + 3 );
-
+   */
   return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

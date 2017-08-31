@@ -12,6 +12,11 @@
 #include "epubview.h"
 
 Core_MainWindow::Core_MainWindow(QWidget *parent) : QMainWindow(parent) {
+
+  ///// setWindowFlags(Qt::WindowCloseButtonHint);
+  QPalette pal;
+  pal.setColor(QPalette::Background, Qt::transparent);
+  setPalette(pal);
   this->setObjectName(QString("maincreen"));
   QMenuBar *menubarre = new QMenuBar(this);
   VoiceDocument newone;
@@ -19,12 +24,12 @@ Core_MainWindow::Core_MainWindow(QWidget *parent) : QMainWindow(parent) {
   newone.lang = QString();
   vdoc = newone;
   QStatusBar *sta = new QStatusBar(this);
-  ///// sta->setStyleSheet("background-color: #baeee9;");
+  sta->setMaximumHeight(34);
+  sta->setStyleSheet("background-color: #ffffff;");
   statusbar = new QLabel("Application Loading...");
   statusbar->setFixedWidth(255);
   statusbar2 = new QLabel("");
   statusbar2->setFixedWidth(255);
-
   svoice = new QPushButton(this);
   svoice->setFlat(true);
   svoice->setStyleSheet("font-family: \"Icons South St\"");
@@ -98,7 +103,7 @@ Core_MainWindow::Core_MainWindow(QWidget *parent) : QMainWindow(parent) {
   _qvoice->setLocale(vloc);
   active_voice_Group(false);
   ReadVoiceProgress =0;
-  this->show();
+  this->hide();
 }
 
 void Core_MainWindow::updateTit(QString tit) {
@@ -116,6 +121,7 @@ void Core_MainWindow::updateUrl(QUrl uri) {
 }
 
 void Core_MainWindow::RequestPutFile(QUrl uri) {
+  this->show();
   CCDEBUG() << "signal in here->: " << __FUNCTION__ << "-" << uri << ":"
             << __LINE__;
   active_voice_Group(false);

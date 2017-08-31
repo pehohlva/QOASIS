@@ -23,20 +23,15 @@ class Document
   public:
     Document( const QString &fileName );
     ~Document();
-
-    bool open( const QString &password );
-
+    bool open();
     QString lastErrorString() const;
-
     QByteArray content() const;
     QByteArray meta() const;
     QByteArray styles() const;
     QMap<QString, QByteArray> images() const;
     bool anyFileEncrypted() const;
-
   private:
     void setError( const QString& );
-
     QString mFileName;
     QByteArray mContent;
     QByteArray mMeta;
