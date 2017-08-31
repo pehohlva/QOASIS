@@ -4,8 +4,9 @@
 #include "core_application.h"
 #include <QObject>
 #include <QWidget>
-
 #include "epubview.h"
+
+
 
 class QMainWindow;
 
@@ -25,14 +26,37 @@ public slots:
   void SetStatusText(const QString text);
   void SetBookorFile();
   void NavitoepubPage(int x);
+  void updateTit(QString tit);
+  void updateUrl(QUrl uri);
+  void setProgress(int p);
+  void prepareVoice();
+  void WaitText();
+  void swapVoice(int x);
+  void afterWaitSpeack();
 
 protected:
+  void populate_Speacker();
+  bool voice_exist( const int idspeacker );
+  void active_voice_Group( const bool e);
+  void updateButton();
   void Check_Visible_Engine( bool e);
   void CheckeOpenFile(const QString file);
   QMenu *fileMenu;
   QLabel *statusbar; /// to write in
+  QLabel *statusbar2; /// to write in
   EpubView *emainw;
   QComboBox *epub_pages; /// list toc
+  QComboBox *voice_person;
+  QPushButton *bnext;
+  QPushButton *bprev;
+  QPushButton *svoice;  //// start e stop voice//
+  int progress;
+  QTextToSpeech *_qvoice;
+  int VoiceLanguageBirthday;
+  QLocale vloc;
+  VoiceDocument vdoc;
+  int languageID;
+  uint ReadVoiceProgress;
 };
 
 #endif // CORE_MAINWINDOW_H

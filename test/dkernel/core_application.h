@@ -43,10 +43,13 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QPlainTextEdit>
 #include <QtWidgets/QProgressBar>
-#include <QtWidgets/QTabWidget>
+#include <QWebEngineHistory>
 #include <QDateTime>
 #include <QDate>
+#include <QPushButton>
 #include "sys/kernel_document.h"
+#include <QTextToSpeech>
+
 
 #if 1 //// 1 or 0
 #define CCDEBUG qDebug
@@ -69,11 +72,32 @@
 #define TUMBNAIL_SIZE 120
 #define ICONSW_SIZE 50
 #define _ZIPCACHEBOOK_ QString("%1/ebooks/fromlocal/").arg(QDir::homePath())
-#define _FIRSTWINDOWTITLESHOW_ QString("Test epub File in QTextBrowser")
+#define _FIRSTWINDOWTITLESHOW_ QString("Blabbering Ebooks & Document")
 #define _TESTBOOKS_ QString("%1/tmp/").arg(_ZIPCACHEBOOK_)
-///// #define _ZIPCACHEBOOK_ QString("%1/ebooks/fromlocal/").arg(QDir::homePath())
-
 #define core_application (static_cast<RDoc *>(QCoreApplication::instance()))
+
+
+
+static inline int voicebirthay( const QVoice voice , const int id ) {
+
+    QString name = QString::number(id) + voice.name()
+                       + QString(QVoice::genderName(voice.gender()))
+                       + QString(QVoice::ageName(voice.age()));
+    int base = 0;
+    int xsize = name.size();
+    if (xsize > 30 ) {
+        xsize = 29;
+      }
+    for (int o = 0; o < xsize; o++) {
+         const QChar vox(name.at(o));
+          const int unico = (int)vox.unicode();
+          base +=unico;
+      }
+  base +=2017; /// on update chance on  grep -R "DATALANGUAGEPROVIDEQT591_H"
+  return base;
+}
+
+
 
 class Core_MainWindow;
 

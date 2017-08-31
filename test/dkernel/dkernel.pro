@@ -1,15 +1,13 @@
 QT += core xml network gui
-QT += concurrent pdfium
+QT += concurrent
 QT += xmlpatterns
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-QT += webview
-QT += webenginewidgets
+QT += webenginewidgets texttospeech
 
 
 CONFIG += c++11
 TARGET = EpubRead
-#CONFIG += console
+#CONFIG += console pdfium
 #CONFIG -= app_bundle
 
 TEMPLATE = app
@@ -17,6 +15,11 @@ TEMPLATE = app
 LIBS += -lz
 INCLUDEPATH += $$[QT_INSTALL_PREFIX]/src/3rdparty/zlib
 INCLUDEPATH += . sys/docformat
+
+INCLUDEPATH += /usr/local/include
+DEPENDPATH += /usr/local/include
+LIBS +=/usr/local/lib/libqcld2.a
+
 
 MOC_DIR = build
 RCC_DIR = build
@@ -26,7 +29,8 @@ OBJECTS_DIR = build
 SOURCES += main.cpp \
     core_application.cpp \
     core_mainwindow.cpp \
-    epubview.cpp
+    epubview.cpp \
+    dialogvoice.cpp
 
 # The following define makes your compiler emit warnings if you use
 # any feature of dokument schliessen Qt which as been marked deprecated (the exact warnings
@@ -44,7 +48,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     core_application.h \
     core_mainwindow.h \
-    epubview.h
+    epubview.h \
+    dialogvoice.h
 
 RESOURCES += \
     app_resource.qrc
@@ -54,3 +59,10 @@ RESOURCES += \
 !include(file_format.pri) {
 message( "file_format.pri not found" )
 }
+
+DISTFILES += \
+    resource/stylesheet.qss \
+    note_lang.txt
+
+FORMS += \
+    ui/dialogvoicesetting.ui

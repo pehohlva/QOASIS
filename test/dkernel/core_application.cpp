@@ -8,10 +8,18 @@
 Core_Application::Core_Application(int &argc, char **argv)
     : QApplication(argc, argv), modus_run(2) {
   log_intern = 100;
+  QFontDatabase fontDatabase;
+  if (fontDatabase.addApplicationFont(":/resource/Icons South St.ttf") == -1) {
+    qWarning() << "Faild to install Font:/resource/Icons South St.ttf";
+  }
+  QFile file(":/resource/stylesheet.qss");
+  if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    this->setStyleSheet(file.readAll());
+    file.close();
+  }
   QSettings settings(_ORGANIZATION_NAME_, _PROGRAM_NAME_);
   DownDir_RM(_ZIPCACHEBOOK_); //// remove chunk in test sandbox!
   mainw = new Core_MainWindow();
-  mainw->setWindowTitle(_FIRSTWINDOWTITLESHOW_);
   mainw->activateWindow();
   QRect rall = QApplication::desktop()->availableGeometry();
   const qreal _wi = rall.width();
@@ -44,7 +52,7 @@ Core_Application::Core_Application(int &argc, char **argv)
 }
 
 void Core_Application::CheksEventApp() {
-  CCDEBUG() << "Run: " << __FUNCTION__ << "-" << __FILE__ << ":" << __LINE__;
+  /////// CCDEBUG() << "Run: " << __FUNCTION__ << "-" << __FILE__ << ":" << __LINE__;
   log_intern++;
   if (wait_filetoOpen.size() > 0) {
     for (int x = 0; x < wait_filetoOpen.count(); x++) {

@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>QtQuickApplicationGuide4Desktop.epub</file>
+        <file>resource/Icons South St.ttf</file>
     </qresource>
 </RCC>

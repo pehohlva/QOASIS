@@ -11,7 +11,9 @@ static void usagethisapp(const char *name) {
 */
 
 int main(int argc, char *argv[]) {
+  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   Core_Application api(argc, argv);
+
   /////QStringList in = a.arguments();
   /*
   qDebug()  << in << " arri";
@@ -38,4 +40,13 @@ int main(int argc, char *argv[]) {
            qDebug()  <<  fox.jumpurl << " -> isfile";
         }
         qDebug()  <<  listing.size() << " -> isfile";
+ic/compact_lang_det.h /usr/local/include/compact_lang_det.h
+/Users/dev/Applications/qt5.9.1/bin/qmake -install qinstall /Volumes/dati/var/QCLD2/google_bridge/cld2/public/encodings.h /usr/local/include/encodings.h
+/Users/dev/Applications/qt5.9.1/bin/qmake -install qinstall /Volumes/dati/var/QCLD2/google_bridge/datalanguageprovider.h /usr/local/include/datalanguageprovider.h
+/Users/dev/Applications/qt5.9.1/bin/qmake -install qinstall /Volumes/dati/var/QCLD2/google_bridge/qtrlocale.h /usr/local/include/qtrlocale.h
+/Users/dev/Applications/qt5.9.1/bin/qmake -install qinstall libqcld2.a /usr/local/lib/libqcld2.a
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s /usr/local/lib/libqcld2.a
+
+
+
   */
