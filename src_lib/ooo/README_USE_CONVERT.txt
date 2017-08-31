@@ -11,6 +11,7 @@ if you like qtdoc go to QTextEdit or other... image i inside QTextDocument table
 other way QString html; have now all html + image inline as base64
 
 QByteArray("data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==");
+After file i portable to use in other app...
 
 and browser or other also QTextEdit can display limit is 6-7 MB and all is overloaded...
 
