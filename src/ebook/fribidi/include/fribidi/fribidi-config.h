@@ -1,1 +1,0 @@
-../../gen/fribidi-config.h

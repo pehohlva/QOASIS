@@ -1,1 +1,0 @@
-../../fribidi/lib/fribidi-shape.h

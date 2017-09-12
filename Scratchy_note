@@ -1,7 +1,0 @@
-find . -name '.DS_Store' -type f -delete
-
-cd /Volumes/dati/sandbox/QOASIS/final/oasi
-
-https://wiki.qt.io/Creating_a_new_module_or_tool_for_Qt#other_fields
-
-
