@@ -21,7 +21,7 @@
 
 #include <vector>
 
-#include "../public/compact_lang_det.h"   // For CLDHints, ResultChunkVector
+#include "compact_lang_det.h"   // For CLDHints, ResultChunkVector
 #include "integral_types.h"
 #include "lang_script.h"
 

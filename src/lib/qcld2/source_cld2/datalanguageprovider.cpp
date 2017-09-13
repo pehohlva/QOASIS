@@ -1,6 +1,4 @@
 #include "datalanguageprovider.h"
-
-
 /// use function in lib ony this 2 file
 #include "compact_lang_det.h"
 #include "encodings.h"

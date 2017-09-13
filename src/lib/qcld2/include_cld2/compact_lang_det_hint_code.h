@@ -23,7 +23,7 @@
 #include <string>
 #include "integral_types.h"
 #include "lang_script.h"
-#include "../public/encodings.h"
+#include "encodings.h"
 
 namespace CLD2 {
 
