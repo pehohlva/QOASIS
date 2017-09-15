@@ -55,8 +55,7 @@
 #include <QtGui/QTextCharFormat>
 #include <QtGui>
 
-
-#ifdef QTPRINTSUPPORT_OK
+#ifdef _PRINTERIOK_
 #include <QPrinterInfo>
 #include <QTextDocumentWriter>
 #include <QtPrintSupport/QPrintDialog>
@@ -65,6 +64,7 @@
 #include <QtPrintSupport/qprinter.h>
 #endif
 
+#ifdef _HAVEXMLPARSE_
 #include "qdom.h"
 #include "qtxmlglobal.h"
 #include "qtxmlversion.h"
@@ -72,15 +72,14 @@
 #include <QtCore/qstring.h>
 #include <QtXml/QtXmlDepends>
 #include <QtXml/qtxmlglobal.h>
+#endif
 
-#ifdef QT5SPEEHLOAD_OK
+#ifdef _HAVINGNESONSPEECH_
 #include "editvoiceblock.h" /// compiler read block by block text
 #include <QTextToSpeech>
 #endif
 
-#ifdef Q_OS_MAC
-#include "editvoiceblock.h" /// mac not need QTextToSpeech  go on console say more option / man say OR include 2 time.
-#endif
+#define INITFILEPLAY QString("%1/loadme.htm").arg(QDir::homePath())
 
 
 class VoiceBlock;
@@ -103,6 +102,9 @@ public slots:
   void fileOpen();
   bool fileSave();
   bool fileSaveAs();
+  void filePrint();
+  void filePrintPreview();
+  void filePrintPdf();
   void textBold();
   void textUnderline();
   void textItalic();
@@ -116,12 +118,7 @@ public slots:
   void clipboardDataChanged();
   void about();
   void showFront();
-#ifdef QTPRINTSUPPORT_OK
   void printPreview(QPrinter *);
-  void filePrint();
-  void filePrintPreview();
-  void filePrintPdf();
-#endif
   void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
   void fontChanged(const QFont &f);
   void colorChanged(const QColor &c);
@@ -138,6 +135,7 @@ public slots:
   void enableVoiceged( bool e); /// enable or disable combo voice
 
   void setVoiceat(int voiceid);
+  void convertTextMp3();
 
 protected:
   QSystemTrayIcon *traytop;
@@ -148,7 +146,7 @@ protected:
   QAction *actionSave, *actionTextBold, *actionTextUnderline, *actionTextItalic,
       *actionTextColor, *actionAlignLeft, *actionAlignCenter, *actionAlignRight,
       *actionAlignJustify, *actionUndo, *actionRedo, *actionCut, *actionCopy,
-      *actionPaste, *actionVoiceBlocks, *actionStopVoice;
+      *actionPaste, *actionVoiceBlocks, *actionStopVoice, *actionDocTextmp3;
 
   QStatusBar *statusbar;
   QFontComboBox *comboFont;
@@ -163,7 +161,6 @@ protected:
   bool enableedit;
   int currdocsize;
   int firstdocsize;
-  VoiceBlock *vrspeak;
 };
 
 #endif // OASIMAIN_H

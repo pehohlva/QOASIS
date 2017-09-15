@@ -26,7 +26,6 @@
 #include <QToolBar>
 
 #include "voiceprocesing.h"
-
 #include "doc_session.h"
 #include "editorkernel.h"
 
@@ -80,13 +79,29 @@ bool OasiMain::load(const QString &f) {
 
 OasiMain::OasiMain(QWidget *parent) : QMainWindow(parent)  {
   this->setContentsMargins(5, 0, 5, 0);
-  vrspeak = new VoiceBlock(this);
+
+  VoiceBlock::self(this)->FillvaiableVoice();
+
   enableedit = false;
   setWindowIcon(QIcon(":/images/ODTicon.png"));
   setStyleSheet(xtyle);
   drawall();
+
+  QRect rall = QApplication::desktop()->availableGeometry();
+  const qreal _wi = rall.width();
+  const qreal _hi = rall.height();
+  const qreal mawi_ = _wi - 300;
+  const qreal mahi_ = _hi - 300;
+  setMinimumWidth(mawi_);
+  setMinimumHeight(mahi_);
+  const qreal TopLeftisnow = (_wi / 2) - (mawi_ / 2);
+  move(QPoint(TopLeftisnow, 0));
+
+
+
+
   connect(combovoice, SIGNAL(activated(int)), this, SLOT(setVoiceat(int)));
-  connect(vrspeak, SIGNAL(switschStatus(bool)), this, SLOT(enableVoiceged(bool)));
+  connect(VoiceBlock::self(this), SIGNAL(switschStatus(bool)), this, SLOT(enableVoiceged(bool)));
 
 
   actionStopVoice->setDisabled(true);
@@ -154,6 +169,13 @@ OasiMain::OasiMain(QWidget *parent) : QMainWindow(parent)  {
   traytop->showMessage(_BASICTITLE_EDITOR_,
                        QString("End Loading Setting... Open File by CTRL+O "),
                        QSystemTrayIcon::Warning, 15000);
+
+  this->raise();
+
+  QFileInfo fi(INITFILEPLAY);
+  if (fi.exists()) {
+     load(INITFILEPLAY);
+  }
 }
 
 OasiMain::~OasiMain(void) {
@@ -165,6 +187,9 @@ void OasiMain::showFront() {
   this->raise();
   this->showMaximized();
 }
+
+
+
 
 void OasiMain::drawall() {
   firstdocsize = 0;
@@ -211,8 +236,7 @@ void OasiMain::drawall() {
   connect(a, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
   menu->addAction(a);
   menu->addSeparator();
-  
-  #ifdef QTPRINTSUPPORT_OK
+
   a = new QAction(QIcon(rsrcPath + "/fileprint.png"), tr("&Print..."), this);
   a->setShortcut(QKeySequence::Print);
   connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
@@ -230,10 +254,11 @@ void OasiMain::drawall() {
   connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
   tb->addAction(a);
   menu->addAction(a);
-  #endif
-  
+  actionDocTextmp3 = new QAction(QIcon(QString::fromUtf8(":/images/audioconv.png")), tr("&This Document / Txt to mp4 / AudioBook"),this);
+  connect(actionDocTextmp3, SIGNAL(triggered()), this, SLOT(convertTextMp3()));
+  tb->addAction(actionDocTextmp3);
+  menu->addAction(actionDocTextmp3);
   menu->addSeparator();
-
   menu->addAction(maximizeAction);
 
   a = new QAction(tr("&Quit"), this);
@@ -345,7 +370,7 @@ void OasiMain::setupTextActions() {
   tb->addAction(actionTextColor);
   menu->addAction(actionTextColor);
 
-
+#ifdef Q_OS_MAC
   menu->addSeparator();
   actionVoiceBlocks =
       new QAction(QIcon(":/images/icvoice.png"), tr("Voice Start Read."), this);
@@ -363,11 +388,14 @@ void OasiMain::setupTextActions() {
   combovoice = new QComboBox(tb);
   tb->addWidget(combovoice);
   combovoice->setToolTip(QString("Voice and Speaker"));
-#ifdef Q_OS_MAC
-  vrspeak->FillvaiableVoice();
-  QList<Voice> vitem = vrspeak->avaiableVoices();
+  QList<Voice> vitem = VoiceBlock::self(this)->avaiableVoices();
   QList<Voice>::const_iterator x;
-  const int uservoice = DOC::self(this)->value("MyVoicePref").toInt();
+
+  const int localvoi = DOC::self(this)->value("SYSTEMLOCALEVOICE").toInt(); /// register any load systemlocale
+  int uservoice = DOC::self(this)->value("MyVoicePref").toInt();
+  if (uservoice < 10) {
+      uservoice = localvoi;
+  }
   for (x = vitem.constBegin(); x != vitem.constEnd(); ++x) {
     Voice fox = *x;
     QString name = QString("%1/%2 - %3")
@@ -484,7 +512,7 @@ void OasiMain::setVoiceat(int voiceid) {
   combovoice->setEnabled(false);
   const int myvoice = combovoice->itemData(voiceid).toInt();
   DOC::self(this)->setValue("MyVoicePref", QVariant(myvoice));
-  vrspeak->sayDemoVoice();
+  VoiceBlock::self(this)->sayDemoVoice();
 }
 
 void OasiMain::enableVoiceged( bool e) {
@@ -600,7 +628,11 @@ bool OasiMain::fileSave() {
 bool OasiMain::fileSaveAs() {
 
   QString support;
-  support = tr("HTML-Files (*.htm *.html);;ODF files (*.odt);;All Files (*)");
+#if QT_VERSION >= 0x040500
+  support = tr("ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)");
+#else
+  support = tr("HTML-Files (*.htm *.html);;All Files (*)");
+#endif
   QString fn =
       QFileDialog::getSaveFileName(this, tr("Save as..."), QString(), support);
   if (fn.isEmpty())
@@ -609,8 +641,8 @@ bool OasiMain::fileSaveAs() {
   return fileSave();
 }
 
-#ifdef QTPRINTSUPPORT_OK
 void OasiMain::filePrint() {
+#ifndef QT_NO_PRINTER
   QPrinter printer(QPrinter::HighResolution);
   QPrintDialog *dlg = new QPrintDialog(&printer, this);
   if (base_edit->textCursor().hasSelection())
@@ -620,22 +652,28 @@ void OasiMain::filePrint() {
     base_edit->print(&printer);
   }
   delete dlg;
+#endif
 }
 
 void OasiMain::filePrintPreview() {
+#ifndef QT_NO_PRINTER
   QPrinter printer(QPrinter::HighResolution);
   QPrintPreviewDialog preview(&printer, this);
   preview.setWindowFlags(Qt::Window);
   connect(&preview, SIGNAL(paintRequested(QPrinter *)),
           SLOT(printPreview(QPrinter *)));
   preview.exec();
+#endif
 }
 
 void OasiMain::printPreview(QPrinter *printer) {
+#ifndef QT_NO_PRINTER
   base_edit->print(printer);
+#endif
 }
 
 void OasiMain::filePrintPdf() {
+#ifndef QT_NO_PRINTER
   //! [0]
   QString fileName =
       QFileDialog::getSaveFileName(this, "Export PDF", QString(), "*.pdf");
@@ -647,9 +685,9 @@ void OasiMain::filePrintPdf() {
     printer.setOutputFileName(fileName);
     base_edit->document()->print(&printer);
   }
-}
+//! [0]
 #endif
-
+}
 
 void OasiMain::textBold() {
   QTextCharFormat fmt;
@@ -857,15 +895,15 @@ void OasiMain::TextOnlyTray(const QString txt) {
 
 /*  start to speak */
 void OasiMain::runReadBlocks() {
-  connect(vrspeak, SIGNAL(endreadPage()), this, SLOT(stopReadBlocks()));
-  connect(vrspeak, SIGNAL(setVoicePriorMessage(QString)), this,SLOT(TextOnlyTray(QString)));
+  connect(VoiceBlock::self(this), SIGNAL(endreadPage()), this, SLOT(stopReadBlocks()));
+  connect(VoiceBlock::self(this), SIGNAL(setVoicePriorMessage(QString)), this,SLOT(TextOnlyTray(QString)));
   if (!actionStopVoice->isEnabled()) {
     actionStopVoice->setDisabled(false);
 
   }
   combovoice->setDisabled(true);
   actionVoiceBlocks->setDisabled(true);
-  vrspeak->init_on(base_edit);
+  VoiceBlock::self(this)->init_on(base_edit);
 }
 
 /*   *actionVoiceBlocks, actionStopVoice; */
@@ -878,7 +916,17 @@ void OasiMain::stopReadBlocks() {
   actionStopVoice->setDisabled(true);
   actionVoiceBlocks->setDisabled(false);
   if (run) {
-    vrspeak->stopfast(); /// cursor text stop & voice
+    VoiceBlock::self(this)->stopfast(); /// cursor text stop & voice
   }
   combovoice->setDisabled(false);
+}
+
+void OasiMain::convertTextMp3() {
+    QString txt = base_edit->document()->toPlainText();
+    if (txt.size() > 10) {
+    VoiceProcesing::self(this)->setTextProcess(txt);
+    VoiceProcesing::self(this)->exec();
+    } else {
+        TextOnlyTray(QString("Text size is to small.. "));
+    }
 }
