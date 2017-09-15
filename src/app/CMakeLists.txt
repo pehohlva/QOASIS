@@ -1,13 +1,16 @@
    cmake_minimum_required(VERSION 3.7)
    # the Info.plist template to fill after cmake md Info.plist is ready on bundle dir
    set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+   # Determine the operating system in detail
+   set(PWD "${CMAKE_CURRENT_SOURCE_DIR}")
+   INCLUDE (${PWD}/cmake/FindOS.cmake)
    project(OasiSpeaker CXX)
+   # build console version && bundle mac on mac!!
    set(PRO_UNIX_NAME "oasispeak")
    set(PRO_MACOSX_NAME "OasiSpeaker")
    # Project information.
    set(PRO_MAC_DESC_NAME "Oasi Document Speaker")
    set(CURRENT_VERSION "1.4.0")
-   set(PWD "${CMAKE_CURRENT_SOURCE_DIR}")
    
    
    set(CMAKE_AUTOMOC ON)
@@ -103,8 +106,6 @@
    message("SHARED Library name PopplerQt5 Found Super.  XXXXXXXXXXX${POPPLER_QT5_INCLUDE_DIR}XXXXXXXXXXX ")
    include_directories( ${PopplerQt5_INCLUDE_DIRS} )
    ENDIF()
-   
-   
    
    # qt5 module optional if having we use.. 
     

@@ -55,7 +55,7 @@
 #include <QtGui/QTextCharFormat>
 #include <QtGui>
 
-#ifdef _PRINTERIOK_
+#ifdef QTPRINTSUPPORT_OK
 #include <QPrinterInfo>
 #include <QTextDocumentWriter>
 #include <QtPrintSupport/QPrintDialog>
@@ -64,7 +64,7 @@
 #include <QtPrintSupport/qprinter.h>
 #endif
 
-#ifdef _HAVEXMLPARSE_
+
 #include "qdom.h"
 #include "qtxmlglobal.h"
 #include "qtxmlversion.h"
@@ -72,13 +72,28 @@
 #include <QtCore/qstring.h>
 #include <QtXml/QtXmlDepends>
 #include <QtXml/qtxmlglobal.h>
-#endif
 
-#ifdef _HAVINGNESONSPEECH_
+
+#ifdef QT5SPEEHLOAD_OK
 #include "editvoiceblock.h" /// compiler read block by block text
 #include <QTextToSpeech>
+#define SAYENABLE QString("console_or_module")
 #endif
 
+#ifdef UNIXCONSOLE_OPEN
+#include "editvoiceblock.h" /// mac not need module go on console man say.
+#ifndef SAYENABLE
+#define SAYENABLE QString("console_or_module")
+#endif
+#endif
+
+#ifndef UNIXCONSOLE_OPEN
+/// access to speech no console && no module
+#define SAYENABLE QString()
+#endif
+
+
+/// init to open file if exist
 #define INITFILEPLAY QString("%1/loadme.htm").arg(QDir::homePath())
 
 
@@ -102,9 +117,7 @@ public slots:
   void fileOpen();
   bool fileSave();
   bool fileSaveAs();
-  void filePrint();
-  void filePrintPreview();
-  void filePrintPdf();
+  
   void textBold();
   void textUnderline();
   void textItalic();
@@ -118,7 +131,14 @@ public slots:
   void clipboardDataChanged();
   void about();
   void showFront();
+  //// if printer module:
+#ifdef QTPRINTSUPPORT_OK
+  void filePrint();
+  void filePrintPreview();
+  void filePrintPdf();
   void printPreview(QPrinter *);
+#endif
+  
   void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
   void fontChanged(const QFont &f);
   void colorChanged(const QColor &c);

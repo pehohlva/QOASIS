@@ -31,6 +31,15 @@
 
 static const int speedchaine = 1500;
 
+QPointer<VoiceBlock> VoiceBlock::_self = 0L;
+
+VoiceBlock *VoiceBlock::self(QObject *parent) {
+  if (!_self)
+    _self = new VoiceBlock(parent);
+  return _self;
+}
+
+
 VoiceBlock::VoiceBlock(QObject *parent) : QObject(parent) {
     smisound = shutdown;
     vcursor = notrun;
@@ -58,6 +67,9 @@ void VoiceBlock::say(const QString text , int e ) {
         return;
     }
 
+    if (currentVoice.IDVoice < 1 ) {
+       currentVoice = systemVoice;
+    }
 
    SESSDEBUG() << __FUNCTION__ << " - job go voice name " << currentVoice.voicename;
    SESSDEBUG() << __FUNCTION__ << " - job go voice id" << currentVoice.IDVoice;
@@ -119,6 +131,9 @@ Voice VoiceBlock::TakeVoiceId(const int pref) {
 }
 
 void VoiceBlock::FillvaiableVoice() {
+
+    QLocale localsystem = QLocale::system();
+    const int LocalLanguageID = (int)localsystem.language();
   voices.clear();
   QStringList cmd; //// mac comand ( say -v "?" )
   cmd << QString("-v");
@@ -145,11 +160,14 @@ void VoiceBlock::FillvaiableVoice() {
       one.IDVoice = xid;
       one.demotext = comment;
       if (!name.isEmpty()) {
+          if (LocalLanguageID == one.languageID && systemVoice.voicename.isEmpty()) {
+              systemVoice = one; /// default setting.
+          }
         voices.append(one);
-        ///// SESSDEBUG() << __FUNCTION__ << " refill " << one.debug();
       }
     }
   }
+  DOC::self(this)->setValue("SYSTEMLOCALEVOICE", QVariant(systemVoice.IDVoice));
 }
 
 QString VoiceBlock::say_comand_sdout(QStringList comandlist) {
@@ -327,6 +345,11 @@ void VoiceBlock::init_on(QTextEdit *e) {
   if (vcursor != notrun) {
     return;
   }
+
+  if (currentVoice.IDVoice < 1 ) {
+     currentVoice = systemVoice;
+  }
+
   const int uservoice = DOC::self(this)->value("MyVoicePref").toInt();
   Voice person = TakeVoiceId(uservoice);
   if (!person.voicename.isEmpty() || !person.demotext.isEmpty() ) {

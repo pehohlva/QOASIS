@@ -47,10 +47,10 @@ class VLoader;
 class VoiceBlock : public QObject {
   Q_OBJECT
 public:
+  static VoiceBlock *self(QObject *parent = nullptr);
   enum DocumentCursor { notrun, waitrespone, parseblock, errorparse };
   enum SoundStatus { shutdown , waitsound, sendsound  };
   enum Action_Cycle { start , chance, stop , idle  };
-  explicit VoiceBlock(QObject *parent = nullptr);
   void init_on(QTextEdit *e);
   void formatBlok(const int blokid, bool highlight);
   void FillvaiableVoice();
@@ -73,8 +73,11 @@ public slots:
   void speechEnd();
 
 private:
+  VoiceBlock(QObject *parent = nullptr);
+  static QPointer<VoiceBlock> _self;
   QSet<QString> comanddebug;
   Voice currentVoice;
+  Voice systemVoice;
   QString say_comand_sdout(QStringList comandlist);
   QList<Voice> voices;
   void sendursorTo(const int blocknr);

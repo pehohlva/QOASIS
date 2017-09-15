@@ -24,22 +24,14 @@
 #include <QObject>
 #include <QSettings>
 #include <QToolBar>
-
 #include "voiceprocesing.h"
 #include "doc_session.h"
 #include "editorkernel.h"
 
-#ifdef _HAVINGNESONSPEECH_
-#include "editvoiceblock.h" /// read block by block text
-#include <QTextToSpeech>
-#else
-#include "editvoiceblock.h"
-#endif
-
 #define __TMPCACHE__ QString("%1/.fastcache/").arg(QDir::homePath())
 
 //// default :/images/ODTicon.png
-#ifdef Q_WS_MAC
+#ifdef DARWINOS_DETECT
 static const QString rsrcPath = ":/images/mac";
 #else
 static const QString rsrcPath = ":/images/win";
@@ -268,7 +260,7 @@ void OasiMain::drawall() {
 
   traytop->setContextMenu(menu);
 
-#if defined Q_OS_MACOS
+#ifdef UNIXCONSOLE_OPEN
   menu->setAsDockMenu(); //// only mac osx
 #endif
 
@@ -370,7 +362,7 @@ void OasiMain::setupTextActions() {
   tb->addAction(actionTextColor);
   menu->addAction(actionTextColor);
 
-#ifdef Q_OS_MAC
+  //// if (SAYENABLE.)
   menu->addSeparator();
   actionVoiceBlocks =
       new QAction(QIcon(":/images/icvoice.png"), tr("Voice Start Read."), this);
@@ -411,7 +403,7 @@ void OasiMain::setupTextActions() {
     }
   }
 
-#endif
+  //// #endif
 
   tb = new QToolBar(this);
   tb->setMaximumHeight(toolbarhight);
@@ -628,11 +620,7 @@ bool OasiMain::fileSave() {
 bool OasiMain::fileSaveAs() {
 
   QString support;
-#if QT_VERSION >= 0x040500
-  support = tr("ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)");
-#else
-  support = tr("HTML-Files (*.htm *.html);;All Files (*)");
-#endif
+  support = tr("HTML-Files (*.htm *.html);;ODF files (*.odt);;All Files (*)");
   QString fn =
       QFileDialog::getSaveFileName(this, tr("Save as..."), QString(), support);
   if (fn.isEmpty())
@@ -640,9 +628,9 @@ bool OasiMain::fileSaveAs() {
   setCurrentFileName(fn);
   return fileSave();
 }
-
+#ifdef QTPRINTSUPPORT_OK
 void OasiMain::filePrint() {
-#ifndef QT_NO_PRINTER
+
   QPrinter printer(QPrinter::HighResolution);
   QPrintDialog *dlg = new QPrintDialog(&printer, this);
   if (base_edit->textCursor().hasSelection())
@@ -652,28 +640,23 @@ void OasiMain::filePrint() {
     base_edit->print(&printer);
   }
   delete dlg;
-#endif
 }
 
 void OasiMain::filePrintPreview() {
-#ifndef QT_NO_PRINTER
+
   QPrinter printer(QPrinter::HighResolution);
   QPrintPreviewDialog preview(&printer, this);
   preview.setWindowFlags(Qt::Window);
   connect(&preview, SIGNAL(paintRequested(QPrinter *)),
           SLOT(printPreview(QPrinter *)));
   preview.exec();
-#endif
 }
 
 void OasiMain::printPreview(QPrinter *printer) {
-#ifndef QT_NO_PRINTER
   base_edit->print(printer);
-#endif
 }
 
 void OasiMain::filePrintPdf() {
-#ifndef QT_NO_PRINTER
   //! [0]
   QString fileName =
       QFileDialog::getSaveFileName(this, "Export PDF", QString(), "*.pdf");
@@ -685,9 +668,8 @@ void OasiMain::filePrintPdf() {
     printer.setOutputFileName(fileName);
     base_edit->document()->print(&printer);
   }
-//! [0]
-#endif
 }
+#endif
 
 void OasiMain::textBold() {
   QTextCharFormat fmt;
@@ -922,6 +904,7 @@ void OasiMain::stopReadBlocks() {
 }
 
 void OasiMain::convertTextMp3() {
+	//// SAYENABLE must not null to enable here..
     QString txt = base_edit->document()->toPlainText();
     if (txt.size() > 10) {
     VoiceProcesing::self(this)->setTextProcess(txt);
