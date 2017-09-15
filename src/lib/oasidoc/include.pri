@@ -1,4 +1,4 @@
 
 
 
-INCLUDEPATH += $$PWD/docformat/rtf-qt $$PWD/docformat $$PWD/docformat/ooo $$PWD/docformat/epub
+INCLUDEPATH += $$PWD/oasidoc/rtf-qt $$PWD/oasidoc $$PWD/oasidoc/ooo $$PWD/oasidoc/epub

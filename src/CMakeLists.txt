@@ -4,7 +4,7 @@ set(PRO_ROOTLIB_NAME "oasi_api")
 
 set(CURRENT_VERSION “2.1.0”)
 set(PROJECT_COMPANY_NAME “Avasoft Switzerland”)
-set(PROJECT_DESCRIPTION “Main to use linked shard lib”)
+set(PROJECT_DESCRIPTION “Main to use linked e build shared lib on dir ./lib”)
 set(PROJECT_URL "https://www.qt.io/")
 string(TIMESTAMP PROJECT_COPYRIGHT "Copyright © 1999-%Y P.Kopp All Rights Reserved." UTC)
 set(PROJECT_COPYRIGHT ${PROJECT_COPYRIGHT})
@@ -27,7 +27,8 @@ find_package( Qt5Xml REQUIRED )
 
 
 set(CMAKE_BUILD_TYPE Release)
-set(LIB_TARGET_CURRENT ${PWD}/lib/) 
+set(LIB_TARGET_CURRENT ${PWD}/lib/)
+set(LIB_ST_TARGET_CURRENT ${PWD}/libs/) 
 
 # APPEND ANY LIB NEED TO THIS PROJECT HERE!
 add_subdirectory( ${PWD}/lib/qcld2 )
@@ -39,12 +40,18 @@ set( EXTRA_LIBS ${EXTRA_LIBS} qt_language_detect_api )
 INCLUDE_DIRECTORIES(${PWD}/lib/qcld2/include_cld2)
 
 
-# ONLY LANGUAGE DETET LIB IS 1,8M 14 Set 14:11 oasi_api
+# ONLY LANGUAGE DETECT LIB IS 1,8M 14 Set 14:11 oasi_api
 add_executable( ${PRO_ROOTLIB_NAME} ${PWD}/libapi.cpp )
 qt5_use_modules(${PRO_ROOTLIB_NAME} Core Widgets Gui Xml )
 target_link_libraries( ${PRO_ROOTLIB_NAME} ${EXTRA_LIBS} )
 
-message("End read Lib Root ${PRO_ROOTLIB_NAME} ")
+message("End crate Lib Root ${PRO_ROOTLIB_NAME} ")
+
+
+# add_subdirectory( ${PWD}/app )
+
+
+
 
 
 
