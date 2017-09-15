@@ -55,7 +55,8 @@
 #include <QtGui/QTextCharFormat>
 #include <QtGui>
 
-#ifdef _PRINTERIOK_
+
+#ifdef QTPRINTSUPPORT_OK
 #include <QPrinterInfo>
 #include <QTextDocumentWriter>
 #include <QtPrintSupport/QPrintDialog>
@@ -64,7 +65,6 @@
 #include <QtPrintSupport/qprinter.h>
 #endif
 
-#ifdef _HAVEXMLPARSE_
 #include "qdom.h"
 #include "qtxmlglobal.h"
 #include "qtxmlversion.h"
@@ -72,12 +72,16 @@
 #include <QtCore/qstring.h>
 #include <QtXml/QtXmlDepends>
 #include <QtXml/qtxmlglobal.h>
-#endif
 
-#ifdef _HAVINGNESONSPEECH_
+#ifdef QT5SPEEHLOAD_OK
 #include "editvoiceblock.h" /// compiler read block by block text
 #include <QTextToSpeech>
 #endif
+
+#ifdef Q_OS_MAC
+#include "editvoiceblock.h" /// mac not need QTextToSpeech  go on console say more option / man say OR include 2 time.
+#endif
+
 
 class VoiceBlock;
 class EditorKernel;
@@ -99,9 +103,6 @@ public slots:
   void fileOpen();
   bool fileSave();
   bool fileSaveAs();
-  void filePrint();
-  void filePrintPreview();
-  void filePrintPdf();
   void textBold();
   void textUnderline();
   void textItalic();
@@ -115,7 +116,12 @@ public slots:
   void clipboardDataChanged();
   void about();
   void showFront();
+#ifdef QTPRINTSUPPORT_OK
   void printPreview(QPrinter *);
+  void filePrint();
+  void filePrintPreview();
+  void filePrintPdf();
+#endif
   void mergeFormatOnWordOrSelection(const QTextCharFormat &format);
   void fontChanged(const QFont &f);
   void colorChanged(const QColor &c);

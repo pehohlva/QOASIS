@@ -211,7 +211,8 @@ void OasiMain::drawall() {
   connect(a, SIGNAL(triggered()), this, SLOT(fileSaveAs()));
   menu->addAction(a);
   menu->addSeparator();
-
+  
+  #ifdef QTPRINTSUPPORT_OK
   a = new QAction(QIcon(rsrcPath + "/fileprint.png"), tr("&Print..."), this);
   a->setShortcut(QKeySequence::Print);
   connect(a, SIGNAL(triggered()), this, SLOT(filePrint()));
@@ -229,6 +230,8 @@ void OasiMain::drawall() {
   connect(a, SIGNAL(triggered()), this, SLOT(filePrintPdf()));
   tb->addAction(a);
   menu->addAction(a);
+  #endif
+  
   menu->addSeparator();
 
   menu->addAction(maximizeAction);
@@ -342,7 +345,7 @@ void OasiMain::setupTextActions() {
   tb->addAction(actionTextColor);
   menu->addAction(actionTextColor);
 
-#ifdef Q_OS_MAC
+
   menu->addSeparator();
   actionVoiceBlocks =
       new QAction(QIcon(":/images/icvoice.png"), tr("Voice Start Read."), this);
@@ -360,6 +363,7 @@ void OasiMain::setupTextActions() {
   combovoice = new QComboBox(tb);
   tb->addWidget(combovoice);
   combovoice->setToolTip(QString("Voice and Speaker"));
+#ifdef Q_OS_MAC
   vrspeak->FillvaiableVoice();
   QList<Voice> vitem = vrspeak->avaiableVoices();
   QList<Voice>::const_iterator x;
@@ -596,11 +600,7 @@ bool OasiMain::fileSave() {
 bool OasiMain::fileSaveAs() {
 
   QString support;
-#if QT_VERSION >= 0x040500
-  support = tr("ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)");
-#else
-  support = tr("HTML-Files (*.htm *.html);;All Files (*)");
-#endif
+  support = tr("HTML-Files (*.htm *.html);;ODF files (*.odt);;All Files (*)");
   QString fn =
       QFileDialog::getSaveFileName(this, tr("Save as..."), QString(), support);
   if (fn.isEmpty())
@@ -609,8 +609,8 @@ bool OasiMain::fileSaveAs() {
   return fileSave();
 }
 
+#ifdef QTPRINTSUPPORT_OK
 void OasiMain::filePrint() {
-#ifndef QT_NO_PRINTER
   QPrinter printer(QPrinter::HighResolution);
   QPrintDialog *dlg = new QPrintDialog(&printer, this);
   if (base_edit->textCursor().hasSelection())
@@ -620,28 +620,22 @@ void OasiMain::filePrint() {
     base_edit->print(&printer);
   }
   delete dlg;
-#endif
 }
 
 void OasiMain::filePrintPreview() {
-#ifndef QT_NO_PRINTER
   QPrinter printer(QPrinter::HighResolution);
   QPrintPreviewDialog preview(&printer, this);
   preview.setWindowFlags(Qt::Window);
   connect(&preview, SIGNAL(paintRequested(QPrinter *)),
           SLOT(printPreview(QPrinter *)));
   preview.exec();
-#endif
 }
 
 void OasiMain::printPreview(QPrinter *printer) {
-#ifndef QT_NO_PRINTER
   base_edit->print(printer);
-#endif
 }
 
 void OasiMain::filePrintPdf() {
-#ifndef QT_NO_PRINTER
   //! [0]
   QString fileName =
       QFileDialog::getSaveFileName(this, "Export PDF", QString(), "*.pdf");
@@ -653,9 +647,9 @@ void OasiMain::filePrintPdf() {
     printer.setOutputFileName(fileName);
     base_edit->document()->print(&printer);
   }
-//! [0]
-#endif
 }
+#endif
+
 
 void OasiMain::textBold() {
   QTextCharFormat fmt;

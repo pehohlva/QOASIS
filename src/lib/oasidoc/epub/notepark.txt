@@ -1,0 +1,240 @@
+/*
+    Copyright (C)  2017 Piter K. <pehohlva@gmail.com>
+
+    This library is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, either version 2.1 of the License, or
+    (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+do {
+    xcursor++;
+    EpubToc dax;
+    GetMenuOrder_id(xcursor,dax);
+    if (!dax.title.isEmpty()) {
+    EPUBDEBUG() << xcursor << ") top cover " <<  dax.debug();
+    }
+} while(xcursor < 2); //// + 2 cover & startpage
+
+
+bool Document::OUTOFORDERNOTRUNNFileList(QByteArray xml ) {
+  if (xml.size() < 5) {
+    return false;
+  }
+  QDomElement elementa = Make2Domelement_xml_file(xml);
+  if (!elementa.isElement()) {
+    return false;
+  }
+  ///// EPUBDEBUG() << "FileList tagname:" << elementa.tagName();
+  QDomElement element = elementa.firstChildElement();
+  QDomNodeList der = elementa.elementsByTagName("guide"); /// search cover e start
+  while (!element.isNull()) {
+    if (element.tagName() == QLatin1String("manifest")) {
+      Readmenu(element);
+    } else if (element.tagName() == QLatin1String("spine")) {
+      EPUBDEBUG() << "############# SUPER ..... " << element.tagName() << " .";
+    } else if (element.tagName() == QLatin1String("guide")) {
+      EPUBDEBUG() << "############# SUPER ..... " << element.tagName() << " .";
+    } else {
+        EPUBDEBUG() << "Unknow tag " << element.tagName() << " .";
+    }
+    element = element.nextSiblingElement();
+  }
+  return true;
+}
+
+
+if (node.hasAttribute("type")) {
+  if (node.attribute("type") == QLatin1String("cover")) {
+    CoverPager = QString(node.attribute("href"));
+  } else if (node.attribute("type") == QLatin1String("toc")) {
+    StartIndexPager = QString(node.attribute("href"));
+  }
+}
+
+
+
+
+QDomElement elementa = Make2Domelement_xml_file(xml);
+if (!elementa.isElement()) {
+  return false;
+}
+///// EPUBDEBUG() << "TocHandle tagname:" << elementa.tagName();
+QDomElement element = elementa.firstChildElement();
+while (!element.isNull()) {
+  if (element.tagName() == QLatin1String("navMap")) {
+    //// EPUBDEBUG() << "tagname:" << element.tagName();
+    QDomElement nexta = element.firstChildElement();
+    if (nexta.tagName() == QLatin1String("navPoint")) {
+      //// EPUBDEBUG() << "init readmenu:" << element.tagName();
+      Readmenu(element);
+    }
+  }
+  element = element.nextSiblingElement();
+}
+
+return true;
+
+
+const QString namex = QString(i.key());
+if (namex == "content.opf") {
+    Filelistener = streamx;  //// all file
+}
+if (namex == "toc.ncx") {
+    tableofcontenent = streamx;  //// navigate menu to page
+}
+
+
+
+
+
+//// Filelistener
+FileList(Filelistener);
+
+//// handle tableofcontenent
+TocHandle( tableofcontenent );
+for (int i = 0; i < rec_FILE.size(); i++)
+{
+    const QString hostip = QString(rec_FILE.at(i));
+    ///// EPUBDEBUG() <<  hostip <<  " dd";
+    QUrl foxi(hostip,QUrl::StrictMode);
+      if (!foxi.hasFragment() && !foxi.hasQuery() ) {
+          ///// EPUBDEBUG() <<  hostip <<  " clean";
+          uniqueuris.insert(hostip);
+      }
+
+}
+rec_FILE.clear();
+
+
+
+
+
+
+
+
+QmyDom xoc;
+QDomElement xhtml = xoc.createElement("html");
+QDomElement xhead = xoc.createElement("head");
+           xhtml.appendChild(xhead);
+QDomElement xmeta = xoc.createElement("meta");
+             xmeta.setAttribute("content","text/html; charset=utf-8");
+            xmeta.setAttribute("http-equiv","Content-Type");
+
+            xhead.appendChild(xmeta);
+QDomElement xbody = xoc.createElement("body");
+//// <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+QDomElement div = xoc.createElement("div");
+GetPageOrder_id(idref,fox);
+QDomNodeList ed = GetPageName(fox.qurl(),QString("body"));
+xoc.insertElemetFrag(div,ed,QString("page"));
+xbody.appendChild(div);
+
+
+xhtml.appendChild(xbody);
+xoc.appendChild(xhtml);
+QString xmls = xoc.toString();
+//// xmls.replace("&#xd;","");
+//// xmls.replace(" xmlns=\"http://www.w3.org/1999/xhtml\"","");
+///// QDomDocument xdoc;
+///// xdoc.setContent(xmls.toUtf8(),false,)
+file_put_contents("folle.xml",xmls,1);
+
+/*
+QTextDocument *d = new QTextDocument();
+d->setHtml( xmls );
+QString chunk = d->toHtml("utf_8");
+xoc.saveStream("casa.xhtml",chunk);
+*/
+
+
+
+
+////// init to compose book one html file...
+QmyDom xoc;
+QDomElement body = xoc.createElement("body");
+bool ok = false;
+if (!CoverPager.isNull()) {
+       ok=uniqueuris.remove(CoverPager);
+       QDomElement div = xoc.createElement("div");
+       QDomNodeList ed = GetPageName(CoverPager);
+       xoc.insertElemetFrag(div,ed,QString("page"));
+       body.appendChild(div);
+       EPUBDEBUG() <<  ok <<  " iss" << __LINE__;
+}
+if (!StartIndexPager.isNull()) {
+       ok=uniqueuris.remove(StartIndexPager);
+       QDomElement div = xoc.createElement("div");
+       QDomNodeList ed = GetPageName(StartIndexPager);
+       xoc.insertElemetFrag(div,ed,QString("page"));
+       body.appendChild(div);
+       EPUBDEBUG() <<  ok <<  " iss" << __LINE__;
+}
+
+const int xsiuse = mxMenuItem.size();
+if ( x > 0 && type.isNull() ) {
+    //// get by nr order...
+    for (int x = 0; x < xsiuse; x++) {
+         EpubToc dax = mxMenuItem.at(x);
+         const int casex = dax.orderid;
+         EPUBDEBUG() << casex;
+         if (x == casex) {
+           return dax;
+         }
+     }
+} else if ( !type.isNull() ) {
+    /// get by type to find...
+    for (int x = 0; x < xsiuse; x++) {
+         EpubToc dax = mxMenuItem.at(x);
+         const QString td = dax.type;
+         if (td == type) {
+           return dax;
+         }
+     }
+}
+
+
+
+
+
+///// QMap<int,QStringList> xtocfi;
+QMap<int, QStringList>::Iterator it;
+for( it = xtocfi.begin();  it != xtocfi.end();  ++it)
+        {
+
+               EPUBDEBUG() <<  it.key() <<  " val:" << it.value();
+
+        }
+
+
+
+xoc.appendChild(body);
+xoc.saveXML("initt0.html");
+/// CoverPager StartIndexPager
+const int xd = uniqueuris.size();
+EPUBDEBUG() <<  CoverPager <<  " CoverPager";
+EPUBDEBUG() <<  StartIndexPager <<  " StartIndexPager";
+
+
+/*        QMap<QString, QByteArray>::Iterator it;
+         for( it = mxcache.begin();  it != mxcache.end();  ++it)
+         {
+             EPUBDEBUG() <<  it.key() <<  " esporto";
+             QByteArray chunx = it.value();
+             QDomElement e = MakeHader(chunx);
+                  QDomNodeList der = e.elementsByTagName("body");
+                    if (!der.isEmpty()) {
+                          QDomElement div = xoc.createElement("div");
+                          xoc.insertElemetFrag(div,der,QString("page"));
+                          body.appendChild(div);
+                    }
+
+         }  */

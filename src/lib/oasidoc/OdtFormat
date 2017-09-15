@@ -1,0 +1,10 @@
+#pragma once
+#include <QObject>
+#include "epub/econverter.h"
+#include "epub/edocument.h"
+#include "ooo/converter.h"
+#include "ooo/document.h"
+#include "core_htmldriver.h"
+#include "kzip.h"
+#include "QmyDom.h"
+

@@ -63,6 +63,7 @@
         <file>font/UbuntuMono-RI.ttf</file>
         <file>images/icvoice.png</file>
         <file>images/novoice.png</file>
+        <file>images/audioconv.png</file>
     </qresource>
     <qresource prefix="/trolltech/dialogs/qprintpreviewdialog">
         <file>images/fit-page-24.png</file>

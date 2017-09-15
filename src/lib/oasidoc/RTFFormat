@@ -1,0 +1,7 @@
+#pragma once
+#include <QObject>
+#include "kzip.h"
+#include "QmyDom.h"
+#include "rtf-qt/rtfreader.h"
+#include "rtf-qt/TextDocumentRtfOutput.h"
+
