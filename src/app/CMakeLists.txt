@@ -1,47 +1,29 @@
    cmake_minimum_required(VERSION 3.7)
-   # the Info.plist template to fill after cmake md Info.plist is ready on bundle dir
-   set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-   # Determine the operating system in detail
+   # Determine the PATH of Project target install
    set(PWD "${CMAKE_CURRENT_SOURCE_DIR}")
+   INCLUDE (${PWD}/../../DocumentRoot.cmake)
+   # the Info.plist template to fill after cmake md Info.plist is ready on bundle dir
+   set(CMAKE_MODULE_PATH "${PWD}/cmake")
+   # Determine the operating system in detail
    INCLUDE (${PWD}/cmake/FindOS.cmake)
    project(OasiSpeaker CXX)
    # build console version && bundle mac on mac!!
-   set(PRO_UNIX_NAME "oasispeak")
-   set(PRO_MACOSX_NAME "OasiSpeaker")
    # Project information.
    set(PRO_MAC_DESC_NAME "Oasi Document Speaker")
    set(CURRENT_VERSION "1.4.0")
    
-   
+   _CURRENTDIR_()
+   # copy licence to bundle  font also hook app
+   set(DIRLICENCE_A "${PWD}/dest_bundle/")
    set(CMAKE_AUTOMOC ON)
    set(CMAKE_INCLUDE_CURRENT_DIR ON)
    
-   # Project Bundle to info plist xml file information.
-   set(PROJECT_COMPANY_NAME "OasiSpeaker Company")
-   string(TIMESTAMP PROJECT_COPYRIGHT "© 1999-%Y P.Kopp All Rights Reserved." UTC)
-   set(PROJECT_DESCRIPTION "A simple Editor to give Voice on Your Documents.")
-   set(PROJECT_URL "https://www.qt.io/")
-   # the property added to Info.plist
-   set(MACOSX_BUNDLE_ICON_FILE "macicon.icns")
 
-   # Set the OS X Bundle specific CMake variables which will be used to populate the plist for
-   # the application bundle
-   set(MACOSX_BUNDLE_INFO_STRING "${PRO_MACOSX_NAME}")
-   set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.qt.io")
-   set(MACOSX_BUNDLE_LONG_VERSION_STRING "${PRO_MAC_DESC_NAME} Version ${CURRENT_VERSION}")
-   set(MACOSX_BUNDLE_BUNDLE_NAME ${PRO_MACOSX_NAME})
-   set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${CURRENT_VERSION})
-   set(MACOSX_BUNDLE_BUNDLE_VERSION ${CURRENT_VERSION})
-   set(MACOSX_BUNDLE_COPYRIGHT ${PROJECT_COPYRIGHT})
-   set(MACOSX_BUNDLE_EXECUTABLE_NAME ${PRO_MACOSX_NAME})
-   # And this part tells CMake where to find and install the file itself
-   set(MAC_APP_ICON ${CMAKE_CURRENT_SOURCE_DIR}/images/ODTicon.icns)
-   set_source_files_properties(${MAC_APP_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
    
    set(CMAKE_CXX_STANDARD 14)
    
    # main app module to load... printsupport
-   # find_package( Qt5::Qt5Core REQUIRED )
+   # find_package( Qt5::Qt5Core REQUIRED ) Qt5Network 
    # Qt5Widgets require Core!  find_package(Qt5Widgets)
    
    find_package(Qt5Core REQUIRED)
@@ -51,7 +33,7 @@
    find_package( Qt5Gui REQUIRED )
    find_package( Qt5Xml REQUIRED )
    find_package( Qt5Svg REQUIRED )
-   find_package( Qt5Network REQUIRED )
+   # find_package( Qt5Network REQUIRED )
 
    set(QT5DIR ${QtCore_location})
    
@@ -65,14 +47,11 @@
 	find_package( Qt5TextToSpeech )
 	find_package( Qt5PrintSupport )
    
-
-
-    
-
-
-   
-   find_library (QOASI NAMES qt_oasidocuments_api PATHS ../lib NO_DEFAULT_PATH)
-   find_library (QCLD2 NAMES qt_language_detect_api PATHS ../lib NO_DEFAULT_PATH)
+   #find_package( qt_language_detect_api )
+   #find_package( qt_oasidocuments_api )
+   # CMAKE_FIND_ROOT_PATH_BOTH ${DIR_LIBTARGET}  
+   find_library (QOASI NAMES qt_oasidocuments_api PATHS ${DIR_LIBTARGET} NO_DEFAULT_PATH)
+   find_library (QCLD2 NAMES qt_language_detect_api PATHS ${DIR_LIBTARGET} NO_DEFAULT_PATH)
    
    set( EXTRA_LIBS ${EXTRA_LIBS} ${QOASI} )
    set( EXTRA_LIBS ${EXTRA_LIBS} ${QCLD2} )
@@ -91,8 +70,8 @@
     # put in source on script rcc to have image in console modus mac no bundle..
     # set(RESOURCE ${PWD}/oasispeech.qrc )
     # qt5_add_resources(RESOURCE_ADDED ${RESOURCE})
-    exec_program(./buildrcc.sh ${PWD} OUTPUT_VARIABLE SDOUTVALUE)
-    message("BUILD_RCC_SAY: XXXXXXXXXX${SDOUTVALUE}XXXXXXXXXXX ")
+    #exec_program(./buildrcc.sh ${PWD} OUTPUT_VARIABLE SDOUTVALUE)
+    # message("BUILD_RCC_SAY: XXXXXXXXXX${SDOUTVALUE}XXXXXXXXXXX ")
    
    # main app build init + resource file oasispeech.qrc as .cpp .
    file (GLOB SRC_FILES ${PWD}/*.cpp  )
@@ -130,11 +109,12 @@
     message("QT5 MODULE Library name Qt5TextToSpeech Found Super.  XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ")
     ENDIF()
 	
-	
-   
-   
+
+     
+   # make a simple CONSOLE APP as mac or sipmple linux 
+   if(SAYUNAME MATCHES "(NOTEXIST*)") 
    add_executable( ${PRO_UNIX_NAME} ${SRC_FILES} )
-   qt5_use_modules(${PRO_UNIX_NAME} Core Widgets Gui Xml Network Xml Svg  )
+   qt5_use_modules(${PRO_UNIX_NAME} Core Widgets Gui Xml  )
    IF (Qt5Pdfium_FOUND)
    qt5_use_modules(${PRO_UNIX_NAME} Pdfium )
    ENDIF()
@@ -145,14 +125,64 @@
    qt5_use_modules(${PRO_UNIX_NAME} TextToSpeech )
    ENDIF()
    IF (POPPLER_QT5_FOUND)
-   target_link_libraries( ${PRO_UNIX_NAME} ${POPPLER_QT5_LIBRARIES} )
+   # target_link_libraries( ${PRO_UNIX_NAME} ${POPPLER_QT5_LIBRARIES} )
    ENDIF()
    target_link_libraries( ${PRO_UNIX_NAME} ${EXTRA_LIBS} )
+   endif()
+   # end CONSOLE APP
+   
+   # ${CMAKE_INSTALL_PREFIX}
+   # beginn BUNDLE BUILD PACKAGE APP 
+   if(SAYUNAME MATCHES "(Darw*)")
+	 message("BUNDLE APP START - XXXXX ${PWD} XXXXX ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}  XXXXXXXXXXX ")
+	 set(MACICONLOCATION ${CMAKE_CURRENT_SOURCE_DIR}/images/ODTicon.icns)
+     string(TIMESTAMP PROJECT_COPYRIGHT "© 1999-%Y P.Kopp All Rights Reserved." UTC)
+     set(PROJECT_DESCRIPTION "${PRO_MACOSX_NAME}, A simple Editor to give Voice on Your Documents.")
+	 set(MACOSX_BUNDLE_ICON_FILE "ODTicon.icns")
+	 set(MACOSX_BUNDLE_INFO_STRING "${PRO_MACOSX_NAME}")
+	 set(MACOSX_BUNDLE_GUI_IDENTIFIER "github.com/pehohlva/QOASIS")
+	 set(MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_DESCRIPTION} Version ${CURRENT_VERSION}")
+	 set(MACOSX_BUNDLE_BUNDLE_NAME ${PRO_MACOSX_NAME})
+	 set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${CURRENT_VERSION})
+	 set(MACOSX_BUNDLE_BUNDLE_VERSION ${CURRENT_VERSION})
+	 set(MACOSX_BUNDLE_COPYRIGHT ${PROJECT_COPYRIGHT})
+	 set(MACOSX_BUNDLE_EXECUTABLE_NAME ${PRO_MACOSX_NAME})
+     add_executable(${PRO_MACOSX_NAME} MACOSX_BUNDLE ${SRC_FILES} ${MACICONLOCATION} )
+	 set_target_properties(${PRO_MACOSX_NAME} PROPERTIES BUNDLE_EXTENSION app)
+     qt5_use_modules(${PRO_MACOSX_NAME} Core Widgets Gui Xml  )
+     IF (Qt5Pdfium_FOUND)
+     qt5_use_modules(${PRO_MACOSX_NAME} Pdfium )
+     ENDIF()
+     IF (Qt5PrintSupport_FOUND)
+     qt5_use_modules(${PRO_MACOSX_NAME} PrintSupport )
+     ENDIF()
+     IF (Qt5TextToSpeech_FOUND)
+     qt5_use_modules(${PRO_MACOSX_NAME} TextToSpeech )
+     ENDIF()
+     IF (POPPLER_QT5_FOUND)
+     # target_link_libraries( ${PRO_MACOSX_NAME} ${POPPLER_QT5_LIBRARIES} )
+     ENDIF()
+     target_link_libraries( ${PRO_MACOSX_NAME} ${EXTRA_LIBS} )
+	 set_source_files_properties(${MACICONLOCATION} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+	 set_source_files_properties( "${CMAKE_CURRENT_SOURCE_DIR}/images/LICENSE.GPL2" PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+	 exec_program(pwd  OUTPUT_VARIABLE CACHEDIR)
+	 set(DIRRESBUNDE "${CACHEDIR}/${PRO_MACOSX_NAME}.app/Contents/Resources")
+	 set(EXECAPPINBUNDLE "${CACHEDIR}/${PRO_MACOSX_NAME}.app/Contents/MacOS/${PRO_MACOSX_NAME}")
+	 file(MAKE_DIRECTORY ${DIRRESBUNDE})
+	 file(COPY ${DIRLICENCE_A} DESTINATION ${DIRRESBUNDE})
+	 if(EXISTS ${EXECAPPINBUNDLE})
+     # After make if exec app bundle ready finalize ... 
+     execute_process(COMMAND macdeployqt ${PRO_MACOSX_NAME}.app -dmg)
+     exec_program("open" ${CACHEDIR}  ARGS "./")
+	 endif()
+     message("BUNDLE APP END - XXXXXXXXXXXXXX ${DIRRESBUNDE} XXXXXXXXXXXXXXXXXXXXXXXXXXXXX ")
+   endif()
+   # end MAC OSX DARWIN  APP
    
    
-# qt5_use_modules(${PRO_UNIX_NAME} PrintSupport  )
-# target_link_libraries(${PRO_UNIX_NAME} Qt5::Pdfium)
-# qt5_use_modules(${PRO_UNIX_NAME} Qt5TextToSpeech  )
+   
+   
+   
    
    
    

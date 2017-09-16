@@ -36,9 +36,6 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QMimeData>
-#include <QNetworkAccessManager>
-#include <QNetworkDiskCache>
-#include <QNetworkReply>
 #include <QObject>
 #include <QPointer>
 #include <QSettings>

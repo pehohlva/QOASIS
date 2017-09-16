@@ -56,13 +56,13 @@ DOC::DOC(QObject *parent) : QObject(parent) {
 #include <RTFFormat>
 
 #ifndef _NOSVGMODULE_
-#include <QtSvg>
+//// #include <QtSvg>
 #endif
 
 #include <QMimeDatabase>
 #include <QMimeType>
 
-#ifndef _NO_PDFIUM_MODULE_
+#ifdef PDFIUMISLOAD_OK
 #include <QtPdfium/QPdfium>
 #endif
 

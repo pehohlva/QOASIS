@@ -18,10 +18,3 @@ message(STATUS "OS MAC Based: ${SAYUNAME}")
 add_definitions(-DDARWINOS_DETECT)
 add_definitions(-DUNIXCONSOLE_OPEN)
 endif()
-
-if(MSVS OR MSYS OR MINGW)
-    set(SAYUNAME "WINDOWOS_")
-	# detect WINE run cmd vol give 0000-0000
-	# window have also way to speech access registry
-	add_definitions(-DUNIXCONSOLE_CLOSE)
-endif()

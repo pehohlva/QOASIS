@@ -1,3 +1,6 @@
+cmake_minimum_required(VERSION 3.9)
+set(PWD "${CMAKE_CURRENT_SOURCE_DIR}")
+INCLUDE (${PWD}/../../../DocumentRoot.cmake)
 
 project(QTCLD2 CXX)
 # THIS IS QCLD2 DIR LIB TO DETECT LANGUAGE FROM DOCUMENT & TEXT!
@@ -17,10 +20,6 @@ string(TIMESTAMP PROJECT_COPYRIGHT "Copyright © 1999-%Y P.Kopp All Rights Reser
 set(PROJECT_COPYRIGHT ${PROJECT_COPYRIGHT})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-# qmake style to copy file from pri qt5 only replace ${PWD}
-set(PWD "${CMAKE_CURRENT_SOURCE_DIR}") 
-message("Init read google ${PRO_LIBCLD2_NAME} file source e header.")
-
 
 find_package( Qt5Core REQUIRED )
 
@@ -35,9 +34,6 @@ set(CMAKE_BUILD_TYPE Release)
 
 file (GLOB SRC_FILES ${PWD}/source_cld2/*.cpp ${PWD}/source_cld2/*.cc  )
 
-
-message("Build STATIC & SHARED ${PRO_LIBCLD2_NAME}")
-
 add_library(${PRO_LIBCLD2_NAME} SHARED ${SRC_FILES})
 # qt5_use_modules(${PRO_LIBCLD2_NAME} Qt5Core )
 target_link_libraries(${PRO_LIBCLD2_NAME} Qt5::Core)
@@ -45,12 +41,19 @@ target_link_libraries(${PRO_LIBCLD2_NAME} Qt5::Core)
 add_library(${PRO_LIBCLD2STATIC_NAME} STATIC ${SRC_FILES})
 # qt5_use_modules(${PRO_LIBCLD2_NAME} Qt5Core )
 target_link_libraries(${PRO_LIBCLD2STATIC_NAME} Qt5::Core)
+# only SHARED stamp version! 
+set_target_properties(${PRO_LIBCLD2_NAME} PROPERTIES VERSION ${MYLIB_VERSION_STRING} SOVERSION 1)
 
-set_target_properties(${PRO_LIBCLD2STATIC_NAME} PROPERTIES VERSION ${MYLIB_VERSION_STRING} SOVERSION ${MYLIB_VERSION_STRING})
-set_target_properties(${PRO_LIBCLD2_NAME} PROPERTIES VERSION ${MYLIB_VERSION_STRING} SOVERSION ${MYLIB_VERSION_STRING})
 
-message(“INSTALL_LIB_TO_DIR:” ${LIB_TARGET_CURRENT} )
-message(“INSTALL_LIB_TO_DIR:” ${LIB_ST_TARGET_CURRENT} )
-# install(TARGETS ${PRO_LIBCLD2STATIC_NAME} LIBRARY DESTINATION ${LIB_ST_TARGET_CURRENT})
-install(TARGETS ${PRO_LIBCLD2_NAME} LIBRARY DESTINATION ${LIB_TARGET_CURRENT})
-message("End read google ${PRO_LIBCLD2_NAME} file source e header.")
+install(TARGETS ${PRO_LIBCLD2_NAME} LIBRARY DESTINATION ${DIR_LIBTARGET})
+install(TARGETS ${PRO_LIBCLD2STATIC_NAME} ARCHIVE DESTINATION ${DIR_LIBTARGET})
+
+
+
+
+
+
+
+
+
+
