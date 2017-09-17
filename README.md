@@ -1,4 +1,4 @@
-# QOASIS
+# QT5 - OASIS
 OASIS Open Document Format - A simple Editor to give Voice on Your Documents.
 
 Open RTF & RTFD (mac format/inode directory)  ODT,EPUB (unstable), PDF as plain Text to convert as MP4 or AudioBook. 
