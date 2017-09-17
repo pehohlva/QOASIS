@@ -29,7 +29,7 @@
 
 #define _BASICORG_ QString("QTClub")
 #define _BASICDOMAINE_ QString("org.freeroad.ch")
-#define _BASICTITLE_EDITOR_ QString("OasisEdit - Document Tiny Editor")
+#define _BASICTITLE_EDITOR_ QString("Oasi -  Open Document Speaker ")
 #define _CVERSION_ QString("Vr. 1.2")
 #define _WORKDEFAULTFONT_ QString("Ubuntu-C")
 #define Q_WS_MAC  Q_OS_MAC

@@ -523,7 +523,7 @@ void OasiMain::setCurrentFileName(const QString &fileName) {
   else
     shownName = currentin.fileName();
   setWindowTitle(_CVERSION_ +
-                 QString(" - %1 - OASIS Open Document").arg(shownName));
+                 QString(" - %1 - %2").arg(shownName).arg(_BASICTITLE_EDITOR_));
   setWindowModified(false);
   base_edit->modus_edit(true);
 }
