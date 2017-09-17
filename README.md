@@ -19,10 +19,19 @@ MPEG-4 Audio   (.m4a,.m4r) [aac,aace,aacf,aach,aacl,aacp,alac] m4bf  Apple
 MPEG-4 AudioBooks (.m4b) [aac,aace,aacf,aach,aacl,aacp] mp4f  MPEG-4 Audio
 (.mp4) [aac,aace,aacf,aach,aacl,aacp]
 `
-[![Tiny_Edit](https://raw.githubusercontent.com/pehohlva/QOASIS/master/speacker2.png)](http://www.youtube.com/watch?v=hJDvKud8RWs)
 
 
-[![Tiny_Edit](https://raw.githubusercontent.com/pehohlva/QOASIS/master/speacker5.png)](http://www.youtube.com/watch?v=hJDvKud8RWs)
+Video Voice in action:
+
+https://www.youtube.com/watch?v=7nyRk3XrSQc
+
+
+
+
+[![Tiny_Edit](https://raw.githubusercontent.com/pehohlva/QOASIS/master/speacker2.png)](https://www.youtube.com/watch?v=7nyRk3XrSQc)
+
+
+[![Tiny_Edit](https://raw.githubusercontent.com/pehohlva/QOASIS/master/speacker5.png)](https://www.youtube.com/watch?v=7nyRk3XrSQc)
 
 
 
