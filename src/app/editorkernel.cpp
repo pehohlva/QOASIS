@@ -51,7 +51,7 @@ void EditorKernel::modus_edit(bool e) {
     //// edit...
     setOpenExternalLinks(false);
     setOpenLinks(false);
-    setOverwriteMode(true);
+    setOverwriteMode(false);
     setReadOnly(false);
   } else {
     /// view
