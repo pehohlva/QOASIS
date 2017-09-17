@@ -21,10 +21,26 @@ add_executable( ${PRO_LIBTESTAPP} ${PWD}/libapi.cpp )
 qt5_use_modules(${PRO_LIBTESTAPP} Core Widgets Gui Xml )
 target_link_libraries( ${PRO_LIBTESTAPP} ${EXTRA_LIBS} )
 
+if (UNIX OR APPLE)
+	if (EXISTS ${SIGNALAPPBUILD})
+	if (APPLE)
+	FILE(GLOB inlibs RELATIVE "${DIR_LIBTARGET}" "${DIR_LIBTARGET}/*.dylib")
+    elseif(UNIX)
+	FILE(GLOB inlibs RELATIVE "${DIR_LIBTARGET}" "${DIR_LIBTARGET}/*.so")
+    endif()
+	
+	FOREACH(infileName ${inlibs})
+		set(LIBFULLEXIST ${DIR_LIBTARGET}/${infileName} )
+		set(LIBVIRTUALQT ${DIR_LIBQT5}/${infileName} )
+		if (EXISTS ${LIBVIRTUALQT})
+		file(REMOVE ${LIBVIRTUALQT})
+		endif()
+		install_symlink( ${LIBFULLEXIST} ${LIBVIRTUALQT} )
+    ENDFOREACH(infileName)
+    endif()
+endif()
+
 message("END OF CREATE ALL LIBS NEED BY THIS PROJECT.... Test run:  ./${PRO_LIBTESTAPP} ")
-
-
-# add_subdirectory( ${PWD}/app )
 
 
 

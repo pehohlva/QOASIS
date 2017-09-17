@@ -170,11 +170,14 @@
 	 set(EXECAPPINBUNDLE "${CACHEDIR}/${PRO_MACOSX_NAME}.app/Contents/MacOS/${PRO_MACOSX_NAME}")
 	 file(MAKE_DIRECTORY ${DIRRESBUNDE})
 	 file(COPY ${DIRLICENCE_A} DESTINATION ${DIRRESBUNDE})
-	 if(EXISTS ${EXECAPPINBUNDLE})
-     # After make if exec app bundle ready finalize ... 
-     execute_process(COMMAND macdeployqt ${PRO_MACOSX_NAME}.app -dmg)
-     exec_program("open" ${CACHEDIR}  ARGS "./")
-	 endif()
+	 
+	 ###install(CODE MESSAGE(STATUS "SAMPLE INSTALL & COMPOSE BUNDLE COMPRESSED FROM MAC OSX" ) 
+	   if(EXISTS ${EXECAPPINBUNDLE})
+       # After make if exec app bundle ready finalize ... 
+       execute_process(COMMAND macdeployqt ${PRO_MACOSX_NAME}.app -dmg)
+       exec_program("open" ${CACHEDIR}  ARGS "./")
+	   endif()
+	 ###)
      message("BUNDLE APP END - XXXXXXXXXXXXXX ${DIRRESBUNDE} XXXXXXXXXXXXXXXXXXXXXXXXXXXXX ")
    endif()
    # end MAC OSX DARWIN  APP
