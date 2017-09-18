@@ -176,8 +176,7 @@ QString DOC::GetHtml(const QString file) {
       main = QString("RtfReader can not handle file:%1").arg(file);
     } else {
       d->clear();
-      RtfReader::TextDocumentRtfOutput *output =
-          new RtfReader::TextDocumentRtfOutput(d);
+      RtfReader::TextDocumentRtfOutput *output = new RtfReader::TextDocumentRtfOutput(d);
       reader->parseTo(output);
       action = 1;
       main.clear();
@@ -230,7 +229,7 @@ QString DOC::GetHtml(const QString file) {
     }
 
     if (MIMENAME.contains(QString("/pdf"))) {
-#ifndef _NO_PDFIUM_MODULE_
+#ifdef PDFIUMISLOAD_OK
       QPdfium pdf(f);
       QString grep;
       const int sumpage = pdf.pageCount();

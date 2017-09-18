@@ -131,6 +131,11 @@ Voice VoiceBlock::TakeVoiceId(const int pref) {
 }
 
 void VoiceBlock::FillvaiableVoice() {
+/// get voice from speeck module for linux e window
+/// only mac have say on console?
+#ifndef Q_WS_MAC
+   return;
+#endif
 
     QLocale localsystem = QLocale::system();
     const int LocalLanguageID = (int)localsystem.language();
@@ -213,6 +218,7 @@ void VoiceBlock::say() {
 /*  DocumentCursor vcursor; /// cursor read for sound. { notrun, waitrespone, parseblock, errorparse }
   SoundStatus smisound; /// stautus of voice. { shutdown , waitsound, sendsound  } */
 void VoiceBlock::stopfast() {
+   SESSDEBUG() << __FUNCTION__;
   if (vcursor != notrun) {
     vcursor = notrun;
     smisound = shutdown;
@@ -225,6 +231,7 @@ void VoiceBlock::stopfast() {
      stateB = 0;
      emit switschStatus(true);
      emit endreadPage();
+     emit detroyVoice();
      emit setVoicePriorMessage(QString("Stop/End Read Document.."));
      if (singing) {
          singing->terminate();

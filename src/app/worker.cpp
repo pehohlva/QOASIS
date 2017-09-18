@@ -23,6 +23,16 @@ ToWorker::ToWorker(QObject *parent) : QObject(parent) {
   process = new QProcess();
   status(); /// controll process.
 }
+
+
+void ToWorker::killFastnow() {
+    WDEBUG() << __FUNCTION__;
+    if (process) {
+        WDEBUG() << __FUNCTION__ << "kill2";
+        process->waitForFinished(10);
+        this->deleteLater();
+    }
+}
 /// enum workerstate { pause, running, killing, ending , timeoutrun  };
 void ToWorker::blabering(const QString cmd, const QStringList args) {
   timegos = 1;
@@ -34,6 +44,7 @@ void ToWorker::blabering(const QString cmd, const QStringList args) {
   process->setProcessChannelMode(QProcess::MergedChannels);
   process->setProgram(cmd);
   process->setArguments(args);
+  QObject::connect(VoiceBlock::self(this), SIGNAL(detroyVoice()), this, SLOT(deleteLater()));
   QObject::connect(process, SIGNAL(finished(int)), this, SLOT(ready(int)));
   process->open(QIODevice::ReadOnly);
   //// const int maxtimeset = (60 * 60  * 1000); no time out
@@ -139,8 +150,8 @@ void VLoader::run() {
   WDEBUG() << "QThread run";
   voijob = new ToWorker();
   connect(voijob, SIGNAL(JobWorkerEnd()), receiver, SLOT(speechEnd()));
-  connect(voijob, SIGNAL(ElapsedTimew(float)), receiver,
-          SLOT(reportTime(float)));
+  connect(voijob, SIGNAL(ElapsedTimew(float)), receiver, SLOT(reportTime(float)));
+  QObject::connect(VoiceBlock::self(this), SIGNAL(detroyVoice()), this, SLOT(deleteLater()));
   voijob->blabering(xbcmd, xbarg);
   exec();
 }

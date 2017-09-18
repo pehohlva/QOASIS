@@ -60,6 +60,7 @@ public:
 signals:
   void servicerunvoice(int);
   void endreadPage();
+  void detroyVoice();
   void switschStatus(bool);
   void setVoicePriorMessage(QString);
   ///// void setDumpMessage(QString);

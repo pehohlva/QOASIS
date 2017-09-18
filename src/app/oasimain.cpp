@@ -362,7 +362,6 @@ void OasiMain::setupTextActions() {
   tb->addAction(actionTextColor);
   menu->addAction(actionTextColor);
 
-  //// if (SAYENABLE.)
   menu->addSeparator();
   actionVoiceBlocks =
       new QAction(QIcon(":/images/icvoice.png"), tr("Voice Start Read."), this);
@@ -402,8 +401,6 @@ void OasiMain::setupTextActions() {
       combovoice->setCurrentIndex(combovoice->count() - 1);
     }
   }
-
-  //// #endif
 
   tb = new QToolBar(this);
   tb->setMaximumHeight(toolbarhight);

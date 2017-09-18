@@ -30,7 +30,7 @@
 #include <QTimer>
 #include <QtCore/QCoreApplication>
 
-#if 0 //// 1 or 0
+#if 1 //// 1 or 0
 #define WDEBUG qDebug
 #define WORKERT 1
 #define _wtdebuglogfile_                                                       \
@@ -60,6 +60,7 @@ public slots:
   void ready(int);
   void status();
   void cleanEndAction();
+  void killFastnow();
 
 private:
   workerstate cursor;
