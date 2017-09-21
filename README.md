@@ -20,6 +20,11 @@ MPEG-4 AudioBooks (.m4b) [aac,aace,aacf,aach,aacl,aacp] mp4f  MPEG-4 Audio
 (.mp4) [aac,aace,aacf,aach,aacl,aacp]
 `
 
+# Download Mac OSX 
+https://sourceforge.net/projects/oasidoc/
+files -  mac_osx_10-12 - `OasiSpeaker.dmg`
+
+
 
 Video & Voice in Action How Documents Speaks:
 (not just for blind people)
