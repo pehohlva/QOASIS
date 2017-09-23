@@ -1,0 +1,2 @@
+move to src/lib/qcld2 to build on cmake crosssystem
+as shared lib or static
