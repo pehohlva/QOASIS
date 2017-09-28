@@ -27,7 +27,7 @@ Build From Source:
    make
    make install
    by make install lib go on ROOT/Applications/lib
-   and qmake pri file on ROOT/Applications/lib
+   and qmake pri file on ROOT/Applications
    and make a symslink to QTDIR/lib 
    in this way macdeployqt find lib
    
