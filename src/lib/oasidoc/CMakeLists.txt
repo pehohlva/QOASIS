@@ -53,6 +53,8 @@ set(CMAKE_BUILD_TYPE Release)
 
 set(Current_Public_HEADERS
 	${PWD}/ooo/converter.h
+	${PWD}/kzip.h
+	${PWD}/QmyDom.h
 	${PWD}/epub/edocument.h
 	${PWD}/rtf-qt/rtfreader.h
 	${PWD}/zlib/gzlib.h

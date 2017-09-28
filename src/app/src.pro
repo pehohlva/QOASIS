@@ -78,11 +78,27 @@ RESOURCES += oasispeech.qrc
 
 DISTFILES += copy_session
 
-INCLUDEPATH += $$PWD/../lib/oasidoc/rtf-qt  $$PWD/../lib/oasidoc/ooo $$PWD/../lib/oasidoc/epub
-INCLUDEPATH += $$PWD/../lib/qcld2/include_cld2 $$PWD/../lib/oasidoc
-###### compatible win linux mac this way! SHARED LIBS
-LIBS   += -L$$[QT_INSTALL_LIBS]/ -lqt_language_detect_api
-LIBS   += -L$$[QT_INSTALL_LIBS]/ -lqt_oasidocuments_api
+
+qtHaveModule(notexist_core) {
+	INCLUDEPATH += $$PWD/../lib/oasidoc/rtf-qt  $$PWD/../lib/oasidoc/ooo $$PWD/../lib/oasidoc/epub
+	INCLUDEPATH += $$PWD/../lib/qcld2/include_cld2 $$PWD/../lib/oasidoc
+	###### compatible win linux mac this way! SHARED LIBS
+	LIBS   += -L$$[QT_INSTALL_LIBS]/ -lqt_language_detect_api
+	LIBS   += -L$$[QT_INSTALL_LIBS]/ -lqt_oasidocuments_api	
+	} else {
+    include(../../Applications/qt_language_detect_api.pri)
+	include(../../Applications/qt_oasidocuments_api.pri)
+	}
+
+
+
+
+
+
+
+
+
+
 LIBS   += -lz
 win32:LIBS += -luser32
 

@@ -151,7 +151,7 @@ void VLoader::run() {
   voijob = new ToWorker();
   connect(voijob, SIGNAL(JobWorkerEnd()), receiver, SLOT(speechEnd()));
   connect(voijob, SIGNAL(ElapsedTimew(float)), receiver, SLOT(reportTime(float)));
-  QObject::connect(VoiceBlock::self(this), SIGNAL(detroyVoice()), this, SLOT(deleteLater()));
+  QObject::connect(VoiceBlock::self(this), SIGNAL(detroyVoice()), voijob, SLOT(killFastnow()));
   voijob->blabering(xbcmd, xbarg);
   exec();
 }

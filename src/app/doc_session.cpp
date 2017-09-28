@@ -16,7 +16,7 @@
  */
 #include "doc_session.h"
 
-#include "zipdoc.h"  /// simple..
+///// #include "zipdoc.h"  /// simple..
 #include "kzip.h" ///  best?
 #include "editorkernel.h"
 #include "core_htmldriver.h"
