@@ -1,3 +1,89 @@
+cmake_minimum_required(VERSION 3.9)
+set(PWD "${CMAKE_CURRENT_SOURCE_DIR}")
+INCLUDE (${PWD}/../../../DocumentRoot.cmake)
+
+project(karchive CXX)
+# kde compression lib to open zip basd documents
+set(PRO_LIBARC_NAME "qt_archive_api")
+set(PRO_LIBARCSTATIC_NAME "qt_archive")
+
+set (CMAKE_CXX_STANDARD 11)
+
+include(FeatureSummary)
+include(GenerateExportHeader)
+
+
+find_package( Qt5Core REQUIRED )
+
+
+find_package( Qt5Core REQUIRED )
+find_package( Qt5Widgets REQUIRED)
+
+set(Qt5Core_PRIVATE_INCLUDE_DIRS "")
+
+ # The Qt5Widgets_INCLUDES also includes the include directories for
+ # dependencies QtCore and QtGui we link only core 
+set(QT_CORE_HEADER  ${QT_INSTALL_PREFIX}/lib/QtCore.framework/Headers)
+include_directories(${Qt5Widgets_INCLUDES})
+include_directories(${QT_CORE_HEADER})
+include_directories(${PWD})
+include_directories(${PWD}/io)
+set(HACKDIR ${PWD}"/QtCore")
+
+if (UNIX OR APPLE)
+    # exec_program(ln  ARGS "-s" ${QT_CORE_HEADER} ${HACKDIR}  OUTPUT_VARIABLE __HACKQT5CORE )
+endif()
+
+ # include_directories(${HACKDIR})
+
+
+set(CMAKE_AUTOMOC OFF)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+
+find_package(ZLIB)
+set_package_properties(ZLIB PROPERTIES
+    URL "http://www.zlib.net"
+    DESCRIPTION "Support for gzip compressed files and data streams"
+    TYPE REQUIRED
+    PURPOSE "Required by the core KDE libraries and some criti cal kioslaves"
+)
+
+find_package(BZip2)
+set_package_properties(BZip2 PROPERTIES
+    URL "http://www.bzip.org"
+    DESCRIPTION "Support for BZip2 compressed files and data streams"
+    TYPE RECOMMENDED
+    PURPOSE "Support for BZip2 compressed files and data streams"
+)
+
+find_package(LibLZMA)
+set_package_properties(LibLZMA PROPERTIES
+    URL "http://tukaani.org/xz/"
+    DESCRIPTION "Support for xz compressed files and data streams"
+    PURPOSE "Support for xz compressed files and data streams"
+)
+include_directories(
+    ${ZLIB_INCLUDE_DIR}
+)
+
+# if qt5 have QT_NO_TEMPORARYFILE in qsavefile.cpp build go dead
+
+
+set(MYLIB_VERSION_MAJOR 5)
+set(MYLIB_VERSION_MINOR 2)
+set(MYLIB_VERSION_PATCH 0)
+set(MYLIB_VERSION_STRING ${MYLIB_VERSION_MAJOR}.${MYLIB_VERSION_MINOR}.${MYLIB_VERSION_PATCH})
+
+
+set(PROJECT_COMPANY_NAME “KDE5 LIB”)
+set(PROJECT_DESCRIPTION “Library to handle ompression file or documents ”)
+set(PROJECT_URL "https://www.kde.org/")
+string(TIMESTAMP PROJECT_COPYRIGHT "Copyright © 1999-%Y KDE All Rights Reserved." UTC)
+set(PROJECT_COPYRIGHT ${PROJECT_COPYRIGHT})
+
+
+
 set(HAVE_BZIP2_SUPPORT ${BZIP2_FOUND})
 if(BZIP2_FOUND AND BZIP2_NEED_PREFIX)
     set(NEED_BZ2_PREFIX 1)
@@ -21,6 +107,13 @@ if(LIBLZMA_FOUND)
 endif()
 
 
+find_package( Qt5Core REQUIRED )
+
+set(CMAKE_AUTOMOC OFF)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+
+
 set(karchive_SRCS
     karchive.cpp
     kar.cpp
@@ -35,15 +128,24 @@ set(karchive_SRCS
     krcc.cpp
 )
 
-add_library(qt_archive_api ${karchive_SRCS} ${karchive_OPTIONAL_SRCS})
-generate_export_header(qt_archive_api BASE_NAME KArchive)
-add_library(KF5::Archive ALIAS qt_archive_api)
+# if we build app in cmake now not pri file
+INCLUDE_DIRECTORIES({PWD}/)
 
-target_include_directories(qt_archive_api
-    INTERFACE "$<INSTALL_INTERFACE:${KDE_INSTALL_INCLUDEDIR_KF5}/KArchive>"
-)
+set(CMAKE_BUILD_TYPE Release)
 
-target_link_libraries(qt_archive_api
+
+set(PRO_LIBARC_NAME "qt_archive_api")
+set(PRO_LIBARCSTATIC_NAME "qt_archive")
+
+
+file (GLOB Karchive_headers ${PWD}/*.h )
+
+set(QTMODULE " core ")
+Generate_PriFile(${CMAKE_INSTALL_PREFIX_0} ${PRO_LIBARCSTATIC_NAME}  "${Karchive_headers}"  ${QTMODULE})
+
+
+add_library( ${PRO_LIBARC_NAME} SHARED ${karchive_SRCS} ${karchive_OPTIONAL_SRCS} )
+target_link_libraries(${PRO_LIBARC_NAME}
     PUBLIC
         Qt5::Core
     PRIVATE
@@ -51,48 +153,31 @@ target_link_libraries(qt_archive_api
         ${ZLIB_LIBRARY}
 )
 
-set_target_properties(qt_archive_api PROPERTIES
-    VERSION     ${KARCHIVE_VERSION_STRING}
-    SOVERSION   ${KARCHIVE_SOVERSION}
-    EXPORT_NAME "Archive"
+add_library(${PRO_LIBARCSTATIC_NAME} STATIC ${karchive_SRCS} ${karchive_OPTIONAL_SRCS} )
+target_link_libraries(${PRO_LIBARC_NAME}
+    PUBLIC
+        Qt5::Core
+    PRIVATE
+        ${karchive_OPTIONAL_LIBS}
+        ${ZLIB_LIBRARY}
 )
 
-ecm_generate_headers(KArchive_HEADERS
-    HEADER_NAMES
-    KArchive
-    KArchiveEntry
-    KArchiveFile
-    KArchiveDirectory
-    KAr
-    KCompressionDevice
-    KFilterBase
-    KFilterDev
-    KTar
-    KZip
-    KZipFileEntry
+# only SHARED stamp version! 
+set_target_properties(${PRO_LIBARC_NAME} PROPERTIES VERSION ${MYLIB_VERSION_STRING} SOVERSION 1)
 
-    REQUIRED_HEADERS KArchive_HEADERS
-)
+message(STATUS " Set here include dir on shell result QT_INSTALL_PREFIX e core include file .. " ${QT_CORE_HEADER} )
 
-install(TARGETS qt_archive_api
-        EXPORT qt_archive_apiTargets
-        ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 
-if(LIBLZMA_FOUND)
-    ecm_generate_headers(KArchive_HEADERS
-        HEADER_NAMES
-        K7Zip
-        REQUIRED_HEADERS KArchive_HEADERS
-    )
-endif()
+install(TARGETS ${PRO_LIBARC_NAME} LIBRARY DESTINATION ${DIR_LIBTARGET})
+install(TARGETS ${PRO_LIBARCSTATIC_NAME} ARCHIVE DESTINATION ${DIR_LIBTARGET})
 
-install(FILES
-            ${CMAKE_CURRENT_BINARY_DIR}/karchive_export.h
-            ${KArchive_HEADERS}
-        DESTINATION "../lib"
-        COMPONENT Devel)
 
-# include(ECMGeneratePriFile)
-# ecm_generate_pri_file(BASE_NAME KArchive LIB_NAME qt_archive_api DEPS "core" FILENAME_VAR PRI_FILENAME INCLUDE_INSTALL_DIR ${KDE_INSTALL_INCLUDEDIR_KF5}/KArchive)
-# install(FILES ${PRI_FILENAME} DESTINATION ${ECM_MKSPECS_INSTALL_DIR})
+
+
+
+
+
+
+
+
 

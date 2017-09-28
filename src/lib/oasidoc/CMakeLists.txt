@@ -50,6 +50,15 @@ INCLUDE_DIRECTORIES(${PWD}/zlib)
 
 set(CMAKE_BUILD_TYPE Release)
 
+
+set(Current_Public_HEADERS
+	${PWD}/ooo/converter.h
+	${PWD}/epub/edocument.h
+	${PWD}/rtf-qt/rtfreader.h
+	${PWD}/zlib/gzlib.h
+    Current_Public_HEADERS
+)
+
 list(APPEND OASIDOC_SOURCES
           ${PWD}/kzip.cpp 
           ${PWD}/QmyDom.cpp 
@@ -120,6 +129,8 @@ endif()
 
 
 
+set(QTMODULE " core gui xml widgets ")
+Generate_PriFile(${CMAKE_INSTALL_PREFIX_0} ${PRO_STATIC_LIBOASIDOC_NAME}  "${Current_Public_HEADERS}"  ${QTMODULE})
 
 
 

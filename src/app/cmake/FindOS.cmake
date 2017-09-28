@@ -13,8 +13,14 @@ if(UNIX AND NOT APPLE)
 	add_definitions(-DUNIXCONSOLE_OPEN)
 endif()
 
+
+
+include(FeatureSummary)
+
 if(SAYUNAME MATCHES "(Darw*)")
 message(STATUS "OS MAC Based: ${SAYUNAME}")
 add_definitions(-DDARWINOS_DETECT)
 add_definitions(-DUNIXCONSOLE_OPEN)
 endif()
+
+

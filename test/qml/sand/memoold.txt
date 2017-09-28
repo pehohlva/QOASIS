@@ -1,0 +1,35 @@
+       Row {
+       anchors.horizontalCenter: parent.horizontalCenter
+       anchors.verticalCenter: parent.verticalCenter
+       spacing:2
+
+
+           Awesome.Button {
+           icon: awesome.icons.fa_step_backward
+           text: "backward"
+           scale:childscale
+                   onSwap: {
+                      jumpback()
+                   }
+           }
+           Awesome.Button {
+           icon: awesome.icons.fa_youtube_play
+           text: "play"
+           scale:childscale
+           id:button_play
+           objectName: "button_play"
+                   onSwap: {
+                    //// console.log("swap in")
+                    switchPlay()
+                   }
+           }
+           Awesome.Button {
+           icon: awesome.icons.fa_step_forward
+           scale:childscale
+           text: "forward"
+                   onSwap: {
+                    jumpnext()
+                   }
+           }
+
+           }

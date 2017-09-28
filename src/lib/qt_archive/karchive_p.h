@@ -22,7 +22,7 @@
 
 #include "karchive.h"
 
-#include <qsavefile.h>
+//// #include <qsavefile.h>
 
 class KArchivePrivate
 {

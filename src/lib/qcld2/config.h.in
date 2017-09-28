@@ -1,0 +1,3 @@
+
+#define qt_language_detect_VERSION_MAJOR @qt_language_detect_VERSION_MAJOR@
+#define qt_language_detect_VERSION_MINOR @qt_language_detect_VERSION_MINOR@
