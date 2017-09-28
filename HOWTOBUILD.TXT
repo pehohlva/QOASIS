@@ -1,0 +1,107 @@
+
+
+MAC/LINUX/WINDOW
+
+get source last from:
+web https://github.com/pehohlva/QOASIS get as zip.
+or
+
+git clone https://github.com/pehohlva/QOASIS.git
+
+
+I use:
+qt5.9   cmake 3.8 e module linked in  qmake file.
+i possible to build in qt5.5 or 5.3 in sam way i not tested.
+
+
+Mac OSX ElCapitan or Sierra
+
+2 Way build install:
+Build From Source:
+
+1- build static & shared lib 2 ROOT/src/lib
+   From root dir you make a build directory
+   mkdir xx
+   cd xx
+   cmake ../
+   make
+   make install
+   by make install lib go on ROOT/Applications/lib
+   and qmake pri file on ROOT/Applications/lib
+   and make a symslink to QTDIR/lib 
+   in this way macdeployqt find lib
+   
+   to make at end:
+   macdeployqt OasiSpeaker.app -dmg
+   
+    SHARED LIB BUILD APP IN CMAKE:
+2a- Now inside ROOT/xx  we can delete file content by  rm -rf * (only from inside dir xx)
+    after we build the app by:
+	cmake ../src/app 
+	make
+	and possibel at end
+	cmake ../src/app 1-2 time to compose bundle mac
+	
+	STATIC APP BUILD IN QMAKE
+2b- cd to ROOT/src/app
+    qmake
+	make
+	at end you have a ready app +
+	./package_mac.sh buil a package OasiSpeaker.dmg
+	
+	
+Why i make a static lib?
+    I have a project to clone textutil -h from mac to linux
+	run textutil -h from terminal to know waht this app can do from document conversion.
+	
+	
+NOTE TO LINUX UNIX USER:
+   
+   This app use the mac say command (console) for the best quality audio.
+   but on file editvoiceblock.cpp is possibel to append LINUX instruction to line 84
+   #ifdef Q_WS_MAC
+       singing = new VLoader(); //// vjob old obj
+       singing->setObjectName(QString("Singformac_voice_"));
+       singing->Setting(this,"say",cmd);
+       singing->start(QThread::LowPriority);
+   #else
+       smisound = shutdown;
+       stopfast();
+       vcursor = notrun;
+   #endif
+   
+   be use module 
+   qtHaveModule(texttospeech) {
+   QT += texttospeech
+   DEFINES +=QT5SPEEHLOAD_OK
+   }
+   
+   & append all avaiable voicename
+   
+   after we can read AUDIO Document
+   But i not know a way to produce audio file from text on linux
+   mac produce a 3A4 page on 30 second in mp4 audio format...
+   
+   
+NOTE ON WINDOW USER
+  same as linux  texttospeech module run perfect on window 10 
+  
+  
+  
+My next project is to swap this app in iphone & tablet & textutil for window e linux QML is great...
+   
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+   
