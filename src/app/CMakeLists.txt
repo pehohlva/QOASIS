@@ -131,6 +131,34 @@
    endif()
    # end CONSOLE APP
    
+   set(CMAKE_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX_0})
+   
+   message("1- RELINK SHARED LIB IF EXIST ${SIGNALAPPBUILD}  BUNDLE LIB PREPARE ")
+   
+   
+   if (UNIX OR APPLE)
+   	if (EXISTS ${SIGNALAPPBUILD})
+      message("2- RELINK SHARED LIB IF EXIST ${SIGNALAPPBUILD}  BUNDLE LIB PREPARE ")
+   	if (APPLE)
+   	FILE(GLOB inlibs RELATIVE "${DIR_LIBTARGET}" "${DIR_LIBTARGET}/libqt_*")
+       elseif(UNIX)
+   	FILE(GLOB inlibs RELATIVE "${DIR_LIBTARGET}" "${DIR_LIBTARGET}/libqt_*")
+       endif()
+	
+   	FOREACH(infileName ${inlibs})
+   		set(LIBFULLEXIST ${DIR_LIBTARGET}/${infileName} )
+   		set(LIBVIRTUALQT ${DIR_LIBQT5}/${infileName} )
+   		if (EXISTS ${LIBVIRTUALQT})
+   		file(REMOVE ${LIBVIRTUALQT})
+   		endif()
+		message("FOR -> RELINK FILE ${LIBFULLEXIST} bundle ")
+   		install_symlink( ${LIBFULLEXIST} ${LIBFULLEXIST} )
+       ENDFOREACH(infileName)
+       endif()
+   endif()
+   
+   
+   
    # ${CMAKE_INSTALL_PREFIX}
    # beginn BUNDLE BUILD PACKAGE APP 
    if(SAYUNAME MATCHES "(Darw*)")
