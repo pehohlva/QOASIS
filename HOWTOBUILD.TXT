@@ -14,6 +14,14 @@ qt5.9   cmake 3.8 e module linked in  qmake file.
 i possible to build in qt5.5 or 5.3 in sam way i not tested.
 
 
+Important:
+if you have multiple verion from qt5 on cmake use the path to make find:
+-DCMAKE_PREFIX_PATH=/opt/Qt/5.3/gcc_64/lib/cmake
+-DCMAKE_PREFIX_PATH=/Users/dev/github/_QOASIS/qtbase-5.7.0/lib/cmake
+
+
+/Users/dev/github/_QOASIS/qtbase-5.7.0/bin/qmake
+
 Mac OSX ElCapitan or Sierra
 
 2 Way build install:

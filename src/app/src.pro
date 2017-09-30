@@ -37,6 +37,8 @@ DEFINES +=PDFIUMISLOAD_OK
 qtHaveModule(texttospeech) {
 QT += texttospeech
 DEFINES +=QT5SPEEHLOAD_OK
+} else {
+DEFINES +=QT5SPEEHNO
 }
 
 qtHaveModule(printsupport) {
