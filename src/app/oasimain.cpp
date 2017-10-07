@@ -31,7 +31,7 @@
 #define __TMPCACHE__ QString("%1/.fastcache/").arg(QDir::homePath())
 
 //// default :/images/ODTicon.png
-#ifdef DARWINOS_DETECT
+#ifdef Q_WS_MAC
 static const QString rsrcPath = ":/images/mac";
 #else
 static const QString rsrcPath = ":/images/win";
@@ -260,7 +260,7 @@ void OasiMain::drawall() {
 
   traytop->setContextMenu(menu);
 
-#ifdef UNIXCONSOLE_OPEN
+#ifdef Q_WS_MAC
   menu->setAsDockMenu(); //// only mac osx
 #endif
 
