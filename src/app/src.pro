@@ -46,9 +46,21 @@ QT += printsupport
 DEFINES +=QTPRINTSUPPORT_OK
 }
 
-win32:DEFINES +=UNIXCONSOLE_CLOSE
-unix:DEFINES +=UNIXCONSOLE_OPEN
-mac:DEFINES +=UNIXCONSOLE_OPEN
+unix:{
+INCLUDEPATH += `pkg-config --cflags zlib`
+LIBS += `pkg-config --libs zlib`
+DEFINES +=UNIXCONSOLE_OPEN
+}
+mac:{
+INCLUDEPATH += `pkg-config --cflags zlib`
+LIBS += `pkg-config --libs zlib`
+DEFINES +=UNIXCONSOLE_OPEN
+}
+win32:{
+DEFINES +=UNIXCONSOLE_CLOSE
+DEFINES +=WINCONSOLE_OK
+}
+
 
 DEPENDPATH += .
 INCLUDEPATH += .
