@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.1)
 
 get_filename_component(PRO_ROOTDIR
                        "${CMAKE_CURRENT_LIST_DIR}/DocumentRoot.cmake"

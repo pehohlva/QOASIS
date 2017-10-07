@@ -1,4 +1,4 @@
-   cmake_minimum_required(VERSION 3.7)
+   cmake_minimum_required(VERSION 3.1)
    # Determine the PATH of Project target install
    set(PWD "${CMAKE_CURRENT_SOURCE_DIR}")
    INCLUDE (${PWD}/../../DocumentRoot.cmake)
