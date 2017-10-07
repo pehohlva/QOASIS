@@ -18,7 +18,7 @@
 #include "oasimain.h"
 #include <QImage>
 #include <QTextBrowser>
-#include <Qfile>
+#include <QFile>
 
 #include "doc_session.h"
 #include "editortable_setting.h"
