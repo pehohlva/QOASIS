@@ -39,4 +39,4 @@ https://www.youtube.com/watch?v=7nyRk3XrSQc
 [![Tiny_Edit](https://raw.githubusercontent.com/pehohlva/QOASIS/master/speacker5.png)](https://www.youtube.com/watch?v=7nyRk3XrSQc)
 
 
-
+Update 30.1.2020
